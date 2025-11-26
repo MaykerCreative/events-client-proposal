@@ -170,6 +170,11 @@ const apiService = {
   // Get single proposal
   async getProposal(proposalId) {
     return this.request('proposal', { id: proposalId });
+  },
+  
+  // Validate session
+  async validateSession() {
+    return this.request('validate');
   }
 };
 
@@ -357,6 +362,18 @@ export default function App() {
         });
         setIsAuthenticated(true);
         console.log('Authentication state set, isAuthenticated should be true');
+        
+        // Wait a moment, then validate the session to ensure it's stored
+        setTimeout(async () => {
+          try {
+            console.log('Validating session...');
+            await apiService.validateSession();
+            console.log('Session validated successfully');
+          } catch (err) {
+            console.error('Session validation failed:', err);
+          }
+        }, 500);
+        
         return { success: true };
       } else {
         console.error('Login failed:', result.error);
