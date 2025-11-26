@@ -585,15 +585,33 @@ function LoginView({ onLogin }) {
             />
             {/* Mayker Reserve Logo */}
             <img 
-              src="/Mayker Reserve - Black - 2.png" 
+              src="/Mayker Reserve - Black – 2.png" 
               alt="Mayker Reserve" 
-              style={{ height: '50px', width: 'auto', marginBottom: '16px', display: 'block', margin: '0 auto 16px auto' }}
+              style={{ 
+                maxHeight: '50px', 
+                height: 'auto', 
+                width: 'auto', 
+                maxWidth: '300px',
+                marginBottom: '16px', 
+                display: 'block', 
+                margin: '0 auto 16px auto',
+                objectFit: 'contain'
+              }}
               onError={(e) => {
-                // Try alternative path if image not found
-                if (!e.target.src.includes('/assets/')) {
-                  e.target.src = '/assets/Mayker Reserve - Black - 2.png';
+                console.error('Logo image failed to load:', e.target.src);
+                // Try alternative paths if image not found (including URL-encoded version)
+                const alternatives = [
+                  '/Mayker%20Reserve%20-%20Black%20%E2%80%93%202.png', // URL-encoded en dash
+                  '/Mayker Reserve - Black - 2.png', // Try with regular hyphen
+                  '/assets/Mayker Reserve - Black – 2.png',
+                  '/assets/Mayker%20Reserve%20-%20Black%20%E2%80%93%202.png'
+                ];
+                const currentSrc = e.target.src;
+                const triedIndex = alternatives.findIndex(alt => currentSrc.includes(alt.replace(/%20/g, ' ').replace(/ /g, '%20')));
+                if (triedIndex < alternatives.length - 1) {
+                  e.target.src = alternatives[triedIndex + 1];
                 } else {
-                  console.error('Logo image not found:', e.target.src);
+                  console.error('All logo paths failed');
                 }
               }}
             />
