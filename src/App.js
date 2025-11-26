@@ -1170,7 +1170,7 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
   );
 }
 
-function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedProposal }) {
+function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedProposal, brandCharcoal = '#2C2C2C' }) {
   const activeProposals = proposals.filter(p => p.status === 'Active');
   const completedProposals = proposals.filter(p => p.status === 'Completed');
   const cancelledProposals = proposals.filter(p => p.status === 'Cancelled');
