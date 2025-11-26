@@ -517,6 +517,8 @@ function DashboardView({ clientInfo, onLogout }) {
   }, []);
   
   const fetchData = async (retryCount = 0) => {
+    let isRetrying = false;
+    
     try {
       setLoading(true);
       setError(null);
@@ -541,6 +543,7 @@ function DashboardView({ clientInfo, onLogout }) {
       
       setProposals(proposalsResult.proposals || []);
       setSpendData(spendResult);
+      setLoading(false);
     } catch (err) {
       console.error('Error fetching data:', err);
       
@@ -548,6 +551,7 @@ function DashboardView({ clientInfo, onLogout }) {
       if (err.message && (err.message.includes('Invalid or expired session') || err.message.includes('Not authenticated'))) {
         if (retryCount === 0) {
           // Retry once after a longer delay
+          isRetrying = true;
           console.log('Session error, retrying after longer delay...');
           setTimeout(() => {
             console.log('Retrying fetch...');
@@ -564,11 +568,7 @@ function DashboardView({ clientInfo, onLogout }) {
       }
       
       setError(err.message || 'Failed to load data');
-    } finally {
-      // Only set loading to false if we're not retrying
-      if (retryCount > 0 || !err.message?.includes('Invalid or expired session')) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   };
   
