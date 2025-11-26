@@ -793,6 +793,546 @@ function LoginView({ onLogin }) {
 }
 
 // ============================================
+// DASHBOARD SECTIONS
+// ============================================
+
+function ProfileSection({ clientInfo, profileData, editingProfile, setEditingProfile, brandCharcoal = '#2C2C2C' }) {
+  const [formData, setFormData] = useState({
+    fullName: clientInfo?.fullName || '',
+    companyName: clientInfo?.clientCompanyName || '',
+    email: clientInfo?.email || '',
+    phone: '',
+    mailingAddress: '',
+    birthday: '',
+    photo: null
+  });
+
+  // Update formData when clientInfo changes
+  useEffect(() => {
+    if (clientInfo) {
+      setFormData(prev => ({
+        ...prev,
+        fullName: clientInfo.fullName || prev.fullName,
+        companyName: clientInfo.clientCompanyName || prev.companyName,
+        email: clientInfo.email || prev.email
+      }));
+    }
+  }, [clientInfo]);
+
+  const handleSave = async () => {
+    // TODO: Implement API call to save profile
+    console.log('Saving profile:', formData);
+    setEditingProfile(false);
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal }}>Profile</h2>
+        {!editingProfile ? (
+          <button
+            onClick={() => setEditingProfile(true)}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: brandCharcoal,
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '500'
+            }}
+          >
+            Edit Profile
+          </button>
+        ) : (
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              onClick={() => setEditingProfile(false)}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: '#f3f4f6',
+                color: brandCharcoal,
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: brandCharcoal,
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
+              Save Changes
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '32px' }}>
+        {/* Left Column - Photo */}
+        <div>
+          <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+            Photo
+          </label>
+          <div style={{ 
+            width: '150px', 
+            height: '150px', 
+            borderRadius: '8px', 
+            backgroundColor: '#f3f4f6',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '16px',
+            overflow: 'hidden'
+          }}>
+            {formData.photo ? (
+              <img src={formData.photo} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <div style={{ color: '#999', fontSize: '48px' }}>👤</div>
+            )}
+          </div>
+          {editingProfile && (
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (event) => {
+                    setFormData({ ...formData, photo: event.target.result });
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </div>
+
+        {/* Right Column - Form Fields */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+              Full Name
+            </label>
+            {editingProfile ? (
+              <input
+                type="text"
+                value={formData.fullName}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '15px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            ) : (
+              <div style={{ fontSize: '16px', color: brandCharcoal, padding: '12px 0' }}>{formData.fullName || 'Not set'}</div>
+            )}
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+              Company Name
+            </label>
+            {editingProfile ? (
+              <input
+                type="text"
+                value={formData.companyName}
+                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '15px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            ) : (
+              <div style={{ fontSize: '16px', color: brandCharcoal, padding: '12px 0' }}>{formData.companyName || 'Not set'}</div>
+            )}
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+              Email
+            </label>
+            {editingProfile ? (
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '15px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            ) : (
+              <div style={{ fontSize: '16px', color: brandCharcoal, padding: '12px 0' }}>{formData.email || 'Not set'}</div>
+            )}
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+              Phone
+            </label>
+            {editingProfile ? (
+              <input
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '15px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            ) : (
+              <div style={{ fontSize: '16px', color: brandCharcoal, padding: '12px 0' }}>{formData.phone || 'Not set'}</div>
+            )}
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+              Mailing Address
+            </label>
+            {editingProfile ? (
+              <textarea
+                value={formData.mailingAddress}
+                onChange={(e) => setFormData({ ...formData, mailingAddress: e.target.value })}
+                rows={3}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '15px',
+                  boxSizing: 'border-box',
+                  resize: 'vertical'
+                }}
+              />
+            ) : (
+              <div style={{ fontSize: '16px', color: brandCharcoal, padding: '12px 0', whiteSpace: 'pre-line' }}>
+                {formData.mailingAddress || 'Not set'}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+              Birthday
+            </label>
+            {editingProfile ? (
+              <input
+                type="date"
+                value={formData.birthday}
+                onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '15px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            ) : (
+              <div style={{ fontSize: '16px', color: brandCharcoal, padding: '12px 0' }}>
+                {formData.birthday ? new Date(formData.birthday).toLocaleDateString() : 'Not set'}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
+  const currentSpend = spendData?.totalSpend || 0;
+  
+  // Tier system: 15% at start, 20% at $50k, 25% at $100k
+  const getCurrentTier = () => {
+    if (currentSpend >= 100000) {
+      return { discount: 25, tier: 'Platinum', nextTier: null, progress: 100 };
+    } else if (currentSpend >= 50000) {
+      return { discount: 20, tier: 'Gold', nextTier: 'Platinum (25%)', progress: ((currentSpend - 50000) / 50000) * 100 };
+    } else {
+      return { discount: 15, tier: 'Silver', nextTier: 'Gold (20%)', progress: (currentSpend / 50000) * 100 };
+    }
+  };
+
+  const tier = getCurrentTier();
+
+  return (
+    <div>
+      <h2 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal, marginBottom: '32px' }}>Performance & Annual Spend</h2>
+      
+      {/* YTD Spend Card */}
+      <div style={{ backgroundColor: '#f9fafb', padding: '32px', borderRadius: '8px', marginBottom: '32px' }}>
+        <div style={{ fontSize: '14px', fontWeight: '500', color: '#666', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+          Year-to-Date Spend ({new Date().getFullYear()})
+        </div>
+        <div style={{ fontSize: '56px', fontWeight: '700', color: brandCharcoal, marginBottom: '8px' }}>
+          ${currentSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        </div>
+        <div style={{ fontSize: '14px', color: '#666' }}>
+          {spendData?.proposalCount || 0} {spendData?.proposalCount === 1 ? 'proposal' : 'proposals'}
+        </div>
+      </div>
+
+      {/* Tier Status */}
+      <div style={{ backgroundColor: 'white', border: '2px solid #e5e7eb', padding: '32px', borderRadius: '8px', marginBottom: '24px' }}>
+        <div style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '16px' }}>
+          Current Tier: <span style={{ color: '#059669' }}>{tier.tier}</span>
+        </div>
+        <div style={{ fontSize: '32px', fontWeight: '700', color: brandCharcoal, marginBottom: '8px' }}>
+          {tier.discount}% Discount
+        </div>
+        {tier.nextTier && (
+          <>
+            <div style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
+              Next Tier: {tier.nextTier}
+            </div>
+            <div style={{ marginBottom: '8px' }}>
+              <div style={{ 
+                width: '100%', 
+                height: '12px', 
+                backgroundColor: '#e5e7eb', 
+                borderRadius: '6px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  width: `${Math.min(tier.progress, 100)}%`,
+                  height: '100%',
+                  backgroundColor: brandCharcoal,
+                  transition: 'width 0.3s ease'
+                }} />
+              </div>
+            </div>
+            <div style={{ fontSize: '12px', color: '#666', display: 'flex', justifyContent: 'space-between' }}>
+              <span>${currentSpend.toLocaleString()}</span>
+              <span>
+                {tier.tier === 'Silver' ? '$50,000' : '$100,000'}
+              </span>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Tier Benefits */}
+      <div>
+        <h3 style={{ fontSize: '16px', fontWeight: '600', color: brandCharcoal, marginBottom: '16px' }}>Tier Benefits</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+          <div style={{ padding: '20px', backgroundColor: '#f9fafb', borderRadius: '8px', border: tier.tier === 'Silver' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb' }}>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>Silver</div>
+            <div style={{ fontSize: '24px', fontWeight: '700', color: brandCharcoal }}>15%</div>
+            <div style={{ fontSize: '12px', color: '#666' }}>Starting tier</div>
+          </div>
+          <div style={{ padding: '20px', backgroundColor: '#f9fafb', borderRadius: '8px', border: tier.tier === 'Gold' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb' }}>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>Gold</div>
+            <div style={{ fontSize: '24px', fontWeight: '700', color: brandCharcoal }}>20%</div>
+            <div style={{ fontSize: '12px', color: '#666' }}>At $50k spend</div>
+          </div>
+          <div style={{ padding: '20px', backgroundColor: '#f9fafb', borderRadius: '8px', border: tier.tier === 'Platinum' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb' }}>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>Platinum</div>
+            <div style={{ fontSize: '24px', fontWeight: '700', color: brandCharcoal }}>25%</div>
+            <div style={{ fontSize: '12px', color: '#666' }}>At $100k spend</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedProposal }) {
+  const activeProposals = proposals.filter(p => p.status === 'Active');
+  const completedProposals = proposals.filter(p => p.status === 'Completed');
+  const cancelledProposals = proposals.filter(p => p.status === 'Cancelled');
+
+  const getProposalsForTab = () => {
+    switch (proposalTab) {
+      case 'active': return activeProposals;
+      case 'completed': return completedProposals;
+      case 'cancelled': return cancelledProposals;
+      default: return [];
+    }
+  };
+
+  return (
+    <div>
+      <h2 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal, marginBottom: '24px' }}>Proposals</h2>
+      
+      {/* Proposal Tabs */}
+      <div style={{ display: 'flex', borderBottom: '1px solid #e5e7eb', marginBottom: '24px' }}>
+        {['active', 'completed', 'cancelled'].map((tab) => {
+          const count = tab === 'active' ? activeProposals.length : tab === 'completed' ? completedProposals.length : cancelledProposals.length;
+          return (
+            <button
+              key={tab}
+              onClick={() => setProposalTab(tab)}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: proposalTab === tab ? '#f9fafb' : 'transparent',
+                border: 'none',
+                borderBottom: proposalTab === tab ? '2px solid ' + brandCharcoal : '2px solid transparent',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: proposalTab === tab ? '600' : '400',
+                color: proposalTab === tab ? brandCharcoal : '#666',
+                textTransform: 'capitalize'
+              }}
+            >
+              {tab} ({count})
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Proposal List */}
+      <div>
+        {getProposalsForTab().length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '48px', color: '#999' }}>
+            No {proposalTab} proposals found.
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gap: '16px' }}>
+            {getProposalsForTab().map((proposal) => (
+              <div
+                key={proposal.id}
+                onClick={() => setSelectedProposal(proposal)}
+                style={{
+                  padding: '20px',
+                  backgroundColor: '#f9fafb',
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = brandCharcoal;
+                  e.currentTarget.style.backgroundColor = '#f3f4f6';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e5e7eb';
+                  e.currentTarget.style.backgroundColor = '#f9fafb';
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                  <div>
+                    <div style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>
+                      {proposal.venueName || 'Untitled Proposal'}
+                    </div>
+                    <div style={{ fontSize: '14px', color: '#666' }}>
+                      {proposal.startDate ? new Date(proposal.startDate).toLocaleDateString() : 'No date'}
+                    </div>
+                  </div>
+                  <div style={{ fontSize: '20px', fontWeight: '600', color: brandCharcoal }}>
+                    ${proposal.total ? proposal.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
+  // TODO: Fetch resources from API
+  const resources = [
+    { name: 'Rental Product Catalog', type: 'PNG', category: 'Products' },
+    // Add more resources as needed
+  ];
+
+  return (
+    <div>
+      <h2 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal, marginBottom: '32px' }}>Resources</h2>
+      
+      <div style={{ marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '16px' }}>Downloadable Product Images</h3>
+        <p style={{ fontSize: '14px', color: '#666', marginBottom: '24px' }}>
+          Download PNG images of all rental products for your reference.
+        </p>
+        
+        {resources.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '48px', color: '#999' }}>
+            No resources available at this time.
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gap: '16px' }}>
+            {resources.map((resource, index) => (
+              <div
+                key={index}
+                style={{
+                  padding: '20px',
+                  backgroundColor: '#f9fafb',
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: '16px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>
+                    {resource.name}
+                  </div>
+                  <div style={{ fontSize: '14px', color: '#666' }}>
+                    {resource.type} • {resource.category}
+                  </div>
+                </div>
+                <button
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: brandCharcoal,
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500'
+                  }}
+                >
+                  Download
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
 // DASHBOARD VIEW
 // ============================================
 
@@ -801,8 +1341,11 @@ function DashboardView({ clientInfo, onLogout }) {
   const [spendData, setSpendData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('active');
+  const [activeSection, setActiveSection] = useState('performance'); // 'profile', 'performance', 'proposals', 'resources'
+  const [proposalTab, setProposalTab] = useState('active'); // For proposals section
   const [selectedProposal, setSelectedProposal] = useState(null);
+  const [profileData, setProfileData] = useState(null);
+  const [editingProfile, setEditingProfile] = useState(false);
   
   useEffect(() => {
     fetchData();
@@ -971,147 +1514,69 @@ function DashboardView({ clientInfo, onLogout }) {
       
       {/* Main Content */}
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 24px' }}>
-        {/* Yearly Spend Card */}
-        <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', marginBottom: '32px' }}>
-          <h2 style={{ fontSize: '14px', fontWeight: '500', color: '#666', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>
-            Year-to-Date Spend ({new Date().getFullYear()})
-          </h2>
-          <div style={{ fontSize: '48px', fontWeight: '600', color: brandCharcoal }}>
-            ${spendData?.totalSpend?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
-          </div>
-          <div style={{ fontSize: '14px', color: '#666', marginTop: '8px' }}>
-            {spendData?.proposalCount || 0} {spendData?.proposalCount === 1 ? 'proposal' : 'proposals'}
-          </div>
+        {/* Navigation Tabs */}
+        <div style={{ 
+          backgroundColor: 'white', 
+          borderRadius: '8px 8px 0 0', 
+          borderBottom: '1px solid #e5e7eb',
+          display: 'flex',
+          overflowX: 'auto'
+        }}>
+          {['profile', 'performance', 'proposals', 'resources'].map((section) => (
+            <button
+              key={section}
+              onClick={() => setActiveSection(section)}
+              style={{
+                padding: '16px 24px',
+                backgroundColor: activeSection === section ? '#f9fafb' : 'white',
+                border: 'none',
+                borderBottom: activeSection === section ? '2px solid ' + brandCharcoal : '2px solid transparent',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: activeSection === section ? '600' : '400',
+                color: activeSection === section ? brandCharcoal : '#666',
+                textTransform: 'capitalize',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.2s'
+              }}
+            >
+              {section === 'performance' ? 'Performance' : section === 'proposals' ? 'Proposals' : section === 'resources' ? 'Resources' : 'Profile'}
+            </button>
+          ))}
         </div>
-        
-        {/* Proposal Tabs */}
-        <div style={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
-          <div style={{ display: 'flex', borderBottom: '1px solid #e5e7eb' }}>
-            <button
-              onClick={() => setActiveTab('active')}
-              style={{
-                flex: 1,
-                padding: '16px',
-                backgroundColor: activeTab === 'active' ? '#f9fafb' : 'white',
-                border: 'none',
-                borderBottom: activeTab === 'active' ? '2px solid ' + brandCharcoal : '2px solid transparent',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: activeTab === 'active' ? '600' : '400',
-                color: activeTab === 'active' ? brandCharcoal : '#666'
-              }}
-            >
-              Active ({activeProposals.length})
-            </button>
-            <button
-              onClick={() => setActiveTab('completed')}
-              style={{
-                flex: 1,
-                padding: '16px',
-                backgroundColor: activeTab === 'completed' ? '#f9fafb' : 'white',
-                border: 'none',
-                borderBottom: activeTab === 'completed' ? '2px solid ' + brandCharcoal : '2px solid transparent',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: activeTab === 'completed' ? '600' : '400',
-                color: activeTab === 'completed' ? brandCharcoal : '#666'
-              }}
-            >
-              Completed ({completedProposals.length})
-            </button>
-            <button
-              onClick={() => setActiveTab('cancelled')}
-              style={{
-                flex: 1,
-                padding: '16px',
-                backgroundColor: activeTab === 'cancelled' ? '#f9fafb' : 'white',
-                border: 'none',
-                borderBottom: activeTab === 'cancelled' ? '2px solid ' + brandCharcoal : '2px solid transparent',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: activeTab === 'cancelled' ? '600' : '400',
-                color: activeTab === 'cancelled' ? brandCharcoal : '#666'
-              }}
-            >
-              Cancelled ({cancelledProposals.length})
-            </button>
-          </div>
+
+        {/* Content Area */}
+        <div style={{ backgroundColor: 'white', borderRadius: '0 0 8px 8px', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', padding: '32px', minHeight: '400px' }}>
+          {activeSection === 'profile' && (
+            <ProfileSection 
+              clientInfo={clientInfo} 
+              profileData={profileData}
+              editingProfile={editingProfile}
+              setEditingProfile={setEditingProfile}
+              brandCharcoal={brandCharcoal}
+            />
+          )}
           
-          {/* Proposal List */}
-          <div style={{ padding: '24px' }}>
-            {(() => {
-              const currentProposals = activeTab === 'active' ? activeProposals :
-                                     activeTab === 'completed' ? completedProposals :
-                                     cancelledProposals;
-              
-              if (currentProposals.length === 0) {
-                return (
-                  <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
-                    No {activeTab} proposals found.
-                  </div>
-                );
-              }
-              
-              return (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {currentProposals.map((proposal, index) => (
-                    <div
-                      key={index}
-                      onClick={() => setSelectedProposal(proposal)}
-                      style={{
-                        padding: '20px',
-                        border: '1px solid #e5e7eb',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        backgroundColor: 'white'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = brandCharcoal;
-                        e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = '#e5e7eb';
-                        e.currentTarget.style.boxShadow = 'none';
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '8px' }}>
-                            {proposal.venueName || 'Untitled Proposal'}
-                          </div>
-                          <div style={{ fontSize: '14px', color: '#666', marginBottom: '4px' }}>
-                            {formatDateRange(proposal)}
-                          </div>
-                          <div style={{ fontSize: '14px', color: '#666' }}>
-                            {proposal.city}, {proposal.state}
-                          </div>
-                        </div>
-                        <div style={{ textAlign: 'right' }}>
-                          <div style={{ fontSize: '20px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>
-                            ${calculateTotal(proposal).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </div>
-                          <div style={{ 
-                            display: 'inline-block',
-                            padding: '4px 12px',
-                            borderRadius: '4px',
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            backgroundColor: proposal.status === 'Approved' ? '#d1fae5' : 
-                                           proposal.status === 'Pending' ? '#fef3c7' : '#fee2e2',
-                            color: proposal.status === 'Approved' ? '#065f46' :
-                                   proposal.status === 'Pending' ? '#92400e' : '#991b1b'
-                          }}>
-                            {proposal.status}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              );
-            })()}
-          </div>
+          {activeSection === 'performance' && (
+            <PerformanceSection 
+              spendData={spendData}
+              brandCharcoal={brandCharcoal}
+            />
+          )}
+          
+          {activeSection === 'proposals' && (
+            <ProposalsSection
+              proposals={proposals}
+              proposalTab={proposalTab}
+              setProposalTab={setProposalTab}
+              setSelectedProposal={setSelectedProposal}
+              brandCharcoal={brandCharcoal}
+            />
+          )}
+          
+          {activeSection === 'resources' && (
+            <ResourcesSection brandCharcoal={brandCharcoal} />
+          )}
         </div>
       </div>
     </div>
