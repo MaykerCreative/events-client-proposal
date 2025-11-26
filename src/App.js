@@ -569,17 +569,31 @@ function LoginView({ onLogin }) {
         <div style={{ maxWidth: '400px', width: '100%' }}>
           {/* Brand Mark */}
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            {/* Icon/Brand Mark */}
+            <img 
+              src="/mayker_icon-black.png" 
+              alt="Mayker Reserve" 
+              style={{ height: '60px', width: 'auto', marginBottom: '24px', display: 'block', margin: '0 auto 24px auto' }}
+              onError={(e) => {
+                // Try alternative path if image not found
+                if (!e.target.src.includes('/assets/')) {
+                  e.target.src = '/assets/mayker_icon-black.png';
+                } else {
+                  console.error('Icon image not found');
+                }
+              }}
+            />
             {/* Mayker Reserve Logo */}
             <img 
               src="/Mayker Reserve - Black - 2.png" 
               alt="Mayker Reserve" 
-              style={{ height: '60px', width: 'auto', marginBottom: '16px', display: 'block', margin: '0 auto 16px auto' }}
+              style={{ height: '50px', width: 'auto', marginBottom: '16px', display: 'block', margin: '0 auto 16px auto' }}
               onError={(e) => {
                 // Try alternative path if image not found
                 if (!e.target.src.includes('/assets/')) {
                   e.target.src = '/assets/Mayker Reserve - Black - 2.png';
                 } else {
-                  e.target.style.display = 'none';
+                  console.error('Logo image not found:', e.target.src);
                 }
               }}
             />
@@ -680,12 +694,12 @@ function LoginView({ onLogin }) {
                 }}
                 style={{
                   flex: 1,
-                  padding: '14px',
+                  padding: '10px 16px',
                   backgroundColor: 'transparent',
                   color: brandCharcoal,
                   border: '1px solid #d1d5db',
                   borderRadius: '6px',
-                  fontSize: '15px',
+                  fontSize: '13px',
                   fontWeight: '500',
                   cursor: 'pointer',
                   transition: 'all 0.2s'
@@ -707,13 +721,13 @@ function LoginView({ onLogin }) {
                 disabled={loading}
                 style={{
                   flex: 1,
-                  padding: '14px',
+                  padding: '10px 16px',
                   backgroundColor: brandCharcoal,
                   color: 'white',
                   border: 'none',
                   borderRadius: '6px',
-                  fontSize: '15px',
-                  fontWeight: '500',
+                  fontSize: '13px',
+                  fontWeight: '600',
                   cursor: loading ? 'not-allowed' : 'pointer',
                   opacity: loading ? 0.7 : 1,
                   transition: 'all 0.2s'
