@@ -830,34 +830,66 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal }}>Profile</h2>
         {!editingProfile ? (
-          <button
-            onClick={() => setEditingProfile(true)}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: brandCharcoal,
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500'
-            }}
-          >
-            Edit Profile
-          </button>
+            <button
+              onClick={() => setEditingProfile(true)}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: brandCharcoal,
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '-0.01em',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.9';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Edit Profile
+            </button>
         ) : (
           <div style={{ display: 'flex', gap: '12px' }}>
             <button
-              onClick={() => setEditingProfile(false)}
+              onClick={() => {
+                setEditingProfile(false);
+                setFormData({
+                  fullName: clientInfo?.fullName || '',
+                  companyName: clientInfo?.clientCompanyName || '',
+                  email: clientInfo?.email || '',
+                  phone: clientInfo?.phone || '',
+                  mailingAddress: clientInfo?.mailingAddress || '',
+                  birthday: clientInfo?.birthday || ''
+                });
+              }}
               style={{
-                padding: '10px 20px',
-                backgroundColor: '#f3f4f6',
+                padding: '12px 24px',
+                backgroundColor: 'transparent',
                 color: brandCharcoal,
-                border: 'none',
-                borderRadius: '6px',
+                border: '1px solid #d1d5db',
+                borderRadius: '8px',
                 cursor: 'pointer',
                 fontSize: '14px',
-                fontWeight: '500'
+                fontWeight: '600',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '-0.01em',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = brandCharcoal;
+                e.currentTarget.style.backgroundColor = '#f9fafb';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = '#d1d5db';
+                e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
               Cancel
@@ -865,14 +897,25 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
             <button
               onClick={handleSave}
               style={{
-                padding: '10px 20px',
+                padding: '12px 24px',
                 backgroundColor: brandCharcoal,
                 color: 'white',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '8px',
                 cursor: 'pointer',
                 fontSize: '14px',
-                fontWeight: '500'
+                fontWeight: '600',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '-0.01em',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.9';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
               Save Changes
@@ -884,9 +927,18 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '32px' }}>
         {/* Left Column - Photo */}
         <div>
-          <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
-            Photo
-          </label>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              marginBottom: '12px', 
+              color: brandCharcoal,
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
+              Photo
+            </label>
           <div style={{ 
             width: '150px', 
             height: '150px', 
@@ -926,7 +978,16 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
         {/* Right Column - Form Fields */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              marginBottom: '10px', 
+              color: brandCharcoal,
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
               Full Name
             </label>
             {editingProfile ? (
@@ -949,7 +1010,16 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              marginBottom: '10px', 
+              color: brandCharcoal,
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
               Company Name
             </label>
             {editingProfile ? (
@@ -972,7 +1042,16 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              marginBottom: '10px', 
+              color: brandCharcoal,
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
               Email
             </label>
             {editingProfile ? (
@@ -995,7 +1074,16 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              marginBottom: '10px', 
+              color: brandCharcoal,
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
               Phone
             </label>
             {editingProfile ? (
@@ -1018,7 +1106,16 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              marginBottom: '10px', 
+              color: brandCharcoal,
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
               Mailing Address
             </label>
             {editingProfile ? (
@@ -1028,12 +1125,22 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 rows={3}
                 style={{
                   width: '100%',
-                  padding: '12px',
+                  padding: '14px 16px',
                   border: '1px solid #d1d5db',
-                  borderRadius: '6px',
+                  borderRadius: '8px',
                   fontSize: '15px',
+                  fontFamily: "'NeueHaasUnica', sans-serif",
                   boxSizing: 'border-box',
-                  resize: 'vertical'
+                  resize: 'vertical',
+                  transition: 'all 0.2s'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = brandCharcoal;
+                  e.target.style.boxShadow = '0 0 0 3px rgba(44, 44, 44, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#d1d5db';
+                  e.target.style.boxShadow = 'none';
                 }}
               />
             ) : (
@@ -1044,7 +1151,16 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              marginBottom: '10px', 
+              color: brandCharcoal,
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
               Birthday
             </label>
             {editingProfile ? (
@@ -1054,11 +1170,21 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
                 style={{
                   width: '100%',
-                  padding: '12px',
+                  padding: '14px 16px',
                   border: '1px solid #d1d5db',
-                  borderRadius: '6px',
+                  borderRadius: '8px',
                   fontSize: '15px',
-                  boxSizing: 'border-box'
+                  fontFamily: "'NeueHaasUnica', sans-serif",
+                  boxSizing: 'border-box',
+                  transition: 'all 0.2s'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = brandCharcoal;
+                  e.target.style.boxShadow = '0 0 0 3px rgba(44, 44, 44, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#d1d5db';
+                  e.target.style.boxShadow = 'none';
                 }}
               />
             ) : (
@@ -1091,51 +1217,131 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
 
   return (
     <div>
-      <h2 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal, marginBottom: '32px' }}>Performance & Annual Spend</h2>
+      <h2 style={{ 
+        fontSize: '32px', 
+        fontWeight: '600', 
+        color: brandCharcoal, 
+        marginBottom: '40px',
+        fontFamily: "'Domaine Text', serif",
+        letterSpacing: '-0.02em'
+      }}>
+        Performance & Annual Spend
+      </h2>
       
       {/* YTD Spend Card */}
-      <div style={{ backgroundColor: '#f9fafb', padding: '32px', borderRadius: '8px', marginBottom: '32px' }}>
-        <div style={{ fontSize: '14px', fontWeight: '500', color: '#666', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+      <div style={{ 
+        backgroundColor: '#f9fafb', 
+        padding: '40px', 
+        borderRadius: '12px', 
+        marginBottom: '40px',
+        border: '1px solid #e5e7eb'
+      }}>
+        <div style={{ 
+          fontSize: '12px', 
+          fontWeight: '600', 
+          color: '#666', 
+          textTransform: 'uppercase', 
+          letterSpacing: '0.1em', 
+          marginBottom: '12px',
+          fontFamily: "'NeueHaasUnica', sans-serif"
+        }}>
           Year-to-Date Spend ({new Date().getFullYear()})
         </div>
-        <div style={{ fontSize: '56px', fontWeight: '700', color: brandCharcoal, marginBottom: '8px' }}>
+        <div style={{ 
+          fontSize: '64px', 
+          fontWeight: '700', 
+          color: brandCharcoal, 
+          marginBottom: '12px',
+          fontFamily: "'Domaine Text', serif",
+          letterSpacing: '-0.03em',
+          lineHeight: '1.1'
+        }}>
           ${currentSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </div>
-        <div style={{ fontSize: '14px', color: '#666' }}>
+        <div style={{ 
+          fontSize: '15px', 
+          color: '#666',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          fontWeight: '500'
+        }}>
           {spendData?.proposalCount || 0} {spendData?.proposalCount === 1 ? 'proposal' : 'proposals'}
         </div>
       </div>
 
       {/* Tier Status */}
-      <div style={{ backgroundColor: 'white', border: '2px solid #e5e7eb', padding: '32px', borderRadius: '8px', marginBottom: '24px' }}>
-        <div style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '16px' }}>
-          Current Tier: <span style={{ color: '#059669' }}>{tier.tier}</span>
+      <div style={{ 
+        backgroundColor: 'white', 
+        border: '2px solid #e5e7eb', 
+        padding: '40px', 
+        borderRadius: '12px', 
+        marginBottom: '32px' 
+      }}>
+        <div style={{ 
+          fontSize: '14px', 
+          fontWeight: '600', 
+          color: '#666',
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          marginBottom: '12px',
+          fontFamily: "'NeueHaasUnica', sans-serif"
+        }}>
+          Current Tier
         </div>
-        <div style={{ fontSize: '32px', fontWeight: '700', color: brandCharcoal, marginBottom: '8px' }}>
+        <div style={{ 
+          fontSize: '20px', 
+          fontWeight: '600', 
+          color: brandCharcoal, 
+          marginBottom: '20px',
+          fontFamily: "'NeueHaasUnica', sans-serif"
+        }}>
+          <span style={{ color: '#059669', fontSize: '24px' }}>{tier.tier}</span>
+        </div>
+        <div style={{ 
+          fontSize: '48px', 
+          fontWeight: '700', 
+          color: brandCharcoal, 
+          marginBottom: '12px',
+          fontFamily: "'Domaine Text', serif",
+          letterSpacing: '-0.02em'
+        }}>
           {tier.discount}% Discount
         </div>
         {tier.nextTier && (
           <>
-            <div style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
-              Next Tier: {tier.nextTier}
+            <div style={{ 
+              fontSize: '14px', 
+              color: '#666', 
+              marginBottom: '20px',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              fontWeight: '500'
+            }}>
+              Next Tier: <span style={{ color: brandCharcoal, fontWeight: '600' }}>{tier.nextTier}</span>
             </div>
-            <div style={{ marginBottom: '8px' }}>
+            <div style={{ marginBottom: '12px' }}>
               <div style={{ 
                 width: '100%', 
-                height: '12px', 
+                height: '16px', 
                 backgroundColor: '#e5e7eb', 
-                borderRadius: '6px',
+                borderRadius: '8px',
                 overflow: 'hidden'
               }}>
                 <div style={{
                   width: `${Math.min(tier.progress, 100)}%`,
                   height: '100%',
                   backgroundColor: brandCharcoal,
-                  transition: 'width 0.3s ease'
+                  transition: 'width 0.5s ease',
+                  borderRadius: '8px'
                 }} />
               </div>
             </div>
-            <div style={{ fontSize: '12px', color: '#666', display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ 
+              fontSize: '13px', 
+              color: '#666', 
+              display: 'flex', 
+              justifyContent: 'space-between',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              fontWeight: '500'
+            }}>
               <span>${currentSpend.toLocaleString()}</span>
               <span>
                 {tier.tier === 'Silver' ? '$50,000' : '$100,000'}
@@ -1147,22 +1353,124 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
 
       {/* Tier Benefits */}
       <div>
-        <h3 style={{ fontSize: '16px', fontWeight: '600', color: brandCharcoal, marginBottom: '16px' }}>Tier Benefits</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-          <div style={{ padding: '20px', backgroundColor: '#f9fafb', borderRadius: '8px', border: tier.tier === 'Silver' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>Silver</div>
-            <div style={{ fontSize: '24px', fontWeight: '700', color: brandCharcoal }}>15%</div>
-            <div style={{ fontSize: '12px', color: '#666' }}>Starting tier</div>
+        <h3 style={{ 
+          fontSize: '18px', 
+          fontWeight: '600', 
+          color: brandCharcoal, 
+          marginBottom: '24px',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          letterSpacing: '-0.01em'
+        }}>
+          Tier Benefits
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+          <div style={{ 
+            padding: '28px', 
+            backgroundColor: '#f9fafb', 
+            borderRadius: '12px', 
+            border: tier.tier === 'Silver' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb',
+            transition: 'all 0.2s'
+          }}>
+            <div style={{ 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              color: brandCharcoal, 
+              marginBottom: '12px',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em'
+            }}>
+              Silver
+            </div>
+            <div style={{ 
+              fontSize: '36px', 
+              fontWeight: '700', 
+              color: brandCharcoal,
+              fontFamily: "'Domaine Text', serif",
+              letterSpacing: '-0.02em',
+              marginBottom: '8px'
+            }}>
+              15%
+            </div>
+            <div style={{ 
+              fontSize: '13px', 
+              color: '#666',
+              fontFamily: "'NeueHaasUnica', sans-serif"
+            }}>
+              Starting tier
+            </div>
           </div>
-          <div style={{ padding: '20px', backgroundColor: '#f9fafb', borderRadius: '8px', border: tier.tier === 'Gold' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>Gold</div>
-            <div style={{ fontSize: '24px', fontWeight: '700', color: brandCharcoal }}>20%</div>
-            <div style={{ fontSize: '12px', color: '#666' }}>At $50k spend</div>
+          <div style={{ 
+            padding: '28px', 
+            backgroundColor: '#f9fafb', 
+            borderRadius: '12px', 
+            border: tier.tier === 'Gold' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb',
+            transition: 'all 0.2s'
+          }}>
+            <div style={{ 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              color: brandCharcoal, 
+              marginBottom: '12px',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em'
+            }}>
+              Gold
+            </div>
+            <div style={{ 
+              fontSize: '36px', 
+              fontWeight: '700', 
+              color: brandCharcoal,
+              fontFamily: "'Domaine Text', serif",
+              letterSpacing: '-0.02em',
+              marginBottom: '8px'
+            }}>
+              20%
+            </div>
+            <div style={{ 
+              fontSize: '13px', 
+              color: '#666',
+              fontFamily: "'NeueHaasUnica', sans-serif"
+            }}>
+              At $50k spend
+            </div>
           </div>
-          <div style={{ padding: '20px', backgroundColor: '#f9fafb', borderRadius: '8px', border: tier.tier === 'Platinum' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>Platinum</div>
-            <div style={{ fontSize: '24px', fontWeight: '700', color: brandCharcoal }}>25%</div>
-            <div style={{ fontSize: '12px', color: '#666' }}>At $100k spend</div>
+          <div style={{ 
+            padding: '28px', 
+            backgroundColor: '#f9fafb', 
+            borderRadius: '12px', 
+            border: tier.tier === 'Platinum' ? '2px solid ' + brandCharcoal : '1px solid #e5e7eb',
+            transition: 'all 0.2s'
+          }}>
+            <div style={{ 
+              fontSize: '13px', 
+              fontWeight: '600', 
+              color: brandCharcoal, 
+              marginBottom: '12px',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em'
+            }}>
+              Platinum
+            </div>
+            <div style={{ 
+              fontSize: '36px', 
+              fontWeight: '700', 
+              color: brandCharcoal,
+              fontFamily: "'Domaine Text', serif",
+              letterSpacing: '-0.02em',
+              marginBottom: '8px'
+            }}>
+              25%
+            </div>
+            <div style={{ 
+              fontSize: '13px', 
+              color: '#666',
+              fontFamily: "'NeueHaasUnica', sans-serif"
+            }}>
+              At $100k spend
+            </div>
           </div>
         </div>
       </div>
@@ -1186,7 +1494,16 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
 
   return (
     <div>
-      <h2 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal, marginBottom: '24px' }}>Proposals</h2>
+      <h2 style={{ 
+        fontSize: '32px', 
+        fontWeight: '600', 
+        color: brandCharcoal, 
+        marginBottom: '32px',
+        fontFamily: "'Domaine Text', serif",
+        letterSpacing: '-0.02em'
+      }}>
+        Proposals
+      </h2>
       
       {/* Proposal Tabs */}
       <div style={{ display: 'flex', borderBottom: '1px solid #e5e7eb', marginBottom: '24px' }}>
@@ -1227,9 +1544,9 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                 key={proposal.id}
                 onClick={() => setSelectedProposal(proposal)}
                 style={{
-                  padding: '20px',
+                  padding: '24px',
                   backgroundColor: '#f9fafb',
-                  borderRadius: '8px',
+                  borderRadius: '12px',
                   border: '1px solid #e5e7eb',
                   cursor: 'pointer',
                   transition: 'all 0.2s'
@@ -1237,22 +1554,47 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = brandCharcoal;
                   e.currentTarget.style.backgroundColor = '#f3f4f6';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = '#e5e7eb';
                   e.currentTarget.style.backgroundColor = '#f9fafb';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                   <div>
-                    <div style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '4px' }}>
+                    <div style={{ 
+                      fontSize: '20px', 
+                      fontWeight: '600', 
+                      color: brandCharcoal, 
+                      marginBottom: '8px',
+                      fontFamily: "'NeueHaasUnica', sans-serif",
+                      letterSpacing: '-0.01em'
+                    }}>
                       {proposal.venueName || 'Untitled Proposal'}
                     </div>
-                    <div style={{ fontSize: '14px', color: '#666' }}>
-                      {proposal.startDate ? new Date(proposal.startDate).toLocaleDateString() : 'No date'}
+                    <div style={{ 
+                      fontSize: '14px', 
+                      color: '#666',
+                      fontFamily: "'NeueHaasUnica', sans-serif"
+                    }}>
+                      {proposal.startDate ? new Date(proposal.startDate).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      }) : 'No date'}
                     </div>
                   </div>
-                  <div style={{ fontSize: '20px', fontWeight: '600', color: brandCharcoal }}>
+                  <div style={{ 
+                    fontSize: '24px', 
+                    fontWeight: '700', 
+                    color: brandCharcoal,
+                    fontFamily: "'Domaine Text', serif",
+                    letterSpacing: '-0.02em'
+                  }}>
                     ${proposal.total ? proposal.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}
                   </div>
                 </div>
@@ -1274,7 +1616,16 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
 
   return (
     <div>
-      <h2 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal, marginBottom: '32px' }}>Resources</h2>
+      <h2 style={{ 
+        fontSize: '32px', 
+        fontWeight: '600', 
+        color: brandCharcoal, 
+        marginBottom: '32px',
+        fontFamily: "'Domaine Text', serif",
+        letterSpacing: '-0.02em'
+      }}>
+        Resources
+      </h2>
       
       <div style={{ marginBottom: '24px' }}>
         <h3 style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '16px' }}>Downloadable Product Images</h3>
@@ -1483,29 +1834,66 @@ function DashboardView({ clientInfo, onLogout }) {
       ` }} />
       
       {/* Header */}
-      <div style={{ backgroundColor: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ backgroundColor: 'white', borderBottom: '2px solid #e5e7eb', padding: '20px 32px' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+            {/* Mayker Reserve Logo */}
             <img 
-              src="/mayker_wordmark-events-black.svg" 
-              alt="MAYKER EVENTS" 
-              style={{ height: '32px', width: 'auto' }}
+              src="/Mayker Reserve - Black – 2.png" 
+              alt="Mayker Reserve" 
+              style={{ height: '40px', width: 'auto' }}
               onError={(e) => {
                 if (!e.target.src.includes('/assets/')) {
-                  e.target.src = '/assets/mayker_wordmark-events-black.svg';
+                  e.target.src = '/assets/Mayker Reserve - Black – 2.png';
                 } else {
                   e.target.style.display = 'none';
                 }
               }}
             />
+            <div style={{ height: '40px', width: '1px', backgroundColor: '#e5e7eb' }} />
             <div>
-              <div style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal }}>{clientInfo?.clientCompanyName}</div>
-              <div style={{ fontSize: '12px', color: '#666' }}>Welcome, {clientInfo?.fullName}</div>
+              <div style={{ 
+                fontSize: '20px', 
+                fontWeight: '600', 
+                color: brandCharcoal,
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '-0.01em',
+                marginBottom: '2px'
+              }}>
+                {clientInfo?.clientCompanyName}
+              </div>
+              <div style={{ 
+                fontSize: '13px', 
+                color: '#666',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                fontWeight: '400'
+              }}>
+                Welcome, {clientInfo?.fullName}
+              </div>
             </div>
           </div>
           <button 
             onClick={onLogout}
-            style={{ padding: '8px 16px', backgroundColor: '#f3f4f6', color: brandCharcoal, border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '14px' }}
+            style={{ 
+              padding: '10px 20px', 
+              backgroundColor: 'transparent', 
+              color: brandCharcoal, 
+              border: '1px solid #d1d5db', 
+              borderRadius: '6px', 
+              cursor: 'pointer', 
+              fontSize: '13px',
+              fontWeight: '500',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = brandCharcoal;
+              e.currentTarget.style.backgroundColor = '#f9fafb';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#d1d5db';
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }}
           >
             Sign Out
           </button>
@@ -1517,27 +1905,43 @@ function DashboardView({ clientInfo, onLogout }) {
         {/* Navigation Tabs */}
         <div style={{ 
           backgroundColor: 'white', 
-          borderRadius: '8px 8px 0 0', 
-          borderBottom: '1px solid #e5e7eb',
+          borderRadius: '12px 12px 0 0', 
+          borderBottom: '2px solid #e5e7eb',
           display: 'flex',
-          overflowX: 'auto'
+          overflowX: 'flex',
+          overflowX: 'auto',
+          padding: '0 8px'
         }}>
           {['profile', 'performance', 'proposals', 'resources'].map((section) => (
             <button
               key={section}
               onClick={() => setActiveSection(section)}
               style={{
-                padding: '16px 24px',
-                backgroundColor: activeSection === section ? '#f9fafb' : 'white',
+                padding: '18px 28px',
+                backgroundColor: activeSection === section ? '#f9fafb' : 'transparent',
                 border: 'none',
-                borderBottom: activeSection === section ? '2px solid ' + brandCharcoal : '2px solid transparent',
+                borderBottom: activeSection === section ? '3px solid ' + brandCharcoal : '3px solid transparent',
                 cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: activeSection === section ? '600' : '400',
+                fontSize: '15px',
+                fontWeight: activeSection === section ? '600' : '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
                 color: activeSection === section ? brandCharcoal : '#666',
                 textTransform: 'capitalize',
                 whiteSpace: 'nowrap',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s',
+                letterSpacing: '-0.01em'
+              }}
+              onMouseEnter={(e) => {
+                if (activeSection !== section) {
+                  e.currentTarget.style.color = brandCharcoal;
+                  e.currentTarget.style.backgroundColor = '#f9fafb';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeSection !== section) {
+                  e.currentTarget.style.color = '#666';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }
               }}
             >
               {section === 'performance' ? 'Performance' : section === 'proposals' ? 'Proposals' : section === 'resources' ? 'Resources' : 'Profile'}
@@ -1546,7 +1950,13 @@ function DashboardView({ clientInfo, onLogout }) {
         </div>
 
         {/* Content Area */}
-        <div style={{ backgroundColor: 'white', borderRadius: '0 0 8px 8px', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', padding: '32px', minHeight: '400px' }}>
+        <div style={{ 
+          backgroundColor: 'white', 
+          borderRadius: '0 0 12px 12px', 
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)', 
+          padding: '48px', 
+          minHeight: '500px' 
+        }}>
           {activeSection === 'profile' && (
             <ProfileSection 
               clientInfo={clientInfo} 
