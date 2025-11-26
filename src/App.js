@@ -434,84 +434,278 @@ function LoginView({ onLogin }) {
   const brandCharcoal = '#2C2C2C';
   
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+    <div style={{ minHeight: '100vh', display: 'flex' }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-        * { font-family: 'Inter', sans-serif; }
+        @font-face {
+          font-family: 'NeueHaasUnica';
+          src: url('/NeueHaasUnica-Regular.woff2') format('woff2');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'NeueHaasUnica';
+          src: url('/NeueHaasUnica-Light.woff2') format('woff2');
+          font-weight: 300;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'NeueHaasUnica';
+          src: url('/NeueHaasUnica-Medium.woff2') format('woff2');
+          font-weight: 500;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'NeueHaasUnica';
+          src: url('/NeueHaasUnica-Bold.woff2') format('woff2');
+          font-weight: 600;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Domaine Text';
+          src: url('/test-domaine-text-light.woff2') format('woff2');
+          font-weight: 300;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Domaine Text';
+          src: url('/test-domaine-text-medium.woff2') format('woff2');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Domaine Text';
+          src: url('/test-domaine-text-bold.woff2') format('woff2');
+          font-weight: 600;
+          font-style: normal;
+          font-display: swap;
+        }
+        * { 
+          font-family: 'NeueHaasUnica', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+        }
       ` }} />
       
-      <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', maxWidth: '400px', width: '100%' }}>
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <img 
-            src="/mayker_wordmark-events-black.svg" 
-            alt="MAYKER EVENTS" 
-            style={{ height: '40px', width: 'auto', marginBottom: '16px' }}
-            onError={(e) => {
-              if (!e.target.src.includes('/assets/')) {
-                e.target.src = '/assets/mayker_wordmark-events-black.svg';
-              } else {
+      {/* Left Side - Login Form */}
+      <div style={{ 
+        flex: '0 0 50%', 
+        backgroundColor: '#fafaf8', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        padding: '40px'
+      }}>
+        <div style={{ maxWidth: '400px', width: '100%' }}>
+          {/* Brand Mark */}
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            {/* Icon/Brand Mark */}
+            <img 
+              src="/mayker_icon-black.png" 
+              alt="MAYKER Reserve" 
+              style={{ height: '60px', width: 'auto', marginBottom: '24px' }}
+              onError={(e) => {
+                // Fallback if image not found
                 e.target.style.display = 'none';
-              }
-            }}
-          />
-          <h1 style={{ fontSize: '24px', fontWeight: '600', color: brandCharcoal, margin: '0' }}>Client Portal</h1>
-          <p style={{ fontSize: '14px', color: '#666', marginTop: '8px' }}>Sign in to view your proposals</p>
-        </div>
-        
-        <form onSubmit={handleSubmit}>
-          {error && (
-            <div style={{ backgroundColor: '#fee2e2', color: '#dc2626', padding: '12px', borderRadius: '4px', marginBottom: '20px', fontSize: '14px' }}>
-              {error}
+              }}
+            />
+            {/* Logo Text */}
+            <img 
+              src="/Mayker Reserve - Black - 2.png" 
+              alt="MAYKER Reserve" 
+              style={{ height: '50px', width: 'auto', marginBottom: '16px' }}
+              onError={(e) => {
+                // Fallback to text if image not found
+                e.target.style.display = 'none';
+                const fallback = e.target.nextElementSibling;
+                if (fallback) fallback.style.display = 'block';
+              }}
+            />
+            <h1 style={{ 
+              fontSize: '32px', 
+              fontWeight: '600', 
+              color: brandCharcoal, 
+              margin: '0 0 8px 0',
+              letterSpacing: '0.5px',
+              display: 'none', // Hidden by default, shown as fallback
+              fontFamily: "'Domaine Text', serif"
+            }}>
+              Mayker Reserve
+            </h1>
+            <p style={{ 
+              fontSize: '16px', 
+              color: '#666', 
+              margin: '0',
+              fontWeight: '400',
+              textTransform: 'lowercase',
+              fontFamily: "'NeueHaasUnica', sans-serif"
+            }}>
+              Client portal
+            </p>
+          </div>
+          
+          <form onSubmit={handleSubmit}>
+            {error && (
+              <div style={{ 
+                backgroundColor: '#fee2e2', 
+                color: '#dc2626', 
+                padding: '12px', 
+                borderRadius: '6px', 
+                marginBottom: '24px', 
+                fontSize: '14px' 
+              }}>
+                {error}
+              </div>
+            )}
+            
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ 
+                display: 'block', 
+                fontSize: '14px', 
+                fontWeight: '500', 
+                marginBottom: '8px', 
+                color: brandCharcoal 
+              }}>
+                Email:
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={{ 
+                  width: '100%', 
+                  padding: '14px', 
+                  border: '1px solid #d1d5db', 
+                  borderRadius: '6px', 
+                  fontSize: '15px', 
+                  boxSizing: 'border-box',
+                  backgroundColor: 'white'
+                }}
+                placeholder="Enter your email"
+              />
             </div>
-          )}
-          
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
-              Email Address
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{ width: '100%', padding: '12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '14px', boxSizing: 'border-box' }}
-              placeholder="your@email.com"
-            />
-          </div>
-          
-          <div style={{ marginBottom: '24px' }}>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: brandCharcoal }}>
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              style={{ width: '100%', padding: '12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '14px', boxSizing: 'border-box' }}
-              placeholder="Enter your password"
-            />
-          </div>
-          
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '12px',
-              backgroundColor: brandCharcoal,
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '16px',
-              fontWeight: '500',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              opacity: loading ? 0.7 : 1
-            }}
-          >
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
+            
+            <div style={{ marginBottom: '32px' }}>
+              <label style={{ 
+                display: 'block', 
+                fontSize: '14px', 
+                fontWeight: '500', 
+                marginBottom: '8px', 
+                color: brandCharcoal 
+              }}>
+                Password:
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{ 
+                  width: '100%', 
+                  padding: '14px', 
+                  border: '1px solid #d1d5db', 
+                  borderRadius: '6px', 
+                  fontSize: '15px', 
+                  boxSizing: 'border-box',
+                  backgroundColor: 'white'
+                }}
+                placeholder="Enter your password"
+              />
+            </div>
+            
+            {/* Buttons Row */}
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px', 
+              marginBottom: '24px' 
+            }}>
+              <button
+                type="button"
+                onClick={() => {
+                  // TODO: Implement forgot password functionality
+                  alert('Forgot password functionality coming soon');
+                }}
+                style={{
+                  flex: 1,
+                  padding: '14px',
+                  backgroundColor: 'transparent',
+                  color: brandCharcoal,
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '15px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = brandCharcoal;
+                  e.currentTarget.style.backgroundColor = '#f9fafb';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#d1d5db';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                Forgot Your Password
+              </button>
+              
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  flex: 1,
+                  padding: '14px',
+                  backgroundColor: brandCharcoal,
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '15px',
+                  fontWeight: '500',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.7 : 1,
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.currentTarget.style.opacity = '0.9';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!loading) {
+                    e.currentTarget.style.opacity = '1';
+                  }
+                }}
+              >
+                {loading ? 'Signing in...' : 'Login'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      {/* Right Side - Background Image */}
+      <div style={{ 
+        flex: '0 0 50%', 
+        backgroundColor: '#2C2C2C',
+        backgroundImage: 'url(/login-background.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'relative'
+      }}>
+        {/* Optional overlay for better text contrast if needed */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.1)' // Subtle dark overlay
+        }} />
       </div>
     </div>
   );
