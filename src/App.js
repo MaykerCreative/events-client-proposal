@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 // ============================================
 
 // Update this with your Client Apps Script Web App URL
-const CLIENT_API_URL = 'https://script.google.com/macros/s/AKfycbyQ3SzfXgsnm0lxsBZvVpqSF5L-kUtnmT6x7S9kXRGdfocxFBLzDeF3PvrSEGZ8LoxL/exec';
+const CLIENT_API_URL = 'https://script.google.com/macros/s/AKfycbzRLIS_HkRzFI9wlm_tvE1ccfQTeDUqqPSrTwCVbtmKtJuoVJWyZQORG6z6_B40bxCU/exec';
 
 // ============================================
 // AUTHENTICATION SERVICE
