@@ -15,28 +15,22 @@ const authService = {
   // Login
   async login(email, password) {
     try {
-      const loginData = {
-        action: 'login',
-        email: email,
-        password: password
-      };
+      // Use GET request instead of POST (more reliable for Apps Script Web Apps)
+      const url = new URL(CLIENT_API_URL);
+      url.searchParams.set('action', 'login');
+      url.searchParams.set('email', email);
+      url.searchParams.set('password', password);
       
-      console.log('Making login POST request to:', CLIENT_API_URL);
-      console.log('Login data:', { ...loginData, password: '***' });
+      console.log('Making login GET request to:', url.toString().replace(/password=[^&]+/, 'password=***'));
       
-      const response = await fetch(CLIENT_API_URL, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginData),
+      const response = await fetch(url.toString(), {
+        method: 'GET',
         mode: 'cors',
         redirect: 'follow'
       });
       
       console.log('Login response status:', response.status);
       console.log('Login response statusText:', response.statusText);
-      console.log('Login response headers:', Object.fromEntries(response.headers.entries()));
       
       if (!response.ok) {
         const errorText = await response.text();
