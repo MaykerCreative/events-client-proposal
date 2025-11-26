@@ -105,10 +105,16 @@ const apiService = {
       url.searchParams.set(key, params[key]);
     });
     
+    // Add a small delay to ensure session is stored (Apps Script can be slow)
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     const response = await fetch(url.toString(), {
       method: 'GET',
       mode: 'cors',
-      cache: 'no-cache'
+      cache: 'no-cache',
+      headers: {
+        'Accept': 'application/json'
+      }
     });
     
     if (!response.ok) {
@@ -117,12 +123,16 @@ const apiService = {
     
     let data;
     try {
-      data = await response.json();
+      const text = await response.text();
+      data = JSON.parse(text);
     } catch (error) {
+      console.error('Failed to parse response:', error);
       throw new Error('Invalid response from server');
     }
     
     if (!data.success) {
+      // Log the error for debugging
+      console.error('API Error:', data.error, 'Action:', action, 'Token:', session.token.substring(0, 10) + '...');
       throw new Error(data.error || 'Request failed');
     }
     
@@ -468,6 +478,12 @@ function DashboardView({ clientInfo, onLogout }) {
       setProposals(proposalsResult.proposals || []);
       setSpendData(spendResult);
     } catch (err) {
+      // If session expired, redirect to login
+      if (err.message && (err.message.includes('Invalid or expired session') || err.message.includes('Not authenticated'))) {
+        authService.logout();
+        window.location.reload(); // Reload to show login screen
+        return;
+      }
       setError(err.message || 'Failed to load data');
       console.error('Error fetching data:', err);
     } finally {
