@@ -26,9 +26,24 @@ const authService = {
         mode: 'cors'
       });
       
-      const data = await response.json();
+      if (!response.ok) {
+        console.error('Login HTTP error:', response.status, response.statusText);
+        return { success: false, error: `Server error: ${response.status}` };
+      }
       
-      if (data.success) {
+      let data;
+      try {
+        const text = await response.text();
+        console.log('Login response text:', text);
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('Failed to parse login response:', parseError);
+        return { success: false, error: 'Invalid response from server' };
+      }
+      
+      console.log('Login response data:', data);
+      
+      if (data.success && data.token) {
         // Store session in localStorage
         localStorage.setItem('clientToken', data.token);
         localStorage.setItem('clientInfo', JSON.stringify({
@@ -36,12 +51,15 @@ const authService = {
           clientCompanyName: data.clientCompanyName,
           fullName: data.fullName
         }));
+        console.log('Login successful, token stored:', data.token.substring(0, 10) + '...');
         return { success: true, data };
       } else {
+        console.error('Login failed:', data.error || 'Unknown error');
         return { success: false, error: data.error || 'Login failed' };
       }
     } catch (error) {
-      return { success: false, error: error.message };
+      console.error('Login exception:', error);
+      return { success: false, error: error.message || 'Network error' };
     }
   },
   
@@ -312,18 +330,29 @@ export default function App() {
   }, []);
   
   const handleLogin = async (email, password) => {
+    try {
+      console.log('Attempting login for:', email);
       const result = await authService.login(email, password);
+      console.log('Login result:', result);
+      
       if (result.success) {
+        console.log('Setting authentication state');
         setClientInfo({
           email: result.data.email,
           clientCompanyName: result.data.clientCompanyName,
           fullName: result.data.fullName
         });
         setIsAuthenticated(true);
+        console.log('Authentication state set, isAuthenticated should be true');
         return { success: true };
       } else {
+        console.error('Login failed:', result.error);
         return { success: false, error: result.error };
       }
+    } catch (error) {
+      console.error('Login handler error:', error);
+      return { success: false, error: error.message || 'Login failed' };
+    }
   };
   
   const handleLogout = () => {
@@ -354,10 +383,20 @@ function LoginView({ onLogin }) {
     setError('');
     setLoading(true);
     
-    const result = await onLogin(email, password);
-    
-    if (!result.success) {
-      setError(result.error || 'Login failed');
+    try {
+      const result = await onLogin(email, password);
+      
+      if (!result.success) {
+        setError(result.error || 'Login failed');
+        setLoading(false);
+      } else {
+        // Login successful - loading will be handled by parent component
+        // Don't set loading to false here, let the redirect happen
+        console.log('Login form submitted successfully');
+      }
+    } catch (error) {
+      console.error('Login form error:', error);
+      setError(error.message || 'Login failed');
       setLoading(false);
     }
   };
@@ -464,10 +503,15 @@ function DashboardView({ clientInfo, onLogout }) {
     fetchData();
   }, []);
   
-  const fetchData = async () => {
+  const fetchData = async (retryCount = 0) => {
     try {
       setLoading(true);
       setError(null);
+      
+      // Add a small delay on first fetch to ensure session is ready
+      if (retryCount === 0) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
       
       // Fetch proposals and spend data in parallel
       const [proposalsResult, spendResult] = await Promise.all([
@@ -478,14 +522,25 @@ function DashboardView({ clientInfo, onLogout }) {
       setProposals(proposalsResult.proposals || []);
       setSpendData(spendResult);
     } catch (err) {
-      // If session expired, redirect to login
-      if (err.message && (err.message.includes('Invalid or expired session') || err.message.includes('Not authenticated'))) {
-        authService.logout();
-        window.location.reload(); // Reload to show login screen
-        return;
-      }
-      setError(err.message || 'Failed to load data');
       console.error('Error fetching data:', err);
+      
+      // If session expired or invalid, try once more after a delay
+      if (err.message && (err.message.includes('Invalid or expired session') || err.message.includes('Not authenticated'))) {
+        if (retryCount === 0) {
+          // Retry once after a delay
+          console.log('Session error, retrying after delay...');
+          setTimeout(() => fetchData(1), 1000);
+          return;
+        } else {
+          // Second failure - redirect to login
+          console.error('Session invalid after retry, redirecting to login');
+          authService.logout();
+          window.location.reload();
+          return;
+        }
+      }
+      
+      setError(err.message || 'Failed to load data');
     } finally {
       setLoading(false);
     }
