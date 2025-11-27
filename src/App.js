@@ -553,7 +553,10 @@ function LoginView({ onLogin }) {
           font-display: swap;
         }
         body, * {
-          font-family: 'NeueHaasUnica', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+          font-family: 'NeueHaasUnica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+        }
+        h1, h2, h3, h4, h5, h6 {
+          font-family: 'Domaine Text', 'Georgia', serif !important;
         }
       ` }} />
       
@@ -1199,8 +1202,55 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
   );
 }
 
-function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
+function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2C' }) {
   const currentSpend = spendData?.totalSpend || 0;
+  
+  // Calculate product spend for each proposal (rental products + product care + service fees, excluding delivery and tax)
+  const calculateProductSpend = (proposal) => {
+    try {
+      const sections = JSON.parse(proposal.sectionsJSON || '[]');
+      let productSpend = 0;
+      
+      sections.forEach(section => {
+        if (section.products && Array.isArray(section.products)) {
+          section.products.forEach(product => {
+            const quantity = parseFloat(product.quantity) || 0;
+            const price = parseFloat(product.price) || 0;
+            productSpend += quantity * price;
+          });
+        }
+      });
+      
+      // Apply rental multiplier if available
+      const duration = proposal.startDate && proposal.endDate ? 
+        Math.ceil((new Date(proposal.endDate) - new Date(proposal.startDate)) / (1000 * 60 * 60 * 24)) + 1 : 1;
+      const rentalMultiplier = proposal.customRentalMultiplier ? 
+        parseFloat(proposal.customRentalMultiplier) : 
+        (duration <= 1 ? 1 : duration <= 3 ? 1.5 : duration <= 7 ? 2 : 2.5);
+      
+      const extendedProductTotal = productSpend * rentalMultiplier;
+      
+      // Add product care fees (typically 10% of extended product total)
+      const productCareFee = extendedProductTotal * 0.1;
+      
+      // Add service fees (typically 15% of extended product total)
+      const serviceFee = extendedProductTotal * 0.15;
+      
+      // Total product spend (excluding delivery and tax)
+      return extendedProductTotal + productCareFee + serviceFee;
+    } catch (e) {
+      console.error('Error calculating product spend:', e);
+      return 0;
+    }
+  };
+  
+  // Get current year proposals for contributing projects
+  const currentYear = new Date().getFullYear();
+  const yearProposals = proposals.filter(p => {
+    if (!p.startDate || p.status === 'Cancelled') return false;
+    const proposalYear = new Date(p.startDate).getFullYear();
+    return proposalYear === currentYear;
+  }).sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
   
   // Tier system: 15% at start, 20% at $50k, 25% at $100k
   const getCurrentTier = () => {
@@ -1218,10 +1268,10 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
   return (
     <div>
       <h2 style={{ 
-        fontSize: '32px', 
+        fontSize: '28px', 
         fontWeight: '600', 
         color: brandCharcoal, 
-        marginBottom: '40px',
+        marginBottom: '32px',
         fontFamily: "'Domaine Text', serif",
         letterSpacing: '-0.02em'
       }}>
@@ -1231,27 +1281,27 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
       {/* YTD Spend Card */}
       <div style={{ 
         backgroundColor: '#f9fafb', 
-        padding: '40px', 
+        padding: '28px', 
         borderRadius: '12px', 
-        marginBottom: '40px',
+        marginBottom: '32px',
         border: '1px solid #e5e7eb'
       }}>
         <div style={{ 
-          fontSize: '12px', 
+          fontSize: '11px', 
           fontWeight: '600', 
           color: '#666', 
           textTransform: 'uppercase', 
           letterSpacing: '0.1em', 
-          marginBottom: '12px',
+          marginBottom: '10px',
           fontFamily: "'NeueHaasUnica', sans-serif"
         }}>
           Year-to-Date Spend ({new Date().getFullYear()})
         </div>
         <div style={{ 
-          fontSize: '64px', 
+          fontSize: '48px', 
           fontWeight: '700', 
           color: brandCharcoal, 
-          marginBottom: '12px',
+          marginBottom: '10px',
           fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.03em',
           lineHeight: '1.1'
@@ -1259,7 +1309,7 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
           ${currentSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </div>
         <div style={{ 
-          fontSize: '15px', 
+          fontSize: '14px', 
           color: '#666',
           fontFamily: "'NeueHaasUnica', sans-serif",
           fontWeight: '500'
@@ -1272,35 +1322,35 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
       <div style={{ 
         backgroundColor: 'white', 
         border: '2px solid #e5e7eb', 
-        padding: '40px', 
+        padding: '28px', 
         borderRadius: '12px', 
         marginBottom: '32px' 
       }}>
         <div style={{ 
-          fontSize: '14px', 
+          fontSize: '12px', 
           fontWeight: '600', 
           color: '#666',
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
-          marginBottom: '12px',
+          marginBottom: '10px',
           fontFamily: "'NeueHaasUnica', sans-serif"
         }}>
           Current Tier
         </div>
         <div style={{ 
-          fontSize: '20px', 
+          fontSize: '18px', 
           fontWeight: '600', 
           color: brandCharcoal, 
-          marginBottom: '20px',
+          marginBottom: '16px',
           fontFamily: "'NeueHaasUnica', sans-serif"
         }}>
-          <span style={{ color: '#059669', fontSize: '24px' }}>{tier.tier}</span>
+          <span style={{ color: '#059669', fontSize: '20px' }}>{tier.tier}</span>
         </div>
         <div style={{ 
-          fontSize: '48px', 
+          fontSize: '36px', 
           fontWeight: '700', 
           color: brandCharcoal, 
-          marginBottom: '12px',
+          marginBottom: '10px',
           fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.02em'
         }}>
@@ -1383,7 +1433,7 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
               Silver
             </div>
             <div style={{ 
-              fontSize: '36px', 
+              fontSize: '28px', 
               fontWeight: '700', 
               color: brandCharcoal,
               fontFamily: "'Domaine Text', serif",
@@ -1419,7 +1469,7 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
               Gold
             </div>
             <div style={{ 
-              fontSize: '36px', 
+              fontSize: '28px', 
               fontWeight: '700', 
               color: brandCharcoal,
               fontFamily: "'Domaine Text', serif",
@@ -1455,7 +1505,7 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
               Platinum
             </div>
             <div style={{ 
-              fontSize: '36px', 
+              fontSize: '28px', 
               fontWeight: '700', 
               color: brandCharcoal,
               fontFamily: "'Domaine Text', serif",
@@ -1473,6 +1523,169 @@ function PerformanceSection({ spendData, brandCharcoal = '#2C2C2C' }) {
             </div>
           </div>
         </div>
+      </div>
+      
+      {/* Contributing Projects */}
+      <div style={{ marginTop: '48px' }}>
+        <h3 style={{ 
+          fontSize: '20px', 
+          fontWeight: '600', 
+          color: brandCharcoal, 
+          marginBottom: '24px',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          letterSpacing: '-0.01em'
+        }}>
+          Contributing Projects
+        </h3>
+        
+        {yearProposals.length === 0 ? (
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '48px', 
+            color: '#999',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            fontSize: '14px'
+          }}>
+            No projects found for {currentYear}.
+          </div>
+        ) : (
+          <>
+            <div style={{ 
+              overflowX: 'auto',
+              border: '1px solid #e5e7eb',
+              borderRadius: '8px',
+              backgroundColor: 'white'
+            }}>
+              <table style={{ 
+                width: '100%', 
+                borderCollapse: 'collapse',
+                fontFamily: "'NeueHaasUnica', sans-serif"
+              }}>
+                <thead>
+                  <tr style={{ 
+                    backgroundColor: '#f9fafb',
+                    borderBottom: '2px solid #e5e7eb'
+                  }}>
+                    <th style={{ 
+                      padding: '14px 16px', 
+                      textAlign: 'left', 
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      color: brandCharcoal,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      Project Date
+                    </th>
+                    <th style={{ 
+                      padding: '14px 16px', 
+                      textAlign: 'left', 
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      color: brandCharcoal,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      Venue
+                    </th>
+                    <th style={{ 
+                      padding: '14px 16px', 
+                      textAlign: 'right', 
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      color: brandCharcoal,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      Total Invoice
+                    </th>
+                    <th style={{ 
+                      padding: '14px 16px', 
+                      textAlign: 'right', 
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      color: brandCharcoal,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      Product Spend
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {yearProposals.map((proposal, index) => {
+                    const productSpend = calculateProductSpend(proposal);
+                    const totalInvoice = calculateTotal(proposal);
+                    return (
+                      <tr 
+                        key={index}
+                        style={{ 
+                          borderBottom: index < yearProposals.length - 1 ? '1px solid #e5e7eb' : 'none'
+                        }}
+                      >
+                        <td style={{ 
+                          padding: '14px 16px', 
+                          fontSize: '14px',
+                          color: brandCharcoal
+                        }}>
+                          {proposal.eventDate || (proposal.startDate ? new Date(proposal.startDate).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric' 
+                          }) : 'N/A')}
+                        </td>
+                        <td style={{ 
+                          padding: '14px 16px', 
+                          fontSize: '14px',
+                          color: brandCharcoal,
+                          fontWeight: '500'
+                        }}>
+                          {proposal.venueName || 'N/A'}
+                        </td>
+                        <td style={{ 
+                          padding: '14px 16px', 
+                          fontSize: '14px',
+                          color: brandCharcoal,
+                          textAlign: 'right',
+                          fontFamily: "'NeueHaasUnica', sans-serif"
+                        }}>
+                          ${totalInvoice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                        <td style={{ 
+                          padding: '14px 16px', 
+                          fontSize: '14px',
+                          color: brandCharcoal,
+                          textAlign: 'right',
+                          fontFamily: "'NeueHaasUnica', sans-serif"
+                        }}>
+                          ${productSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            
+            {/* Footnote */}
+            <div style={{ 
+              marginTop: '20px',
+              paddingTop: '16px',
+              borderTop: '1px solid #e5e7eb'
+            }}>
+              <p style={{ 
+                fontSize: '12px',
+                color: '#666',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                lineHeight: '1.6',
+                margin: 0,
+                fontStyle: 'italic'
+              }}>
+                Total spend is compiled from rental product, product care fees, and service fees. It does not include delivery fees or tax.
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -1970,6 +2183,7 @@ function DashboardView({ clientInfo, onLogout }) {
           {activeSection === 'performance' && (
             <PerformanceSection 
               spendData={spendData}
+              proposals={proposals}
               brandCharcoal={brandCharcoal}
             />
           )}
