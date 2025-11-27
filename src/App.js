@@ -799,7 +799,7 @@ function LoginView({ onLogin }) {
 // DASHBOARD SECTIONS
 // ============================================
 
-function ProfileSection({ clientInfo, profileData, editingProfile, setEditingProfile, brandCharcoal = '#2C2C2C' }) {
+function ProfileSection({ clientInfo, profileData, editingProfile, setEditingProfile, brandCharcoal = '#2C2C2C', brandBrown = '#603f27', brandBlue = '#7693a9' }) {
   // Generate Member ID from email hash (or use existing ID if available)
   const generateMemberID = () => {
     if (clientInfo?.memberId) return clientInfo.memberId;
@@ -926,25 +926,25 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '48px', marginTop: '24px' }}>
+      <div style={{ display: 'flex', gap: '64px', marginTop: '0' }}>
         {/* Left Column - Profile Icon */}
-        <div style={{ flex: '0 0 200px' }}>
+        <div style={{ flex: '0 0 240px' }}>
           <h2 style={{ 
             fontSize: '20px', 
             fontWeight: '600', 
             color: brandCharcoal,
             fontFamily: "'NeueHaasUnica', sans-serif",
-            marginBottom: '24px',
+            marginBottom: '32px',
             letterSpacing: '-0.01em'
           }}>
             Your Account
           </h2>
           <div style={{ 
-            width: '200px', 
-            height: '200px', 
-            borderRadius: '12px', 
+            width: '240px', 
+            height: '240px', 
+            borderRadius: '8px', 
             backgroundColor: '#f3f4f6',
-            border: '2px solid #e5e7eb',
+            border: '1px solid #e5e7eb',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -953,10 +953,10 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
             {formData.photo ? (
               <img src={formData.photo} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
-              <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="120" rx="8" fill="#f3f4f6"/>
-                <circle cx="60" cy="45" r="18" stroke="#999" strokeWidth="2" fill="none"/>
-                <path d="M30 95 Q30 75 60 75 Q90 75 90 95" stroke="#999" strokeWidth="2" fill="none"/>
+              <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="140" height="140" rx="8" fill="#f3f4f6"/>
+                <circle cx="70" cy="55" r="22" stroke="#999" strokeWidth="2" fill="none"/>
+                <path d="M35 110 Q35 85 70 85 Q105 85 105 110" stroke="#999" strokeWidth="2" fill="none"/>
               </svg>
             )}
           </div>
@@ -984,7 +984,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
         </div>
 
         {/* Right Column - Form Fields */}
-        <div style={{ flex: '1' }}>
+        <div style={{ flex: '1', maxWidth: '600px' }}>
           {/* Reserve Member Details Section */}
           <div style={{ marginBottom: '48px' }}>
             <h3 style={{ 
@@ -1093,26 +1093,25 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
         display: 'flex', 
         justifyContent: 'flex-end', 
         gap: '12px', 
-        marginTop: '48px',
-        paddingTop: '32px',
-        borderTop: '1px solid #e5e7eb'
+        marginTop: '64px',
+        paddingTop: '0'
       }}>
         {!editingProfile ? (
-          <button
-            onClick={() => setEditingProfile(true)}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: brandCharcoal,
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '600',
-              fontFamily: "'NeueHaasUnica', sans-serif",
-              letterSpacing: '-0.01em',
-              transition: 'all 0.2s'
-            }}
+            <button
+              onClick={() => setEditingProfile(true)}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: brandBrown,
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '-0.01em',
+                transition: 'all 0.2s'
+              }}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '0.9';
               e.currentTarget.style.transform = 'translateY(-1px)';
@@ -1171,10 +1170,10 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
               onClick={handleSave}
               style={{
                 padding: '12px 24px',
-                backgroundColor: brandCharcoal,
+                backgroundColor: brandBrown,
                 color: 'white',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '6px',
                 cursor: 'pointer',
                 fontSize: '14px',
                 fontWeight: '600',
@@ -2004,7 +2003,8 @@ function DashboardView({ clientInfo, onLogout }) {
   );
   
   const brandCharcoal = '#2C2C2C';
-  const brandTaupe = '#545142';
+  const brandBrown = '#603f27';
+  const brandBlue = '#7693a9';
   
   if (loading) {
     return (
@@ -2103,13 +2103,56 @@ function DashboardView({ clientInfo, onLogout }) {
       
       {/* Main Content */}
       <div style={{ flex: '1', maxWidth: '1400px', margin: '0 auto', width: '100%', padding: '48px 32px' }}>
-        {/* Navigation Buttons */}
+        {/* Content Area */}
+        <div style={{ 
+          backgroundColor: 'white', 
+          borderRadius: '0', 
+          padding: '48px', 
+          minHeight: '500px',
+          marginBottom: '48px'
+        }}>
+          {activeSection === 'profile' && (
+            <ProfileSection 
+              clientInfo={clientInfo} 
+              profileData={profileData}
+              editingProfile={editingProfile}
+              setEditingProfile={setEditingProfile}
+              brandCharcoal={brandCharcoal}
+              brandBrown={brandBrown}
+              brandBlue={brandBlue}
+            />
+          )}
+          
+          {activeSection === 'performance' && (
+            <PerformanceSection 
+              spendData={spendData}
+              proposals={proposals}
+              brandCharcoal={brandCharcoal}
+            />
+          )}
+          
+          {activeSection === 'proposals' && (
+            <ProposalsSection
+              proposals={proposals}
+              proposalTab={proposalTab}
+              setProposalTab={setProposalTab}
+              setSelectedProposal={setSelectedProposal}
+              brandCharcoal={brandCharcoal}
+            />
+          )}
+          
+          {activeSection === 'resources' && (
+            <ResourcesSection brandCharcoal={brandCharcoal} />
+          )}
+        </div>
+
+        {/* Navigation Buttons - Bottom of Page */}
         <div style={{ 
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '12px',
-          marginBottom: '48px',
-          maxWidth: '800px'
+          maxWidth: '800px',
+          margin: '0 auto'
         }}>
           {navigationSections.map((nav) => {
             const isActive = getCurrentNavKey() === nav.key;
@@ -2119,8 +2162,8 @@ function DashboardView({ clientInfo, onLogout }) {
                 onClick={() => handleNavClick(nav.section)}
                 style={{
                   padding: '16px 24px',
-                  backgroundColor: isActive ? '#a8b8c8' : '#e8eef4',
-                  color: brandCharcoal,
+                  backgroundColor: isActive ? brandBlue : '#e8eef4',
+                  color: isActive ? 'white' : brandCharcoal,
                   border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
@@ -2147,51 +2190,11 @@ function DashboardView({ clientInfo, onLogout }) {
             );
           })}
         </div>
-
-        {/* Content Area */}
-        <div style={{ 
-          backgroundColor: 'white', 
-          borderRadius: '0', 
-          padding: '48px', 
-          minHeight: '500px' 
-        }}>
-          {activeSection === 'profile' && (
-            <ProfileSection 
-              clientInfo={clientInfo} 
-              profileData={profileData}
-              editingProfile={editingProfile}
-              setEditingProfile={setEditingProfile}
-              brandCharcoal={brandCharcoal}
-            />
-          )}
-          
-          {activeSection === 'performance' && (
-            <PerformanceSection 
-              spendData={spendData}
-              proposals={proposals}
-              brandCharcoal={brandCharcoal}
-            />
-          )}
-          
-          {activeSection === 'proposals' && (
-            <ProposalsSection
-              proposals={proposals}
-              proposalTab={proposalTab}
-              setProposalTab={setProposalTab}
-              setSelectedProposal={setSelectedProposal}
-              brandCharcoal={brandCharcoal}
-            />
-          )}
-          
-          {activeSection === 'resources' && (
-            <ResourcesSection brandCharcoal={brandCharcoal} />
-          )}
-        </div>
       </div>
 
       {/* Footer */}
       <div style={{ 
-        backgroundColor: '#545142',
+        backgroundColor: brandBrown,
         padding: '32px',
         marginTop: 'auto'
       }}>
@@ -2227,7 +2230,7 @@ function DashboardView({ clientInfo, onLogout }) {
             <div style={{ 
               fontSize: '24px', 
               fontWeight: '600', 
-              color: '#545142',
+              color: brandBrown,
               fontFamily: "'Domaine Text', serif"
             }}>
               M
