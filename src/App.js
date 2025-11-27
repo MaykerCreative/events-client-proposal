@@ -125,6 +125,25 @@ const authService = {
   // Get current token (for debugging)
   getCurrentToken() {
     return localStorage.getItem('clientToken');
+  },
+  
+  // Diagnostic function to check token format
+  diagnoseToken() {
+    const token = localStorage.getItem('clientToken');
+    if (!token) {
+      return { error: 'No token found in localStorage' };
+    }
+    
+    return {
+      token: token,
+      length: token.length,
+      trimmed: token.trim(),
+      trimmedLength: token.trim().length,
+      hasWhitespace: token !== token.trim(),
+      format: token.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i) ? 'UUID' : 'OTHER',
+      firstChars: token.substring(0, 20),
+      lastChars: token.substring(Math.max(0, token.length - 10))
+    };
   }
 };
 
@@ -473,8 +492,10 @@ export default function App() {
         
         // Wait longer for Apps Script to write the session to the sheet
         // Apps Script can be slow, especially on first write
+        // Google Sheets writes can take 1-3 seconds, so we wait longer
         console.log('Waiting for Apps Script to store session in sheet...');
-        await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+        console.log('Token that should be stored:', result.data.token);
+        await new Promise(resolve => setTimeout(resolve, 4000)); // 4 second delay for Apps Script
         
         // Try to validate the session (with retries)
         let validationSuccess = false;
@@ -1992,12 +2013,20 @@ function DashboardView({ clientInfo, onLogout }) {
         return;
       }
       
+      // Diagnostic information about the token
+      const tokenDiagnostics = authService.diagnoseToken();
+      console.log('Token Diagnostics:', tokenDiagnostics);
       console.log('Current session from localStorage:', {
         token: session.token.substring(0, 20) + '...',
         tokenLength: session.token.length,
         hasToken: !!session.token,
         clientInfo: session.clientInfo
       });
+      
+      // Log the full token for debugging (only in development)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Full token for debugging:', session.token);
+      }
       
       // Add delay on first fetch to ensure Apps Script has written the session
       if (retryCount === 0) {
@@ -2028,6 +2057,19 @@ function DashboardView({ clientInfo, onLogout }) {
           } else {
             // All validation attempts failed
             console.error('All session validation attempts failed');
+            const tokenDiagnostics = authService.diagnoseToken();
+            console.error('=== TOKEN DIAGNOSTICS ===');
+            console.error('Token being used:', tokenDiagnostics.token);
+            console.error('Token length:', tokenDiagnostics.length);
+            console.error('Token format:', tokenDiagnostics.format);
+            console.error('Has whitespace:', tokenDiagnostics.hasWhitespace);
+            console.error('========================');
+            console.error('TROUBLESHOOTING STEPS:');
+            console.error('1. Open your Google Sheet (Clients sheet)');
+            console.error('2. Check column J (SessionToken) for the row matching your email');
+            console.error('3. Verify the token matches exactly:', tokenDiagnostics.token);
+            console.error('4. Check Apps Script execution logs for any errors during login');
+            console.error('5. Try logging out and logging back in');
             throw new Error('Session validation failed. Please log out and log back in.');
           }
         }
@@ -2062,9 +2104,21 @@ function DashboardView({ clientInfo, onLogout }) {
           }, 3000);
           return;
         } else {
-          // Second failure - show error and clear session
+          // Second failure - show error with diagnostic info
           console.error('Session invalid after retry');
-          setError('Session expired. Please log out and log back in.');
+          const tokenDiagnostics = authService.diagnoseToken();
+          console.error('Token diagnostics:', tokenDiagnostics);
+          console.error('This token should be in the Clients sheet, column J (SessionToken)');
+          console.error('Please check:');
+          console.error('1. Is the token in column J of the Clients sheet?');
+          console.error('2. Does it match exactly (including dashes)?');
+          console.error('3. Is there any whitespace around it?');
+          console.error('4. Check Apps Script execution logs for errors during login');
+          
+          setError(
+            'Session validation failed. The token may not have been saved correctly. ' +
+            'Please log out and log back in. If the problem persists, check the Apps Script logs.'
+          );
           setLoading(false);
           // Clear invalid session
           authService.logout();
