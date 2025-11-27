@@ -2397,17 +2397,31 @@ function DashboardView({ clientInfo, onLogout }) {
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            overflow: 'hidden',
+            padding: '8px'
           }}>
-            {/* Logo placeholder - you can replace with actual logo */}
-            <div style={{ 
-              fontSize: '24px', 
-              fontWeight: '600', 
-              color: brandBrown,
-              fontFamily: "'Domaine Text', serif"
-            }}>
-              M
-            </div>
+            <img 
+              src="/mayker_icon-whisper.png" 
+              alt="Mayker Reserve" 
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'contain'
+              }}
+              onLoad={() => {
+                console.log('✅ Footer icon loaded successfully');
+              }}
+              onError={(e) => {
+                console.error('❌ Footer icon failed to load:', e.target.src);
+                // Fallback to text if image fails
+                e.target.style.display = 'none';
+                const fallback = document.createElement('div');
+                fallback.style.cssText = 'font-size: 24px; font-weight: 600; color: ' + brandBrown + '; font-family: "Domaine Text", serif;';
+                fallback.textContent = 'M';
+                e.target.parentElement.appendChild(fallback);
+              }}
+            />
           </div>
         </div>
       </div>
