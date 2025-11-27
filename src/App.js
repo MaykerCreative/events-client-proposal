@@ -2069,77 +2069,8 @@ function DashboardView({ clientInfo, onLogout }) {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', display: 'flex', flexDirection: 'column' }}>
+      {/* Fonts are loaded in index.html - keeping styles here for application */}
       <style dangerouslySetInnerHTML={{ __html: `
-        @font-face {
-          font-family: 'NeueHaasUnica';
-          src: url('/NeueHaasUnica-Regular.woff2') format('woff2');
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'NeueHaasUnica';
-          src: url('/NeueHaasUnica-Light.woff2') format('woff2');
-          font-weight: 300;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'NeueHaasUnica';
-          src: url('/NeueHaasUnica-Medium.woff2') format('woff2');
-          font-weight: 500;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'NeueHaasUnica';
-          src: url('/NeueHaasUnica-Bold.woff2') format('woff2');
-          font-weight: 600;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-light.woff2') format('woff2');
-          font-weight: 300;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-medium.woff2') format('woff2');
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-bold.woff2') format('woff2');
-          font-weight: 600;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-light-italic.woff2') format('woff2');
-          font-weight: 300;
-          font-style: italic;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-medium-italic.woff2') format('woff2');
-          font-weight: 400;
-          font-style: italic;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-bold-italic.woff2') format('woff2');
-          font-weight: 600;
-          font-style: italic;
-          font-display: swap;
-        }
         body, * {
           font-family: 'NeueHaasUnica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
         }
@@ -2165,7 +2096,7 @@ function DashboardView({ clientInfo, onLogout }) {
               </div>
             ) : (
               <img 
-                src="/Mayker Reserve - Black - 2.png" 
+                src="/Mayker Reserve - Black - 2.png"
                 alt="MAYKER reserve" 
                 style={{ 
                   height: '32px', 
