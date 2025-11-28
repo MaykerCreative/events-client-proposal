@@ -1446,58 +1446,6 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
         </div>
       </div>
       
-      <h2 style={{ 
-        fontSize: '28px', 
-        fontWeight: '300', 
-        color: brandCharcoal, 
-        marginBottom: '32px',
-        fontFamily: "'Domaine Text', serif",
-        letterSpacing: '-0.02em'
-      }}>
-        Performance & Annual Spend
-      </h2>
-      
-      {/* YTD Points Card */}
-      <div style={{ 
-        backgroundColor: '#fafaf8', 
-        padding: '32px', 
-        borderRadius: '16px', 
-        marginBottom: '40px',
-        border: 'none',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
-      }}>
-        <div style={{ 
-          fontSize: '11px', 
-          fontWeight: '500', 
-          color: '#8b8b8b', 
-          textTransform: 'uppercase', 
-          letterSpacing: '0.15em', 
-          marginBottom: '16px',
-          fontFamily: "'NeueHaasUnica', sans-serif"
-        }}>
-          Year-to-Date Points ({new Date().getFullYear()})
-        </div>
-        <div style={{ 
-          fontSize: '56px', 
-          fontWeight: '300', 
-          color: brandCharcoal, 
-          marginBottom: '12px',
-          fontFamily: "'Domaine Text', serif",
-          letterSpacing: '-0.03em',
-          lineHeight: '1.1'
-        }}>
-          {Math.round(currentSpend).toLocaleString()}
-        </div>
-        <div style={{ 
-          fontSize: '13px', 
-          color: '#8b8b8b',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          fontWeight: '400'
-        }}>
-          {spendData?.proposalCount || 0} {spendData?.proposalCount === 1 ? 'project' : 'projects'}
-        </div>
-      </div>
-
       {/* Tier Status with Circular Progress */}
       <div style={{ 
         backgroundColor: '#fafaf8', 
@@ -1579,7 +1527,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.01em'
             }}>
-              {tier.discount}%
+              {tier.discount}% off
             </div>
           </div>
         </div>
@@ -1602,13 +1550,23 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
               fontFamily: "'NeueHaasUnica', sans-serif",
               fontWeight: '500',
               textAlign: 'center',
-              marginBottom: '20px'
+              marginBottom: '8px'
             }}>
               {tier.tier === 'House Member' 
-                ? `${(50000 - currentSpend).toLocaleString()} points to next level`
+                ? `${Math.ceil(50000 - currentSpend).toLocaleString()} points to next level`
                 : tier.tier === 'Inner Circle'
-                ? `${(100000 - currentSpend).toLocaleString()} points to next level`
+                ? `${Math.ceil(100000 - currentSpend).toLocaleString()} points to next level`
                 : 'Maximum tier achieved'}
+            </div>
+            <div style={{ 
+              fontSize: '13px', 
+              color: '#8b8b8b', 
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              fontWeight: '400',
+              textAlign: 'center',
+              marginBottom: '20px'
+            }}>
+              You are {Math.round(tier.progress)}% of the way there
             </div>
             <div style={{ 
               fontSize: '12px', 
@@ -1627,6 +1585,47 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
             </div>
           </>
         )}
+      </div>
+
+      {/* YTD Points Card */}
+      <div style={{ 
+        backgroundColor: '#fafaf8', 
+        padding: '32px', 
+        borderRadius: '16px', 
+        marginBottom: '40px',
+        border: 'none',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+      }}>
+        <div style={{ 
+          fontSize: '11px', 
+          fontWeight: '500', 
+          color: '#8b8b8b', 
+          textTransform: 'uppercase', 
+          letterSpacing: '0.15em', 
+          marginBottom: '16px',
+          fontFamily: "'NeueHaasUnica', sans-serif"
+        }}>
+          Year-to-Date Points ({new Date().getFullYear()})
+        </div>
+        <div style={{ 
+          fontSize: '56px', 
+          fontWeight: '300', 
+          color: brandCharcoal, 
+          marginBottom: '12px',
+          fontFamily: "'Domaine Text', serif",
+          letterSpacing: '-0.03em',
+          lineHeight: '1.1'
+        }}>
+          {Math.round(currentSpend).toLocaleString()}
+        </div>
+        <div style={{ 
+          fontSize: '13px', 
+          color: '#8b8b8b',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          fontWeight: '400'
+        }}>
+          {spendData?.proposalCount || 0} {spendData?.proposalCount === 1 ? 'project' : 'projects'}
+        </div>
       </div>
 
       {/* Tier Benefits */}
@@ -1685,7 +1684,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
               marginBottom: '12px',
               lineHeight: '1.1'
             }}>
-              15%
+              15% off
             </div>
             <div style={{ 
               fontSize: '12px', 
@@ -1741,7 +1740,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
               marginBottom: '12px',
               lineHeight: '1.1'
             }}>
-              20%
+              20% off
             </div>
             <div style={{ 
               fontSize: '12px', 
@@ -1797,7 +1796,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
               marginBottom: '12px',
               lineHeight: '1.1'
             }}>
-              25%
+              25% off
             </div>
             <div style={{ 
               fontSize: '12px', 
