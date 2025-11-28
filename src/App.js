@@ -1284,8 +1284,6 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
 }
 
 function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2C' }) {
-  const currentSpend = spendData?.totalSpend || 0;
-  
   // Calculate product spend for each proposal (rental products + product care + service fees, excluding delivery and tax)
   const calculateProductSpend = (proposal) => {
     try {
@@ -1349,14 +1347,19 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
     return proposalYear === currentYear;
   }).sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
   
+  // Calculate current spend from product spend (not invoice total)
+  const currentSpend = yearProposals.reduce((total, proposal) => {
+    return total + calculateProductSpend(proposal);
+  }, 0);
+  
   // Tier system: 15% at start, 20% at $50k, 25% at $100k
   const getCurrentTier = () => {
     if (currentSpend >= 100000) {
-      return { discount: 25, tier: 'Founders Estate', nextTier: null, progress: 100 };
+      return { discount: 25, tier: 'Founders Estate', nextTier: null, progress: 100, nextTierName: null };
     } else if (currentSpend >= 50000) {
-      return { discount: 20, tier: 'Inner Circle', nextTier: 'Founders Estate (25%)', progress: ((currentSpend - 50000) / 50000) * 100 };
+      return { discount: 20, tier: 'Inner Circle', nextTier: 'Founders Estate (25%)', progress: ((currentSpend - 50000) / 50000) * 100, nextTierName: 'Founders Estate' };
     } else {
-      return { discount: 15, tier: 'House Member', nextTier: 'Inner Circle (20%)', progress: (currentSpend / 50000) * 100 };
+      return { discount: 15, tier: 'House Member', nextTier: 'Inner Circle (20%)', progress: (currentSpend / 50000) * 100, nextTierName: 'Inner Circle' };
     }
   };
 
@@ -1446,11 +1449,11 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
         </div>
       </div>
       
-      {/* Tier Status with Circular Progress */}
+      {/* Tier Status - Medallion with Progress Bar */}
       <div style={{ 
         backgroundColor: '#fafaf8', 
         border: 'none',
-        padding: '48px', 
+        padding: '56px 48px', 
         borderRadius: '20px', 
         marginBottom: '48px',
         boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
@@ -1458,132 +1461,129 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
         flexDirection: 'column',
         alignItems: 'center'
       }}>
-        <div style={{ 
-          fontSize: '11px', 
-          fontWeight: '500', 
-          color: '#8b8b8b',
-          textTransform: 'uppercase',
-          letterSpacing: '0.15em',
-          marginBottom: '32px',
-          fontFamily: "'NeueHaasUnica', sans-serif"
-        }}>
-          Your Current Standing
-        </div>
-        
-        {/* Circular Progress */}
+        {/* Status Medallion */}
         <div style={{ 
           position: 'relative',
-          width: '200px',
-          height: '200px',
-          marginBottom: '32px'
+          width: '180px',
+          height: '180px',
+          marginBottom: '48px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
-          <svg width="200" height="200" style={{ transform: 'rotate(-90deg)' }}>
-            {/* Background circle */}
-            <circle
-              cx="100"
-              cy="100"
-              r="85"
-              fill="none"
-              stroke="#e8e8e3"
-              strokeWidth="8"
-            />
-            {/* Progress circle */}
-            <circle
-              cx="100"
-              cy="100"
-              r="85"
-              fill="none"
-              stroke={tier.tier === 'House Member' ? '#6b7d47' : tier.tier === 'Inner Circle' ? '#d4af37' : '#2C2C2C'}
-              strokeWidth="8"
-              strokeLinecap="round"
-              strokeDasharray={`${2 * Math.PI * 85}`}
-              strokeDashoffset={`${2 * Math.PI * 85 * (1 - tier.progress / 100)}`}
-              style={{ transition: 'stroke-dashoffset 0.8s ease' }}
-            />
-          </svg>
-          {/* Center content */}
+          {/* Circle with olive trim for House Member */}
           <div style={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center'
+            width: '180px',
+            height: '180px',
+            borderRadius: '50%',
+            border: tier.tier === 'House Member' ? '2px solid #6b7d47' : tier.tier === 'Inner Circle' ? '2px solid #d4af37' : '2px solid #2C2C2C',
+            backgroundColor: 'transparent'
+          }} />
+          {/* Center content */}
+          <div style={{
+            textAlign: 'center',
+            zIndex: 1
           }}>
             <div style={{ 
-              fontSize: '36px', 
+              fontSize: '32px', 
               fontWeight: '300', 
               color: brandCharcoal,
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.02em',
-              lineHeight: '1.1',
-              marginBottom: '4px'
+              lineHeight: '1.2',
+              marginBottom: '8px'
             }}>
-              {tier.tier}
+              {tier.tier.split(' ')[0]}
             </div>
             <div style={{ 
-              fontSize: '24px', 
+              fontSize: '28px', 
+              fontWeight: '300', 
+              color: brandCharcoal,
+              fontFamily: "'Domaine Text', serif",
+              letterSpacing: '-0.02em',
+              lineHeight: '1.2',
+              marginBottom: '12px'
+            }}>
+              {tier.tier.split(' ')[1] || ''}
+            </div>
+            <div style={{ 
+              fontSize: '18px', 
               fontWeight: '300', 
               color: '#8b8b8b',
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.01em'
             }}>
-              {tier.discount}% off
+              {tier.discount}% Off
             </div>
           </div>
+          {/* Tiny olive dot for House Member */}
+          {tier.tier === 'House Member' && (
+            <div style={{
+              position: 'absolute',
+              top: '12px',
+              right: '12px',
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: '#6b7d47'
+            }} />
+          )}
         </div>
 
+        {/* Progress Bar Section */}
         {tier.nextTier && (
-          <>
+          <div style={{ 
+            width: '100%',
+            maxWidth: '400px'
+          }}>
             <div style={{ 
-              fontSize: '13px', 
-              color: '#666', 
-              marginBottom: '8px',
+              fontSize: '11px', 
+              color: '#8b8b8b',
               fontFamily: "'NeueHaasUnica', sans-serif",
               fontWeight: '400',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              marginBottom: '12px',
               textAlign: 'center'
             }}>
-              Next Tier: <span style={{ color: brandCharcoal, fontWeight: '500' }}>{tier.nextTier}</span>
+              To {tier.nextTierName}
             </div>
+            
+            {/* Thin progress bar */}
             <div style={{ 
-              fontSize: '14px', 
-              color: brandCharcoal, 
-              fontFamily: "'NeueHaasUnica', sans-serif",
-              fontWeight: '500',
-              textAlign: 'center',
-              marginBottom: '8px'
+              width: '100%', 
+              height: '2px', 
+              backgroundColor: '#e8e8e3', 
+              borderRadius: '1px',
+              marginBottom: '12px',
+              overflow: 'hidden'
             }}>
-              {tier.tier === 'House Member' 
-                ? `${Math.ceil(50000 - currentSpend).toLocaleString()} points to next level`
-                : tier.tier === 'Inner Circle'
-                ? `${Math.ceil(100000 - currentSpend).toLocaleString()} points to next level`
-                : 'Maximum tier achieved'}
+              <div style={{
+                width: `${Math.min(tier.progress, 100)}%`,
+                height: '100%',
+                backgroundColor: tier.tier === 'House Member' ? '#6b7d47' : tier.tier === 'Inner Circle' ? '#d4af37' : '#2C2C2C',
+                transition: 'width 0.8s ease',
+                borderRadius: '1px'
+              }} />
             </div>
+            
+            {/* Points and percentage */}
             <div style={{ 
               fontSize: '13px', 
-              color: '#8b8b8b', 
+              color: brandCharcoal, 
               fontFamily: "'NeueHaasUnica', sans-serif",
               fontWeight: '400',
               textAlign: 'center',
-              marginBottom: '20px'
+              lineHeight: '1.5'
             }}>
-              You are {Math.round(tier.progress)}% of the way there
+              {tier.tier === 'House Member' 
+                ? `${Math.ceil(50000 - currentSpend).toLocaleString()} pts to next tier (${Math.round(tier.progress)}%)`
+                : tier.tier === 'Inner Circle'
+                ? `${Math.ceil(100000 - currentSpend).toLocaleString()} pts to next tier (${Math.round(tier.progress)}%)`
+                : 'Maximum tier achieved'}
             </div>
-            <div style={{ 
-              fontSize: '12px', 
-              color: '#8b8b8b', 
-              display: 'flex', 
-              justifyContent: 'space-between',
-              width: '100%',
-              maxWidth: '300px',
-              fontFamily: "'NeueHaasUnica', sans-serif",
-              fontWeight: '400'
-            }}>
-              <span>{Math.round(currentSpend).toLocaleString()} pts</span>
-              <span>
-                {tier.tier === 'House Member' ? '50,000 pts' : '100,000 pts'}
-              </span>
-            </div>
-          </>
+          </div>
         )}
       </div>
 
