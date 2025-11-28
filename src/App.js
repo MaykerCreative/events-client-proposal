@@ -1587,44 +1587,68 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
         )}
       </div>
 
-      {/* YTD Points Card */}
+      {/* YTD Stats Card */}
       <div style={{ 
         backgroundColor: '#fafaf8', 
         padding: '32px', 
         borderRadius: '16px', 
         marginBottom: '40px',
         border: 'none',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+        display: 'flex',
+        gap: '48px',
+        alignItems: 'flex-start'
       }}>
-        <div style={{ 
-          fontSize: '11px', 
-          fontWeight: '500', 
-          color: '#8b8b8b', 
-          textTransform: 'uppercase', 
-          letterSpacing: '0.15em', 
-          marginBottom: '16px',
-          fontFamily: "'NeueHaasUnica', sans-serif"
-        }}>
-          Year-to-Date Points ({new Date().getFullYear()})
+        {/* YTD Points */}
+        <div style={{ flex: '1' }}>
+          <div style={{ 
+            fontSize: '11px', 
+            fontWeight: '500', 
+            color: '#8b8b8b', 
+            textTransform: 'uppercase', 
+            letterSpacing: '0.15em', 
+            marginBottom: '16px',
+            fontFamily: "'NeueHaasUnica', sans-serif"
+          }}>
+            Year-to-Date Points ({new Date().getFullYear()})
+          </div>
+          <div style={{ 
+            fontSize: '56px', 
+            fontWeight: '300', 
+            color: brandCharcoal, 
+            marginBottom: '12px',
+            fontFamily: "'Domaine Text', serif",
+            letterSpacing: '-0.03em',
+            lineHeight: '1.1'
+          }}>
+            {Math.round(currentSpend).toLocaleString()}
+          </div>
         </div>
-        <div style={{ 
-          fontSize: '56px', 
-          fontWeight: '300', 
-          color: brandCharcoal, 
-          marginBottom: '12px',
-          fontFamily: "'Domaine Text', serif",
-          letterSpacing: '-0.03em',
-          lineHeight: '1.1'
-        }}>
-          {Math.round(currentSpend).toLocaleString()}
-        </div>
-        <div style={{ 
-          fontSize: '13px', 
-          color: '#8b8b8b',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          fontWeight: '400'
-        }}>
-          {spendData?.proposalCount || 0} {spendData?.proposalCount === 1 ? 'project' : 'projects'}
+        
+        {/* YTD Projects */}
+        <div style={{ flex: '1' }}>
+          <div style={{ 
+            fontSize: '11px', 
+            fontWeight: '500', 
+            color: '#8b8b8b', 
+            textTransform: 'uppercase', 
+            letterSpacing: '0.15em', 
+            marginBottom: '16px',
+            fontFamily: "'NeueHaasUnica', sans-serif"
+          }}>
+            Year-to-Date Projects ({new Date().getFullYear()})
+          </div>
+          <div style={{ 
+            fontSize: '56px', 
+            fontWeight: '300', 
+            color: brandCharcoal, 
+            marginBottom: '12px',
+            fontFamily: "'Domaine Text', serif",
+            letterSpacing: '-0.03em',
+            lineHeight: '1.1'
+          }}>
+            {spendData?.proposalCount || 0}
+          </div>
         </div>
       </div>
 
@@ -1883,17 +1907,6 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
                     }}>
-                      Total Invoice
-                    </th>
-                    <th style={{ 
-                      padding: '14px 16px', 
-                      textAlign: 'right', 
-                      fontSize: '12px',
-                      fontWeight: '600',
-                      color: brandCharcoal,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em'
-                    }}>
                       Points Earned
                     </th>
                   </tr>
@@ -1901,7 +1914,6 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                 <tbody>
                   {yearProposals.map((proposal, index) => {
                     const productSpend = calculateProductSpend(proposal);
-                    const totalInvoice = calculateTotal(proposal);
                     return (
                       <tr 
                         key={index}
@@ -1927,15 +1939,6 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                           fontWeight: '500'
                         }}>
                           {proposal.venueName || 'N/A'}
-                        </td>
-                        <td style={{ 
-                          padding: '14px 16px', 
-                          fontSize: '14px',
-                          color: brandCharcoal,
-                          textAlign: 'right',
-                          fontFamily: "'NeueHaasUnica', sans-serif"
-                        }}>
-                          ${totalInvoice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </td>
                         <td style={{ 
                           padding: '14px 16px', 
@@ -2604,42 +2607,53 @@ function DashboardView({ clientInfo, onLogout }) {
           )}
         </div>
 
-        {/* Navigation Buttons - Bottom of Page */}
+        {/* Navigation - Elevated Soho House Style */}
         <div style={{ 
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '12px',
-          maxWidth: '800px',
-          margin: '0 auto'
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '2px',
+          marginTop: '64px',
+          padding: '8px',
+          backgroundColor: '#fafaf8',
+          borderRadius: '12px',
+          maxWidth: '900px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
         }}>
-          {navigationSections.map((nav) => {
+          {navigationSections.map((nav, index) => {
             const isActive = getCurrentNavKey() === nav.key;
             return (
               <button
                 key={nav.key}
                 onClick={() => handleNavClick(nav.section)}
                 style={{
-                  padding: '16px 24px',
-                  backgroundColor: isActive ? brandBlue : '#e8eef4',
-                  color: isActive ? 'white' : brandCharcoal,
+                  padding: '14px 28px',
+                  backgroundColor: isActive ? brandCharcoal : 'transparent',
+                  color: isActive ? 'white' : '#8b8b8b',
                   border: 'none',
-                  borderRadius: '4px',
+                  borderRadius: '8px',
                   cursor: 'pointer',
-                  fontSize: '13px',
-                  fontWeight: '600',
+                  fontSize: '12px',
+                  fontWeight: isActive ? '500' : '400',
                   fontFamily: "'NeueHaasUnica', sans-serif",
                   textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  transition: 'all 0.2s'
+                  letterSpacing: '0.1em',
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  whiteSpace: 'nowrap'
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.backgroundColor = '#d4dfe8';
+                    e.currentTarget.style.color = brandCharcoal;
+                    e.currentTarget.style.backgroundColor = '#f5f5f0';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.backgroundColor = '#e8eef4';
+                    e.currentTarget.style.color = '#8b8b8b';
+                    e.currentTarget.style.backgroundColor = 'transparent';
                   }
                 }}
               >
