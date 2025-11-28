@@ -2385,35 +2385,35 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
       name: 'Megan Proby',
       title: 'Founder & CEO',
       email: 'Megan@Mayker.com',
-      photo: '/team/megan-proby.jpg',
+      photo: '/megan-proby.jpg',
       firstName: 'Megan'
     },
     {
       name: 'Noelle Powell',
       title: 'Client Services Director',
       email: 'Noelle@Mayker.com',
-      photo: '/team/noelle-powell.jpg',
+      photo: '/noelle-powell.jpg',
       firstName: 'Noelle'
     },
     {
       name: 'Constance Farro',
       title: 'Partnerships Manager',
       email: 'Constance@Mayker.com',
-      photo: '/team/constance-farro.jpg',
+      photo: '/constance-farro.jpg',
       firstName: 'Constance'
     },
     {
       name: 'Lindsey Soklin',
       title: 'Client Coordinator',
       email: 'Lindsey@Mayker.com',
-      photo: '/team/lindsey-soklin.jpg',
+      photo: '/lindsey-soklin.jpg',
       firstName: 'Lindsey'
     },
     {
       name: 'Mara Meisberger',
       title: 'Administrative Associate',
       email: 'Mara@Mayker.com',
-      photo: '/team/mara-meisberger.jpg',
+      photo: '/mara-meisberger.jpg',
       firstName: 'Mara'
     }
   ];
@@ -2463,36 +2463,47 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
         {/* Text Overlay */}
         <div style={{
           position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          textAlign: 'center',
-          color: 'white',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '48px',
           zIndex: 1
         }}>
-          <h1 style={{
-            fontSize: '56px',
+          <div style={{
+            fontSize: '52px',
             fontWeight: '300',
             fontFamily: "'Domaine Text', serif",
-            marginBottom: '16px',
+            color: 'white',
+            marginBottom: '20px',
+            textAlign: 'center',
             letterSpacing: '-0.02em',
             textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
           }}>
             Contact
-          </h1>
-          <p style={{
-            fontSize: '18px',
-            fontWeight: '400',
-            fontFamily: "'NeueHaasUnica', sans-serif",
+          </div>
+          <div style={{
+            width: '60px',
+            height: '1px',
+            background: 'rgba(255, 255, 255, 0.6)',
+            margin: '0 auto 24px'
+          }} />
+          <div style={{
+            fontSize: '11px',
+            letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            letterSpacing: '0.1em',
             color: 'rgba(255, 255, 255, 0.9)',
+            fontFamily: "'NeueHaasUnica', sans-serif",
             textAlign: 'center',
             lineHeight: '1.6',
-            textShadow: '0 1px 4px rgba(0, 0, 0, 0.3)'
+            fontWeight: '400'
           }}>
             Your dedicated Mayker Reserve team is here to support your projects, partnerships, and events.
-          </p>
+          </div>
         </div>
       </div>
 
@@ -2577,7 +2588,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
                   
                   {/* Photo */}
                   <img
-                    src={encodeURI(member.photo)}
+                    src={member.photo}
                     alt={member.name}
                     style={{
                       width: '100%',
