@@ -330,6 +330,11 @@ function formatDateRange(proposal) {
 }
 
 function calculateTotal(proposal) {
+  // If this is a historical project, use the pre-calculated invoice total
+  if (proposal.isHistorical && proposal.historicalInvoiceTotal) {
+    return parseFloat(proposal.historicalInvoiceTotal) || 0;
+  }
+  
   // Simplified calculation - matches Apps Script logic
   const sections = JSON.parse(proposal.sectionsJSON || '[]');
   
@@ -1287,6 +1292,11 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
   // Calculate product spend for each proposal (rental products + product care + service fees, excluding delivery and tax)
   const calculateProductSpend = (proposal) => {
     try {
+      // If this is a historical project, use the pre-calculated product total
+      if (proposal.isHistorical && proposal.historicalProductTotal) {
+        return parseFloat(proposal.historicalProductTotal) || 0;
+      }
+      
       const sections = JSON.parse(proposal.sectionsJSON || '[]');
       let productSpend = 0;
       
@@ -1339,7 +1349,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
     }
   };
   
-  // Get current year proposals for contributing projects
+  // Get current year proposals for YTD points
   const currentYear = new Date().getFullYear();
   const yearProposals = proposals.filter(p => {
     if (!p.startDate || p.status === 'Cancelled') return false;
@@ -1347,19 +1357,67 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
     return proposalYear === currentYear;
   }).sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
   
-  // Calculate current spend from product spend (not invoice total)
-  const currentSpend = yearProposals.reduce((total, proposal) => {
+  // Calculate current year YTD spend from product spend (not invoice total)
+  const currentYearSpend = yearProposals.reduce((total, proposal) => {
     return total + calculateProductSpend(proposal);
   }, 0);
   
+  // For 2026+, calculate 2025 total to determine tier status (carryover)
+  // For 2025, use current year spend
+  let tierBaseSpend = currentYearSpend;
+  let carriedOverTier = null;
+  
+  if (currentYear >= 2026) {
+    // Calculate 2025 total spend to determine tier status
+    const year2025Proposals = proposals.filter(p => {
+      if (!p.startDate || p.status === 'Cancelled') return false;
+      const proposalYear = new Date(p.startDate).getFullYear();
+      return proposalYear === 2025;
+    });
+    
+    const year2025Spend = year2025Proposals.reduce((total, proposal) => {
+      return total + calculateProductSpend(proposal);
+    }, 0);
+    
+    // Determine tier based on 2025 achievement
+    if (year2025Spend >= 100000) {
+      carriedOverTier = { discount: 25, tier: 'Founders Estate', baseSpend: year2025Spend };
+    } else if (year2025Spend >= 50000) {
+      carriedOverTier = { discount: 20, tier: 'Inner Circle', baseSpend: year2025Spend };
+    } else {
+      carriedOverTier = { discount: 15, tier: 'House Member', baseSpend: year2025Spend };
+    }
+    
+    // Use carried over tier, but progress is based on current year points
+    tierBaseSpend = carriedOverTier.baseSpend;
+  }
+  
   // Tier system: 15% at start, 20% at $50k, 25% at $100k
   const getCurrentTier = () => {
-    if (currentSpend >= 100000) {
+    // If we have a carried over tier (2026+), use that tier but calculate progress from current year
+    if (carriedOverTier) {
+      const tier = carriedOverTier.tier;
+      if (tier === 'Founders Estate') {
+        return { discount: 25, tier: 'Founders Estate', nextTier: null, progress: 100, nextTierName: null };
+      } else if (tier === 'Inner Circle') {
+        // Progress toward Founders Estate based on current year points
+        // They need 100k total, already have 50k+ from 2025, so need (100k - 50k) = 50k more
+        const progress = Math.min((currentYearSpend / 50000) * 100, 100);
+        return { discount: 20, tier: 'Inner Circle', nextTier: 'Founders Estate (25%)', progress: progress, nextTierName: 'Founders Estate' };
+      } else {
+        // House Member - progress toward Inner Circle (50k total needed)
+        const progress = Math.min((currentYearSpend / 50000) * 100, 100);
+        return { discount: 15, tier: 'House Member', nextTier: 'Inner Circle (20%)', progress: progress, nextTierName: 'Inner Circle' };
+      }
+    }
+    
+    // For 2025 or before, use standard logic
+    if (tierBaseSpend >= 100000) {
       return { discount: 25, tier: 'Founders Estate', nextTier: null, progress: 100, nextTierName: null };
-    } else if (currentSpend >= 50000) {
-      return { discount: 20, tier: 'Inner Circle', nextTier: 'Founders Estate (25%)', progress: ((currentSpend - 50000) / 50000) * 100, nextTierName: 'Founders Estate' };
+    } else if (tierBaseSpend >= 50000) {
+      return { discount: 20, tier: 'Inner Circle', nextTier: 'Founders Estate (25%)', progress: ((tierBaseSpend - 50000) / 50000) * 100, nextTierName: 'Founders Estate' };
     } else {
-      return { discount: 15, tier: 'House Member', nextTier: 'Inner Circle (20%)', progress: (currentSpend / 50000) * 100, nextTierName: 'Inner Circle' };
+      return { discount: 15, tier: 'House Member', nextTier: 'Inner Circle (20%)', progress: (tierBaseSpend / 50000) * 100, nextTierName: 'Inner Circle' };
     }
   };
 
@@ -1511,13 +1569,36 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
 
         {/* Progress Section */}
         {tier.nextTier && (() => {
-          const pointsToNextTier = tier.tier === 'House Member' 
-            ? Math.ceil(50000 - currentSpend)
-            : tier.tier === 'Inner Circle'
-            ? Math.ceil(100000 - currentSpend)
-            : 0;
-          const nextTierPoints = tier.tier === 'House Member' ? 50000 : 100000;
-          const currentPoints = Math.round(currentSpend);
+          // Calculate points to next tier based on current year spend and tier
+          let pointsToNextTier = 0;
+          let nextTierPoints = 0;
+          
+          if (tier.tier === 'House Member') {
+            // Need 50k total to reach Inner Circle
+            // If carried over, they start at 0 for current year, so need full 50k
+            // If not carried over, use current year spend
+            nextTierPoints = 50000;
+            if (carriedOverTier) {
+              // Carried over from 2025, so need 50k in current year
+              pointsToNextTier = Math.ceil(50000 - currentYearSpend);
+            } else {
+              // 2025 or earlier, use current year spend
+              pointsToNextTier = Math.ceil(50000 - currentYearSpend);
+            }
+          } else if (tier.tier === 'Inner Circle') {
+            // Need 100k total to reach Founders Estate
+            // If carried over, they already have 50k+ from 2025, so need remaining 50k
+            nextTierPoints = 100000;
+            if (carriedOverTier) {
+              // Already have 50k+ from 2025, need 50k more in current year
+              pointsToNextTier = Math.ceil(50000 - currentYearSpend);
+            } else {
+              // 2025 or earlier, use current year spend
+              pointsToNextTier = Math.ceil(100000 - currentYearSpend);
+            }
+          }
+          
+          const currentPoints = Math.round(currentYearSpend);
           const progressPercent = Math.round(tier.progress);
           
           return (
@@ -1629,7 +1710,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
             letterSpacing: '-0.03em',
             lineHeight: '1.1'
           }}>
-            {Math.round(currentSpend).toLocaleString()}
+            {Math.round(currentYearSpend).toLocaleString()}
           </div>
         </div>
         
