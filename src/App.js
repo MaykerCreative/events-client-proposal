@@ -1350,7 +1350,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
     <div>
       <h2 style={{ 
         fontSize: '28px', 
-        fontWeight: '600', 
+        fontWeight: '300', 
         color: brandCharcoal, 
         marginBottom: '32px',
         fontFamily: "'Domaine Text', serif",
@@ -1486,10 +1486,10 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
       <div>
         <h3 style={{ 
           fontSize: '18px', 
-          fontWeight: '600', 
+          fontWeight: '300', 
           color: brandCharcoal, 
           marginBottom: '24px',
-          fontFamily: "'NeueHaasUnica', sans-serif",
+          fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.01em'
         }}>
           Tier Benefits
@@ -1610,10 +1610,10 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
       <div style={{ marginTop: '48px' }}>
         <h3 style={{ 
           fontSize: '20px', 
-          fontWeight: '600', 
+          fontWeight: '300', 
           color: brandCharcoal, 
           marginBottom: '24px',
-          fontFamily: "'NeueHaasUnica', sans-serif",
+          fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.01em'
         }}>
           Contributing Projects
@@ -1773,9 +1773,16 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
 }
 
 function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedProposal, brandCharcoal = '#2C2C2C' }) {
-  const activeProposals = proposals.filter(p => p.status === 'Active');
-  const completedProposals = proposals.filter(p => p.status === 'Completed');
-  const cancelledProposals = proposals.filter(p => p.status === 'Cancelled');
+  // Use same filtering logic as DashboardView - match how Contributing Projects filters
+  const activeProposals = proposals.filter(p => 
+    p.status === 'Pending' || p.status === 'Active' || (p.status === 'Approved' && isFutureDate(p.startDate)) || (p.status === 'Confirmed' && isFutureDate(p.startDate))
+  );
+  const completedProposals = proposals.filter(p => 
+    (p.status === 'Approved' && isPastDate(p.startDate)) || (p.status === 'Completed') || (p.status === 'Confirmed' && isPastDate(p.startDate))
+  );
+  const cancelledProposals = proposals.filter(p => 
+    p.status === 'Cancelled'
+  );
 
   const getProposalsForTab = () => {
     switch (proposalTab) {
@@ -1790,7 +1797,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
     <div>
       <h2 style={{ 
         fontSize: '32px', 
-        fontWeight: '600', 
+        fontWeight: '300', 
         color: brandCharcoal, 
         marginBottom: '32px',
         fontFamily: "'Domaine Text', serif",
@@ -1985,7 +1992,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
     <div>
       <h2 style={{ 
         fontSize: '32px', 
-        fontWeight: '600', 
+        fontWeight: '300', 
         color: brandCharcoal, 
         marginBottom: '32px',
         fontFamily: "'Domaine Text', serif",
@@ -1995,7 +2002,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
       </h2>
       
       <div style={{ marginBottom: '24px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '16px' }}>Downloadable Product Images</h3>
+        <h3 style={{ fontSize: '18px', fontWeight: '300', color: brandCharcoal, marginBottom: '16px', fontFamily: "'Domaine Text', serif" }}>Downloadable Product Images</h3>
         <p style={{ fontSize: '14px', color: '#666', marginBottom: '24px' }}>
           Download PNG images of all rental products for your reference.
         </p>
