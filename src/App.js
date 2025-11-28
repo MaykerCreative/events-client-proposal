@@ -2379,6 +2379,264 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
   );
 }
 
+function ContactSection({ brandCharcoal = '#2C2C2C' }) {
+  const teamMembers = [
+    {
+      name: 'Megan Proby',
+      title: 'Founder & CEO',
+      email: 'Megan@Mayker.com',
+      photo: '/team/megan-proby.jpg'
+    },
+    {
+      name: 'Noelle Powell',
+      title: 'Client Services Director',
+      email: 'Noelle@Mayker.com',
+      photo: '/team/noelle-powell.jpg'
+    },
+    {
+      name: 'Constance Farro',
+      title: 'Partnerships Manager',
+      email: 'Constance@Mayker.com',
+      photo: '/team/constance-farro.jpg'
+    },
+    {
+      name: 'Lindsey Soklin',
+      title: 'Client Coordinator',
+      email: 'Lindsey@Mayker.com',
+      photo: '/team/lindsey-soklin.jpg'
+    },
+    {
+      name: 'Mara Meisberger',
+      title: 'Administrative Associate',
+      email: 'Mara@Mayker.com',
+      photo: '/team/mara-meisberger.jpg'
+    }
+  ];
+
+  return (
+    <div>
+      <h2 style={{ 
+        fontSize: '32px', 
+        fontWeight: '300', 
+        color: brandCharcoal,
+        fontFamily: "'Domaine Text', serif",
+        marginBottom: '48px',
+        letterSpacing: '-0.02em'
+      }}>
+        Contact
+      </h2>
+
+      {/* Team Section */}
+      <div style={{ marginBottom: '64px' }}>
+        <h3 style={{ 
+          fontSize: '13px', 
+          fontWeight: '500', 
+          color: brandCharcoal,
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          marginBottom: '32px'
+        }}>
+          Our Team
+        </h3>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '32px'
+        }}>
+          {teamMembers.map((member, index) => (
+            <div
+              key={index}
+              style={{
+                backgroundColor: '#fafaf8',
+                borderRadius: '16px',
+                padding: '32px',
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
+                border: '1px solid #e8e8e3',
+                transition: 'all 0.3s ease',
+                textAlign: 'center'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.04)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              {/* Photo */}
+              <div style={{
+                width: '160px',
+                height: '160px',
+                borderRadius: '50%',
+                margin: '0 auto 24px',
+                overflow: 'hidden',
+                backgroundColor: '#f3f4f6',
+                border: '2px solid #e8e8e3',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <img
+                  src={member.photo}
+                  alt={member.name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                  onError={(e) => {
+                    // Fallback to initials if image doesn't load
+                    e.target.style.display = 'none';
+                    const parent = e.target.parentElement;
+                    if (!parent.querySelector('.initials-fallback')) {
+                      const initials = member.name.split(' ').map(n => n[0]).join('');
+                      const fallback = document.createElement('div');
+                      fallback.className = 'initials-fallback';
+                      fallback.style.cssText = `
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 48px;
+                        font-weight: 300;
+                        color: #8b8b8b;
+                        font-family: 'Domaine Text', serif;
+                      `;
+                      fallback.textContent = initials;
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
+              </div>
+
+              {/* Name */}
+              <div style={{
+                fontSize: '20px',
+                fontWeight: '300',
+                color: brandCharcoal,
+                fontFamily: "'Domaine Text', serif",
+                marginBottom: '8px',
+                letterSpacing: '-0.01em'
+              }}>
+                {member.name}
+              </div>
+
+              {/* Title */}
+              <div style={{
+                fontSize: '13px',
+                fontWeight: '400',
+                color: '#8b8b8b',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                marginBottom: '16px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}>
+                {member.title}
+              </div>
+
+              {/* Email */}
+              <a
+                href={`mailto:${member.email}`}
+                style={{
+                  fontSize: '14px',
+                  fontWeight: '400',
+                  color: brandCharcoal,
+                  fontFamily: "'NeueHaasUnica', sans-serif",
+                  textDecoration: 'none',
+                  borderBottom: '1px solid transparent',
+                  transition: 'border-color 0.2s',
+                  display: 'inline-block'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderBottomColor = brandCharcoal;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderBottomColor = 'transparent';
+                }}
+              >
+                {member.email}
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Contact Information */}
+      <div style={{
+        backgroundColor: '#fafaf8',
+        borderRadius: '16px',
+        padding: '40px',
+        border: '1px solid #e8e8e3',
+        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
+      }}>
+        <h3 style={{ 
+          fontSize: '13px', 
+          fontWeight: '500', 
+          color: brandCharcoal,
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          marginBottom: '24px'
+        }}>
+          General Inquiries
+        </h3>
+        <div style={{
+          fontSize: '16px',
+          fontWeight: '400',
+          color: brandCharcoal,
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          lineHeight: '1.8'
+        }}>
+          <div style={{ marginBottom: '12px' }}>
+            <strong>Email:</strong>{' '}
+            <a
+              href="mailto:events@mayker.com"
+              style={{
+                color: brandCharcoal,
+                textDecoration: 'none',
+                borderBottom: '1px solid transparent',
+                transition: 'border-color 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderBottomColor = brandCharcoal;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderBottomColor = 'transparent';
+              }}
+            >
+              events@mayker.com
+            </a>
+          </div>
+          <div>
+            <strong>Phone:</strong>{' '}
+            <a
+              href="tel:+16159701244"
+              style={{
+                color: brandCharcoal,
+                textDecoration: 'none',
+                borderBottom: '1px solid transparent',
+                transition: 'border-color 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderBottomColor = brandCharcoal;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderBottomColor = 'transparent';
+              }}
+            >
+              (615) 970-1244
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
   // TODO: Fetch resources from API
   const resources = [
@@ -2674,8 +2932,7 @@ function DashboardView({ clientInfo, onLogout }) {
 
   const handleNavClick = (section) => {
     if (section === 'contact') {
-      // TODO: Implement contact section
-      alert('Contact section coming soon');
+      setActiveSection('contact');
       return;
     }
     if (section === 'activity') {
@@ -2795,6 +3052,10 @@ function DashboardView({ clientInfo, onLogout }) {
           
           {activeSection === 'resources' && (
             <ResourcesSection brandCharcoal={brandCharcoal} />
+          )}
+          
+          {activeSection === 'contact' && (
+            <ContactSection brandCharcoal={brandCharcoal} />
           )}
         </div>
 
