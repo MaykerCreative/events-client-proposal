@@ -1367,12 +1367,13 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
       {/* Image Banner */}
       <div style={{
         width: '100%',
-        height: '300px',
-        marginBottom: '48px',
-        borderRadius: '8px',
+        height: '320px',
+        marginBottom: '56px',
+        borderRadius: '12px',
         overflow: 'hidden',
         position: 'relative',
-        backgroundColor: '#f5f5f0'
+        backgroundColor: '#1a1a1a',
+        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)'
       }}>
         <img 
           src="/account-banner.jpg" 
@@ -1380,21 +1381,24 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover'
+            objectFit: 'cover',
+            filter: 'brightness(0.7) contrast(1.1) saturate(1.2)',
+            opacity: '0.9'
           }}
           onError={(e) => {
-            // Fallback if image doesn't exist yet - show styled text overlay
+            // Fallback if image doesn't exist yet
             e.target.style.display = 'none';
-            const overlay = document.createElement('div');
-            overlay.style.cssText = 'position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px;';
-            overlay.innerHTML = `
-              <div style="font-size: 48px; font-weight: 300; font-family: 'Domaine Text', serif; color: #2C2C2C; margin-bottom: 16px; text-align: center; letter-spacing: -0.02em;">Your Reserve Status</div>
-              <div style="width: 60px; height: 1px; background: #2C2C2C; margin: 0 auto 20px;"></div>
-              <div style="font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #666; font-family: 'NeueHaasUnica', sans-serif; text-align: center; line-height: 1.6;">A LOOK AT YOUR COLLABORATION, EXCLUSIVES, AND MEMBER BENEFITS.</div>
-            `;
-            e.target.parentElement.appendChild(overlay);
           }}
         />
+        {/* Dark overlay for richer look */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5))'
+        }} />
         {/* Text Overlay */}
         <div style={{
           position: 'absolute',
@@ -1406,34 +1410,36 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '40px',
-          backgroundColor: 'rgba(250, 250, 248, 0.85)'
+          padding: '48px',
+          zIndex: 1
         }}>
           <div style={{
-            fontSize: '48px',
+            fontSize: '52px',
             fontWeight: '300',
             fontFamily: "'Domaine Text', serif",
-            color: brandCharcoal,
-            marginBottom: '16px',
+            color: 'white',
+            marginBottom: '20px',
             textAlign: 'center',
-            letterSpacing: '-0.02em'
+            letterSpacing: '-0.02em',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
           }}>
             Your Reserve Status
           </div>
           <div style={{
             width: '60px',
             height: '1px',
-            background: brandCharcoal,
-            margin: '0 auto 20px'
+            background: 'rgba(255, 255, 255, 0.6)',
+            margin: '0 auto 24px'
           }} />
           <div style={{
             fontSize: '11px',
-            letterSpacing: '0.15em',
+            letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: '#666',
+            color: 'rgba(255, 255, 255, 0.9)',
             fontFamily: "'NeueHaasUnica', sans-serif",
             textAlign: 'center',
-            lineHeight: '1.6'
+            lineHeight: '1.6',
+            fontWeight: '400'
           }}>
             A LOOK AT YOUR COLLABORATION, EXCLUSIVES, AND MEMBER BENEFITS.
           </div>
@@ -1451,54 +1457,58 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
         Performance & Annual Spend
       </h2>
       
-      {/* YTD Spend Card */}
+      {/* YTD Points Card */}
       <div style={{ 
-        backgroundColor: '#f9fafb', 
-        padding: '28px', 
-        borderRadius: '12px', 
-        marginBottom: '32px',
-        border: '1px solid #e5e7eb'
+        backgroundColor: '#fafaf8', 
+        padding: '32px', 
+        borderRadius: '16px', 
+        marginBottom: '40px',
+        border: 'none',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
       }}>
         <div style={{ 
           fontSize: '11px', 
-          fontWeight: '600', 
-          color: '#666', 
+          fontWeight: '500', 
+          color: '#8b8b8b', 
           textTransform: 'uppercase', 
-          letterSpacing: '0.1em', 
-          marginBottom: '10px',
+          letterSpacing: '0.15em', 
+          marginBottom: '16px',
           fontFamily: "'NeueHaasUnica', sans-serif"
         }}>
-          Year-to-Date Spend ({new Date().getFullYear()})
+          Year-to-Date Points ({new Date().getFullYear()})
         </div>
         <div style={{ 
-          fontSize: '48px', 
-          fontWeight: '700', 
+          fontSize: '56px', 
+          fontWeight: '300', 
           color: brandCharcoal, 
-          marginBottom: '10px',
+          marginBottom: '12px',
           fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.03em',
           lineHeight: '1.1'
         }}>
-          ${currentSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          {Math.round(currentSpend).toLocaleString()}
         </div>
         <div style={{ 
-          fontSize: '14px', 
-          color: '#666',
+          fontSize: '13px', 
+          color: '#8b8b8b',
           fontFamily: "'NeueHaasUnica', sans-serif",
-          fontWeight: '500'
+          fontWeight: '400'
         }}>
-          {spendData?.proposalCount || 0} {spendData?.proposalCount === 1 ? 'proposal' : 'proposals'}
+          {spendData?.proposalCount || 0} {spendData?.proposalCount === 1 ? 'project' : 'projects'}
         </div>
       </div>
 
-      {/* Tier Status */}
+      {/* Tier Status with Circular Progress */}
       <div style={{ 
         backgroundColor: '#fafaf8', 
         border: 'none',
-        padding: '32px', 
-        borderRadius: '16px', 
-        marginBottom: '40px',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+        padding: '48px', 
+        borderRadius: '20px', 
+        marginBottom: '48px',
+        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
       }}>
         <div style={{ 
           fontSize: '11px', 
@@ -1506,71 +1516,113 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
           color: '#8b8b8b',
           textTransform: 'uppercase',
           letterSpacing: '0.15em',
-          marginBottom: '12px',
+          marginBottom: '32px',
           fontFamily: "'NeueHaasUnica', sans-serif"
         }}>
           Your Current Standing
         </div>
+        
+        {/* Circular Progress */}
         <div style={{ 
-          fontSize: '24px', 
-          fontWeight: '300', 
-          color: brandCharcoal, 
-          marginBottom: '20px',
-          fontFamily: "'Domaine Text', serif",
-          letterSpacing: '-0.01em'
+          position: 'relative',
+          width: '200px',
+          height: '200px',
+          marginBottom: '32px'
         }}>
-          {tier.tier}
+          <svg width="200" height="200" style={{ transform: 'rotate(-90deg)' }}>
+            {/* Background circle */}
+            <circle
+              cx="100"
+              cy="100"
+              r="85"
+              fill="none"
+              stroke="#e8e8e3"
+              strokeWidth="8"
+            />
+            {/* Progress circle */}
+            <circle
+              cx="100"
+              cy="100"
+              r="85"
+              fill="none"
+              stroke={tier.tier === 'House Member' ? '#6b7d47' : tier.tier === 'Inner Circle' ? '#d4af37' : '#2C2C2C'}
+              strokeWidth="8"
+              strokeLinecap="round"
+              strokeDasharray={`${2 * Math.PI * 85}`}
+              strokeDashoffset={`${2 * Math.PI * 85 * (1 - tier.progress / 100)}`}
+              style={{ transition: 'stroke-dashoffset 0.8s ease' }}
+            />
+          </svg>
+          {/* Center content */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            textAlign: 'center'
+          }}>
+            <div style={{ 
+              fontSize: '36px', 
+              fontWeight: '300', 
+              color: brandCharcoal,
+              fontFamily: "'Domaine Text', serif",
+              letterSpacing: '-0.02em',
+              lineHeight: '1.1',
+              marginBottom: '4px'
+            }}>
+              {tier.tier}
+            </div>
+            <div style={{ 
+              fontSize: '24px', 
+              fontWeight: '300', 
+              color: '#8b8b8b',
+              fontFamily: "'Domaine Text', serif",
+              letterSpacing: '-0.01em'
+            }}>
+              {tier.discount}%
+            </div>
+          </div>
         </div>
-        <div style={{ 
-          fontSize: '42px', 
-          fontWeight: '300', 
-          color: brandCharcoal, 
-          marginBottom: '12px',
-          fontFamily: "'Domaine Text', serif",
-          letterSpacing: '-0.03em',
-          lineHeight: '1.1'
-        }}>
-          {tier.discount}% Discount
-        </div>
+
         {tier.nextTier && (
           <>
             <div style={{ 
-              fontSize: '14px', 
-              color: '#666', 
-              marginBottom: '20px',
-              fontFamily: "'NeueHaasUnica', sans-serif",
-              fontWeight: '500'
-            }}>
-              Next Tier: <span style={{ color: brandCharcoal, fontWeight: '600' }}>{tier.nextTier}</span>
-            </div>
-            <div style={{ marginBottom: '12px' }}>
-              <div style={{ 
-                width: '100%', 
-                height: '4px', 
-                backgroundColor: '#e8e8e3', 
-                borderRadius: '2px',
-                overflow: 'hidden'
-              }}>
-                <div style={{
-                  width: `${Math.min(tier.progress, 100)}%`,
-                  height: '100%',
-                  backgroundColor: tier.tier === 'House Member' ? '#6b7d47' : tier.tier === 'Inner Circle' ? '#d4af37' : '#2C2C2C',
-                  transition: 'width 0.5s ease',
-                  borderRadius: '2px'
-                }} />
-              </div>
-            </div>
-            <div style={{ 
               fontSize: '13px', 
               color: '#666', 
+              marginBottom: '8px',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              fontWeight: '400',
+              textAlign: 'center'
+            }}>
+              Next Tier: <span style={{ color: brandCharcoal, fontWeight: '500' }}>{tier.nextTier}</span>
+            </div>
+            <div style={{ 
+              fontSize: '14px', 
+              color: brandCharcoal, 
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              fontWeight: '500',
+              textAlign: 'center',
+              marginBottom: '20px'
+            }}>
+              {tier.tier === 'House Member' 
+                ? `${(50000 - currentSpend).toLocaleString()} points to next level`
+                : tier.tier === 'Inner Circle'
+                ? `${(100000 - currentSpend).toLocaleString()} points to next level`
+                : 'Maximum tier achieved'}
+            </div>
+            <div style={{ 
+              fontSize: '12px', 
+              color: '#8b8b8b', 
               display: 'flex', 
               justifyContent: 'space-between',
+              width: '100%',
+              maxWidth: '300px',
               fontFamily: "'NeueHaasUnica', sans-serif",
-              fontWeight: '500'
+              fontWeight: '400'
             }}>
-              <span>${currentSpend.toLocaleString()}</span>
+              <span>{Math.round(currentSpend).toLocaleString()} pts</span>
               <span>
-                {tier.tier === 'House Member' ? '$50,000' : '$100,000'}
+                {tier.tier === 'House Member' ? '50,000 pts' : '100,000 pts'}
               </span>
             </div>
           </>
@@ -1698,7 +1750,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
               fontWeight: '400',
               lineHeight: '1.5'
             }}>
-              At $50k spend
+              At 50,000 points
             </div>
           </div>
           
@@ -1754,7 +1806,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
               fontWeight: '400',
               lineHeight: '1.5'
             }}>
-              At $100k spend
+              At 100,000 points
             </div>
           </div>
         </div>
@@ -1843,7 +1895,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
                     }}>
-                      Product Spend
+                      Points Earned
                     </th>
                   </tr>
                 </thead>
@@ -1893,7 +1945,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                           textAlign: 'right',
                           fontFamily: "'NeueHaasUnica', sans-serif"
                         }}>
-                          ${productSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          {Math.round(productSpend).toLocaleString()} pts
                         </td>
                       </tr>
                     );
@@ -1916,7 +1968,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                 margin: 0,
                 fontStyle: 'italic'
               }}>
-                Total spend is compiled from rental product, product care fees, and service fees. It does not include delivery fees or tax.
+                Points are earned from rental product, product care fees, and service fees. Delivery fees and tax are excluded.
               </p>
             </div>
           </>
