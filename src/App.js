@@ -2131,6 +2131,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             </div>
           </div>
         </div>
+        </div>
       </div>
 
       {/* 4. Featured Products from Shopify */}
