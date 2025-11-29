@@ -2076,14 +2076,14 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               }
             }}
           />
-          {/* Text overlay - vertically centered */}
+          {/* Text overlay - moved up for better balance */}
           <div style={{
             position: 'absolute',
-            top: '50%',
+            top: '35%',
             left: 0,
             right: 0,
             transform: 'translateY(-50%)',
-            background: 'linear-gradient(to bottom, rgba(250, 248, 243, 0.85) 0%, rgba(250, 248, 243, 0.60) 40%, rgba(250, 248, 243, 0.00) 100%)',
+            background: 'linear-gradient(to bottom, rgba(250, 248, 243, 0.82) 0%, rgba(250, 248, 243, 0.78) 40%, rgba(250, 248, 243, 0.00) 100%)',
             padding: '48px',
             color: brandCharcoal
           }}>
@@ -2096,11 +2096,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               opacity: 0.4
             }} />
             <div style={{
-              fontSize: '30px',
+              fontSize: '34px',
               fontWeight: '300',
-              color: '#0f0f0f',
+              color: '#080808',
               fontFamily: "'Domaine Text', serif",
-              letterSpacing: '-0.02em',
+              letterSpacing: '0.4px',
               lineHeight: '1.2',
               marginBottom: '10px'
             }}>
@@ -2145,7 +2145,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             letterSpacing: '-0.01em',
             marginBottom: '32px'
           }}>
-            Featured Products
+            Discover the Newest Releases
           </div>
           
           {loadingProducts ? (
@@ -2555,7 +2555,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1.2fr',
-          gap: '80px',
+          gap: '68px',
           alignItems: 'center'
         }}>
           {/* Left Column: Heading + Subheading */}
@@ -2567,7 +2567,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.03em',
               lineHeight: '1.2',
-              marginBottom: '16px'
+              marginBottom: '24px'
             }}>
               Need anything?
             </div>
@@ -2591,13 +2591,13 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             alignItems: 'center',
             gap: '32px',
             padding: '40px',
-            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            backgroundColor: 'rgba(250, 248, 243, 0.4)',
             borderRadius: '16px',
-            border: '1px solid rgba(232, 232, 227, 0.5)'
+            border: '1px solid rgba(232, 232, 227, 0.3)'
           }}>
             <div style={{
-              width: '120px',
-              height: '120px',
+              width: '138px',
+              height: '138px',
               borderRadius: '50%',
               backgroundColor: '#f0f0f0',
               overflow: 'hidden',
@@ -2637,11 +2637,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               </div>
               <div style={{
                 fontSize: '12px',
-                color: '#5a5a5a',
+                color: '#2a2a2a',
                 fontFamily: "'NeueHaasUnica', sans-serif",
-                fontWeight: '400',
-                letterSpacing: '0.03em',
-                textTransform: 'uppercase',
+                fontWeight: '300',
+                letterSpacing: '0.01em',
+                textTransform: 'none',
                 marginBottom: '16px',
                 lineHeight: '1.4'
               }}>
