@@ -1785,6 +1785,17 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
 
   return (
     <div>
+      {/* Autographer Font */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @font-face {
+          font-family: 'Autographer';
+          src: url('/Autographer.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+      ` }} />
+      
       {/* 1. Typographic Welcome Header */}
       <div style={{
         backgroundColor: '#E7E6E2',
@@ -2306,11 +2317,14 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
 
       {/* 5. Active Projects Snapshot */}
       {activeProposals.length > 0 && (
-        <div style={smallerPanelStyle}>
+        <div style={{
+          ...smallerPanelStyle,
+          backgroundColor: '#3E0D12'
+        }}>
           <div style={{
             fontSize: '18px',
             fontWeight: '300',
-            color: brandCharcoal,
+            color: '#fafaf8',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.01em',
             marginBottom: '24px'
@@ -2691,19 +2705,19 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
       <div style={{
         width: '100%',
         padding: '80px 48px',
-        backgroundColor: '#E7E6E2',
+        backgroundColor: 'transparent',
         marginTop: '48px',
         textAlign: 'center'
       }}>
         <div style={{
-          fontSize: '14px',
+          fontSize: '18px',
           color: '#2a2a2a',
-          fontFamily: "'Domaine Text', serif",
-          fontWeight: '300',
-          letterSpacing: '-0.01em',
+          fontFamily: "'Autographer', cursive",
+          fontWeight: 'normal',
+          letterSpacing: '0.02em',
           lineHeight: '1.6'
         }}>
-          Thank you for being a part of Mayker Reserve.
+          Thank you for being part of Mayker Reserve.
         </div>
       </div>
     </div>
