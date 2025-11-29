@@ -3552,8 +3552,7 @@ function DashboardView({ clientInfo, onLogout }) {
       return;
     }
     if (section === 'activity') {
-      // TODO: Implement activity section
-      alert('Activity section coming soon');
+      setActiveSection('activity');
       return;
     }
     setActiveSection(section);
@@ -3649,6 +3648,12 @@ function DashboardView({ clientInfo, onLogout }) {
           )}
           
           {activeSection === 'performance' && (
+            <div style={{ padding: '48px', textAlign: 'center', color: '#999', fontFamily: "'NeueHaasUnica', sans-serif" }}>
+              Overview content coming soon.
+            </div>
+          )}
+          
+          {activeSection === 'activity' && (
             <PerformanceSection 
               spendData={spendData}
               proposals={proposals}
