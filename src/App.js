@@ -2474,7 +2474,10 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
       )}
 
       {/* 6. Recent Activity Feed */}
-      <div style={smallerPanelStyle}>
+      <div style={{
+        ...smallerPanelStyle,
+        backgroundColor: '#EFEDE9'
+      }}>
         <div style={{
           fontSize: '18px',
           fontWeight: '300',
@@ -2553,6 +2556,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
       {/* 7. Concierge Section - Large, Inviting */}
       <div style={{
         ...panelStyle,
+        backgroundColor: '#F2F1ED',
         padding: '80px 64px',
         minHeight: '400px'
       }}>
@@ -2703,6 +2707,26 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* 8. Footer Band */}
+      <div style={{
+        width: '100%',
+        padding: '80px 48px',
+        backgroundColor: '#E7E6E2',
+        marginTop: '48px',
+        textAlign: 'center'
+      }}>
+        <div style={{
+          fontSize: '14px',
+          color: '#2a2a2a',
+          fontFamily: "'Domaine Text', serif",
+          fontWeight: '300',
+          letterSpacing: '-0.01em',
+          lineHeight: '1.6'
+        }}>
+          Thank you for being a part of Mayker Reserve.
         </div>
       </div>
     </div>
