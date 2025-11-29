@@ -2011,46 +2011,47 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
       {/* 3. Member Perk */}
       <div style={panelStyle}>
         <div style={{
-          fontSize: '18px',
+          fontSize: '22px',
           fontWeight: '300',
-          color: brandCharcoal,
+          color: '#1a1a1a',
           fontFamily: "'Domaine Text', serif",
-          letterSpacing: '-0.01em',
-          marginBottom: '24px'
+          letterSpacing: '-0.02em',
+          lineHeight: '1.2',
+          marginBottom: '16px'
         }}>
           {currentMonth} Member Perk
         </div>
         
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
+          gridTemplateColumns: '48% 52%',
           gap: '48px',
-          alignItems: 'center'
+          alignItems: 'flex-start'
         }}>
           <div>
             <div style={{
-              fontSize: '14px',
-              color: brandCharcoal,
+              fontSize: '15px',
+              color: '#2a2a2a',
               fontFamily: "'NeueHaasUnica', sans-serif",
               fontWeight: '400',
-              lineHeight: '1.7',
-              marginBottom: '24px'
+              lineHeight: '1.5',
+              marginBottom: '16px'
             }}>
-              A year-end thank you: this December, Reserve Members receive 25% off all rental products.
+              A year-end thank you: Reserve Members receive 25% off all rental products.
             </div>
             
             <div style={{
-              fontSize: '12px',
-              color: '#8b8b8b',
+              fontSize: '11px',
+              color: '#6b6b6b',
               fontFamily: "'NeueHaasUnica', sans-serif",
               fontWeight: '400',
-              lineHeight: '1.8',
-              marginTop: '20px'
+              lineHeight: '1.6',
+              letterSpacing: '0.01em'
             }}>
-              <div style={{ marginBottom: '8px' }}>• Projects opened + closed between Dec 1–31, 2025</div>
-              <div style={{ marginBottom: '8px' }}>• Events occurring between Dec 1, 2025 – Mar 31, 2026</div>
-              <div style={{ marginBottom: '8px' }}>• Applies to rental products only</div>
-              <div>• Excludes custom fabrication + procurement</div>
+              <div style={{ marginBottom: '6px' }}>Projects opened + closed between Dec 1–31, 2025</div>
+              <div style={{ marginBottom: '6px' }}>Events occurring between Dec 1, 2025 – Mar 31, 2026</div>
+              <div style={{ marginBottom: '6px' }}>Applies to rental products only</div>
+              <div>Excludes custom fabrication + procurement</div>
             </div>
           </div>
           
@@ -2516,42 +2517,41 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           textAlign: 'center'
         }}>
           <div style={{
-            fontSize: '18px',
+            fontSize: '16px',
             fontWeight: '300',
-            color: brandCharcoal,
+            color: '#1a1a1a',
             fontFamily: "'Domaine Text', serif",
-            letterSpacing: '-0.01em',
-            marginBottom: '12px'
+            letterSpacing: '-0.02em',
+            lineHeight: '1.3',
+            marginBottom: '8px'
           }}>
             Need anything?
           </div>
           <div style={{
-            fontSize: '14px',
-            color: '#8b8b8b',
+            fontSize: '13px',
+            color: '#6b6b6b',
             fontFamily: "'NeueHaasUnica', sans-serif",
             fontWeight: '400',
-            lineHeight: '1.6',
-            marginBottom: '32px',
-            maxWidth: '500px'
+            lineHeight: '1.5',
+            letterSpacing: '0.01em',
+            marginBottom: '20px',
+            maxWidth: '480px'
           }}>
-            Your Reserve team is here to support your projects.
+            Your Reserve team is here to support your next event.
           </div>
           
-          {/* Noelle Powell Card */}
+          {/* Noelle Powell - Integrated directly in panel */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
             gap: '20px',
-            backgroundColor: 'white',
-            padding: '24px 32px',
-            borderRadius: '12px',
-            border: '1px solid #e8e8e3',
-            maxWidth: '400px',
+            padding: '20px 24px',
+            maxWidth: '420px',
             width: '100%'
           }}>
             <div style={{
-              width: '64px',
-              height: '64px',
+              width: '72px',
+              height: '72px',
               borderRadius: '50%',
               backgroundColor: '#f0f0f0',
               overflow: 'hidden',
@@ -2579,19 +2579,24 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               textAlign: 'left'
             }}>
               <div style={{
-                fontSize: '16px',
-                fontWeight: '500',
-                color: brandCharcoal,
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                marginBottom: '4px'
+                fontSize: '17px',
+                fontWeight: '300',
+                color: '#1a1a1a',
+                fontFamily: "'Domaine Text', serif",
+                letterSpacing: '-0.01em',
+                marginBottom: '4px',
+                lineHeight: '1.3'
               }}>
                 Noelle Powell
               </div>
               <div style={{
-                fontSize: '12px',
-                color: '#8b8b8b',
+                fontSize: '11px',
+                color: '#4a4a4a',
                 fontFamily: "'NeueHaasUnica', sans-serif",
-                marginBottom: '8px'
+                fontWeight: '400',
+                letterSpacing: '0.02em',
+                marginBottom: '6px',
+                lineHeight: '1.4'
               }}>
                 Client Services Director
               </div>
@@ -2602,7 +2607,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                   color: '#6b7d47',
                   fontFamily: "'NeueHaasUnica', sans-serif",
                   textDecoration: 'none',
-                  fontWeight: '500'
+                  fontWeight: '400',
+                  letterSpacing: '0.01em'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.textDecoration = 'underline';
