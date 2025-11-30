@@ -2479,7 +2479,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         gridTemplateColumns: '1fr 1fr',
         minHeight: '60vh',
         marginBottom: '48px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        borderRadius: '20px'
       }}>
         {/* Left: Full-bleed Image */}
         <div style={{
@@ -2605,17 +2606,17 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
       {/* 9. Concierge Section - Editorial 3-Column Layout */}
       <div style={{
         backgroundColor: '#F2F1ED',
-        padding: '96px 48px',
-        marginBottom: '48px'
+        padding: '64px 48px',
+        marginBottom: '48px',
+        borderRadius: '20px'
       }}>
         <div style={{
-          fontSize: '24px',
+          fontSize: '18px',
           fontWeight: '300',
           color: brandCharcoal,
           fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.01em',
-          marginBottom: '56px',
-          textAlign: 'center'
+          marginBottom: '24px'
         }}>
           Concierge
         </div>
@@ -2681,7 +2682,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             <a 
               href="mailto:events@mayker.com"
               style={{
-                fontSize: '14px',
+                fontSize: '12px',
                 color: '#6b7d47',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textDecoration: 'none',
@@ -2758,7 +2759,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             <a 
               href="mailto:noelle@mayker.com"
               style={{
-                fontSize: '14px',
+                fontSize: '12px',
                 color: '#6b7d47',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textDecoration: 'none',
@@ -2835,7 +2836,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             <a 
               href="mailto:constance@mayker.com"
               style={{
-                fontSize: '14px',
+                fontSize: '12px',
                 color: '#6b7d47',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textDecoration: 'none',
