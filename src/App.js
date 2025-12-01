@@ -1739,10 +1739,40 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
     const proposalYear = start.getFullYear();
     return proposalYear === currentYear;
   }).sort((a, b) => {
-    // Sort by date - use timestamp for historical, startDate for regular
-    const dateA = a.isHistorical && a.timestamp ? new Date(a.timestamp) : (a.startDate ? parseDateSafely(a.startDate) : new Date(0));
-    const dateB = b.isHistorical && b.timestamp ? new Date(b.timestamp) : (b.startDate ? parseDateSafely(b.startDate) : new Date(0));
-    return (dateB || new Date(0)) - (dateA || new Date(0));
+    // Sort by date - most recent first (descending)
+    // Use timestamp for historical, startDate for regular, eventDate as fallback
+    let dateA = null;
+    if (a.isHistorical && a.timestamp) {
+      dateA = new Date(a.timestamp);
+    } else if (a.startDate) {
+      dateA = parseDateSafely(a.startDate);
+    } else if (a.eventDate) {
+      // Try to parse eventDate if it's a date string
+      if (typeof a.eventDate === 'string' && a.eventDate.includes('GMT')) {
+        dateA = new Date(a.eventDate);
+      } else if (a.eventDate instanceof Date) {
+        dateA = a.eventDate;
+      }
+    }
+    
+    let dateB = null;
+    if (b.isHistorical && b.timestamp) {
+      dateB = new Date(b.timestamp);
+    } else if (b.startDate) {
+      dateB = parseDateSafely(b.startDate);
+    } else if (b.eventDate) {
+      // Try to parse eventDate if it's a date string
+      if (typeof b.eventDate === 'string' && b.eventDate.includes('GMT')) {
+        dateB = new Date(b.eventDate);
+      } else if (b.eventDate instanceof Date) {
+        dateB = b.eventDate;
+      }
+    }
+    
+    // Most recent first (descending order)
+    const timeA = dateA ? dateA.getTime() : 0;
+    const timeB = dateB ? dateB.getTime() : 0;
+    return timeB - timeA; // Descending: newest first
   });
   
   const currentYearSpend = yearProposals.reduce((total, proposal) => {
@@ -1840,14 +1870,41 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
   const currentPoints = Math.round(currentYearSpend);
   const progressPercent = Math.round(tier.progress);
   
-  // Get active proposals (up to 3)
+  // Get active proposals (up to 3) - most recent first
   const activeProposals = proposals.filter(p => 
     p.status === 'Pending' || p.status === 'Active' || (p.status === 'Approved' && isFutureDate(p.startDate)) || (p.status === 'Confirmed' && isFutureDate(p.startDate))
   )
   .sort((a, b) => {
-    const dateA = a.eventDate ? new Date(a.eventDate) : (a.startDate ? new Date(a.startDate) : new Date(0));
-    const dateB = b.eventDate ? new Date(b.eventDate) : (b.startDate ? new Date(b.startDate) : new Date(0));
-    return dateA - dateB; // Sort ascending (earliest first)
+    // Get dates for sorting - most recent first
+    let dateA = null;
+    if (a.isHistorical && a.timestamp) {
+      dateA = new Date(a.timestamp);
+    } else if (a.startDate) {
+      dateA = parseDateSafely(a.startDate);
+    } else if (a.eventDate) {
+      if (typeof a.eventDate === 'string' && a.eventDate.includes('GMT')) {
+        dateA = new Date(a.eventDate);
+      } else if (a.eventDate instanceof Date) {
+        dateA = a.eventDate;
+      }
+    }
+    
+    let dateB = null;
+    if (b.isHistorical && b.timestamp) {
+      dateB = new Date(b.timestamp);
+    } else if (b.startDate) {
+      dateB = parseDateSafely(b.startDate);
+    } else if (b.eventDate) {
+      if (typeof b.eventDate === 'string' && b.eventDate.includes('GMT')) {
+        dateB = new Date(b.eventDate);
+      } else if (b.eventDate instanceof Date) {
+        dateB = b.eventDate;
+      }
+    }
+    
+    const timeA = dateA ? dateA.getTime() : 0;
+    const timeB = dateB ? dateB.getTime() : 0;
+    return timeB - timeA; // Descending: newest first
   })
   .slice(0, 3);
   
@@ -3969,11 +4026,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                           fontSize: '14px',
                           color: brandCharcoal
                         }}>
-                          {proposal.eventDate || (proposal.startDate ? new Date(proposal.startDate).toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'short', 
-                            day: 'numeric' 
-                          }) : 'N/A')}
+                          {formatDateRange(proposal) || 'N/A'}
                         </td>
                         <td style={{ 
                           padding: '14px 16px', 
