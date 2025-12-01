@@ -2586,7 +2586,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '48px'
-        }}>
+        }} className="grid-2-col">
         {/* Membership Status (Medallion Panel) */}
         <div style={{
           ...panelStyle,
@@ -4478,7 +4478,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
           </div>
         ) : (
           <>
-            <div style={{ 
+            <div className="table-wrapper" style={{ 
               overflowX: 'auto',
               border: '1px solid #e5e7eb',
               borderRadius: '8px',
@@ -6093,10 +6093,16 @@ function DashboardView({ clientInfo, onLogout }) {
   const [profileData, setProfileData] = useState(null);
   const [editingProfile, setEditingProfile] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   useEffect(() => {
     fetchData();
   }, []);
+  
+  // Close mobile menu when section changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [activeSection]);
   
   // Scroll to top when navigating between sections or views
   useEffect(() => {
@@ -6366,14 +6372,194 @@ function DashboardView({ clientInfo, onLogout }) {
     <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', display: 'flex', flexDirection: 'column' }}>
       {/* Fonts are loaded via index.css */}
       
+      {/* Global Mobile Styles */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        /* Mobile Menu Button - Show on mobile, hide on desktop */
+        .mobile-menu-button {
+          display: flex !important;
+        }
+        @media (min-width: 769px) {
+          .mobile-menu-button {
+            display: none !important;
+          }
+        }
+        
+        /* Desktop Navigation - Hide on mobile, show on desktop */
+        .desktop-nav {
+          display: none !important;
+        }
+        @media (min-width: 769px) {
+          .desktop-nav {
+            display: block !important;
+          }
+        }
+        
+        /* Desktop-only elements */
+        .desktop-only {
+          display: block;
+        }
+        @media (max-width: 768px) {
+          .desktop-only {
+            display: none !important;
+          }
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+          /* Ensure touch targets are at least 44px */
+          button, a, input, select, textarea {
+            min-height: 44px;
+            min-width: 44px;
+          }
+          
+          /* Prevent text size adjustment on iOS */
+          input, select, textarea {
+            font-size: 16px !important;
+          }
+          
+          /* Smooth scrolling */
+          html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+          }
+          
+          /* Main content padding */
+          .main-content {
+            padding: 16px 12px !important;
+          }
+          
+          /* Content area padding */
+          .content-area {
+            padding: 20px 16px !important;
+          }
+          
+          /* Make tables horizontally scrollable */
+          .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -16px;
+            padding: 0 16px;
+          }
+          
+          .table-wrapper table {
+            min-width: 600px;
+          }
+          
+          /* Responsive grid layouts - stack on mobile */
+          .grid-2-col {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          
+          .grid-3-col {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          
+          /* Flex layouts - stack on mobile */
+          .flex-row {
+            flex-direction: column !important;
+          }
+          
+          /* Stack side-by-side layouts */
+          .side-by-side {
+            flex-direction: column !important;
+          }
+          
+          /* Reduce font sizes */
+          h1 { font-size: 28px !important; }
+          h2 { font-size: 24px !important; }
+          h3 { font-size: 20px !important; }
+          
+          /* Adjust spacing */
+          .spacing-large {
+            margin: 24px 0 !important;
+          }
+          
+          .spacing-medium {
+            margin: 16px 0 !important;
+          }
+          
+          /* Hide bottom navigation on mobile (use hamburger menu instead) */
+          .bottom-nav {
+            display: none !important;
+          }
+        }
+        
+        /* Tablet styles (768px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .main-content {
+            padding: 32px 24px !important;
+          }
+          
+          .content-area {
+            padding: 32px 24px !important;
+          }
+        }
+      ` }} />
+      
       {/* Header */}
-      <div style={{ backgroundColor: 'white', borderBottom: '1px solid #e5e7eb', padding: '20px 32px' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+      <div style={{ 
+        backgroundColor: 'white', 
+        borderBottom: '1px solid #e5e7eb', 
+        padding: '16px 20px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000
+      }}>
+        <div style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              style={{
+                display: 'none',
+                flexDirection: 'column',
+                gap: '4px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px',
+                minWidth: '44px',
+                minHeight: '44px',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+              className="mobile-menu-button"
+            >
+              <div style={{
+                width: '24px',
+                height: '2px',
+                backgroundColor: brandCharcoal,
+                transition: 'all 0.3s ease',
+                transform: mobileMenuOpen ? 'rotate(45deg) translateY(8px)' : 'none'
+              }} />
+              <div style={{
+                width: '24px',
+                height: '2px',
+                backgroundColor: brandCharcoal,
+                transition: 'all 0.3s ease',
+                opacity: mobileMenuOpen ? 0 : 1
+              }} />
+              <div style={{
+                width: '24px',
+                height: '2px',
+                backgroundColor: brandCharcoal,
+                transition: 'all 0.3s ease',
+                transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-8px)' : 'none'
+              }} />
+            </button>
+            
             {/* Mayker Reserve Logo */}
             {logoError ? (
               <div style={{ 
-                fontSize: '18px', 
+                fontSize: '16px', 
                 fontWeight: '400', 
                 color: brandCharcoal,
                 fontFamily: "'NeueHaasUnica', sans-serif",
@@ -6387,9 +6573,9 @@ function DashboardView({ clientInfo, onLogout }) {
                 alt="MAYKER reserve" 
                 onClick={() => setActiveSection('performance')}
                 style={{ 
-                  height: '48px', 
+                  height: '40px', 
                   width: 'auto',
-                  maxWidth: '300px',
+                  maxWidth: '200px',
                   display: 'block',
                   cursor: 'pointer'
                 }}
@@ -6418,28 +6604,119 @@ function DashboardView({ clientInfo, onLogout }) {
             )}
           </div>
           <div style={{ 
-            fontSize: '16px', 
+            fontSize: '14px', 
             fontWeight: '500', 
             color: brandCharcoal,
             fontFamily: "'NeueHaasUnica', sans-serif",
             letterSpacing: '0.05em',
-            textTransform: 'uppercase'
-          }}>
+            textTransform: 'uppercase',
+            display: 'none'
+          }} className="desktop-only">
             MEMBER PORTAL
           </div>
+        </div>
+        
+        {/* Mobile Navigation Menu */}
+        <div style={{
+          display: mobileMenuOpen ? 'block' : 'none',
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          right: 0,
+          backgroundColor: 'white',
+          borderBottom: '1px solid #e5e7eb',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          maxHeight: 'calc(100vh - 73px)',
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch'
+        }} className="mobile-menu">
+          {navigationSections.map((nav) => (
+            <button
+              key={nav.key}
+              onClick={() => handleNavClick(nav.section)}
+              style={{
+                width: '100%',
+                padding: '16px 20px',
+                textAlign: 'left',
+                background: 'none',
+                border: 'none',
+                borderBottom: '1px solid #f0f0f0',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: activeSection === nav.section ? brandCharcoal : '#666',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                backgroundColor: activeSection === nav.section ? '#fafaf8' : 'white',
+                transition: 'all 0.2s ease',
+                minHeight: '44px'
+              }}
+            >
+              {nav.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Desktop Navigation - Hidden on Mobile */}
+      <div style={{
+        backgroundColor: 'white',
+        borderBottom: '1px solid #e5e7eb',
+        padding: '0 32px',
+        display: 'none'
+      }} className="desktop-nav">
+        <div style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          display: 'flex', 
+          gap: '8px',
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch'
+        }}>
+          {navigationSections.map((nav) => (
+            <button
+              key={nav.key}
+              onClick={() => handleNavClick(nav.section)}
+              style={{
+                padding: '16px 24px',
+                background: 'none',
+                border: 'none',
+                borderBottom: activeSection === nav.section ? `2px solid ${brandCharcoal}` : '2px solid transparent',
+                fontSize: '12px',
+                fontWeight: '500',
+                color: activeSection === nav.section ? brandCharcoal : '#666',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.2s ease',
+                minHeight: '44px'
+              }}
+            >
+              {nav.label}
+            </button>
+          ))}
         </div>
       </div>
       
       {/* Main Content */}
-      <div style={{ flex: '1', maxWidth: '1400px', margin: '0 auto', width: '100%', padding: '48px 32px' }}>
+      <div style={{ 
+        flex: '1', 
+        maxWidth: '1400px', 
+        margin: '0 auto', 
+        width: '100%', 
+        padding: '24px 16px'
+      }} className="main-content">
         {/* Content Area */}
         <div style={{ 
           backgroundColor: 'white', 
           borderRadius: '0', 
-          padding: '48px', 
+          padding: '24px', 
           minHeight: '500px',
-          marginBottom: '48px'
-        }}>
+          marginBottom: '24px'
+        }} className="content-area">
           {activeSection === 'profile' && (
             <ProfileSection 
               clientInfo={clientInfo} 
@@ -6494,7 +6771,7 @@ function DashboardView({ clientInfo, onLogout }) {
           )}
         </div>
 
-        {/* Navigation - Elevated Soho House Style */}
+        {/* Navigation - Elevated Soho House Style (Desktop Only) */}
         <div style={{ 
           display: 'flex',
           justifyContent: 'center',
@@ -6508,7 +6785,7 @@ function DashboardView({ clientInfo, onLogout }) {
           marginLeft: 'auto',
           marginRight: 'auto',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
-        }}>
+        }} className="bottom-nav">
           {navigationSections.map((nav, index) => {
             const isActive = getCurrentNavKey() === nav.key;
             return (
