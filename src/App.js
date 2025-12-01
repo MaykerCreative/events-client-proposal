@@ -3668,16 +3668,88 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
 
   return (
     <div>
-      <h2 style={{ 
-        fontSize: '32px', 
-        fontWeight: '300', 
-        color: brandCharcoal, 
-        marginBottom: '32px',
-        fontFamily: "'Domaine Text', serif",
-        letterSpacing: '-0.02em'
+      {/* Image Banner */}
+      <div style={{
+        width: '100%',
+        height: '320px',
+        marginBottom: '56px',
+        marginTop: '0',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        position: 'relative',
+        backgroundColor: '#1a1a1a',
+        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)'
       }}>
-        Projects
-      </h2>
+        <img 
+          src="/projects-banner.jpg" 
+          alt="Projects" 
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            filter: 'brightness(0.7) contrast(1.1) saturate(1.2)',
+            opacity: '0.9'
+          }}
+          onError={(e) => {
+            // Fallback if image doesn't exist yet
+            e.target.style.display = 'none';
+          }}
+        />
+        {/* Dark overlay for richer look */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5))'
+        }} />
+        {/* Text Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '48px',
+          zIndex: 1
+        }}>
+          <div style={{
+            fontSize: '52px',
+            fontWeight: '300',
+            fontFamily: "'Domaine Text', serif",
+            color: 'white',
+            marginBottom: '20px',
+            textAlign: 'center',
+            letterSpacing: '-0.02em',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+          }}>
+            Projects
+          </div>
+          <div style={{
+            width: '60px',
+            height: '1px',
+            background: 'rgba(255, 255, 255, 0.6)',
+            margin: '0 auto 24px'
+          }} />
+          <div style={{
+            fontSize: '11px',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'rgba(255, 255, 255, 0.9)',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            textAlign: 'center',
+            lineHeight: '1.6',
+            fontWeight: '400'
+          }}>
+            An overview of your active completed, and cancelled projects.
+          </div>
+        </div>
+      </div>
       
       {/* Proposal Tabs */}
       <div style={{ display: 'flex', borderBottom: '1px solid #e5e7eb', marginBottom: '24px' }}>
