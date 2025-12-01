@@ -1584,17 +1584,18 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '64px', marginTop: '0', justifyContent: 'flex-start' }}>
+      <div style={{ display: 'flex', gap: '64px', marginTop: '0', justifyContent: 'flex-start' }} className="profile-section-container">
         {/* Left Column - Profile Icon */}
-        <div style={{ flex: '0 0 240px', flexShrink: 0 }}>
+        <div style={{ flex: '0 0 240px', flexShrink: 0 }} className="profile-section-left">
           <h2 style={{ 
             fontSize: '20px', 
             fontWeight: '300', 
             color: brandCharcoal,
             fontFamily: "'Domaine Text', serif",
             marginBottom: '32px',
-            letterSpacing: '-0.01em'
-          }}>
+            letterSpacing: '-0.01em',
+            textAlign: 'center'
+          }} className="profile-title">
             Your Account
           </h2>
           <div style={{ 
@@ -1607,7 +1608,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
             alignItems: 'center',
             justifyContent: 'center',
             overflow: 'hidden'
-          }}>
+          }} className="profile-image-container">
             {formData.photo ? (
               <img src={formData.photo} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
@@ -1642,7 +1643,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
         </div>
 
         {/* Right Column - Form Fields */}
-        <div style={{ flex: '1', maxWidth: '600px', marginLeft: '120px' }}>
+        <div style={{ flex: '1', maxWidth: '600px', marginLeft: '120px' }} className="profile-section-right">
           {/* Reserve Member Details Section */}
           <div style={{ marginBottom: '48px' }}>
             <h3 style={{ 
@@ -3387,7 +3388,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         padding: '64px 48px',
         marginBottom: '48px',
         borderRadius: '20px'
-      }}>
+      }} className="concierge-section">
         <div style={{
           fontSize: '18px',
           fontWeight: '300',
@@ -3404,7 +3405,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           gap: '32px',
           maxWidth: '1200px',
           margin: '0 auto'
-        }}>
+        }} className="concierge-grid">
           {/* Column 1: General Inquiries */}
           <div style={{
             textAlign: 'center'
@@ -6406,6 +6407,17 @@ function DashboardView({ clientInfo, onLogout }) {
         
         /* Mobile-specific styles */
         @media (max-width: 768px) {
+          /* Ensure proper box-sizing and prevent overflow */
+          * {
+            box-sizing: border-box;
+          }
+          
+          body {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+          }
+          
           /* Ensure touch targets are at least 44px */
           button, a, input, select, textarea {
             min-height: 44px;
@@ -6421,16 +6433,28 @@ function DashboardView({ clientInfo, onLogout }) {
           html {
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
+            overflow-x: hidden;
           }
           
           /* Main content padding */
           .main-content {
             padding: 16px 12px !important;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
           }
           
           /* Content area padding */
           .content-area {
             padding: 20px 16px !important;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+          }
+          
+          /* Ensure all containers respect viewport width */
+          div {
+            max-width: 100%;
           }
           
           /* Make tables horizontally scrollable */
@@ -6456,9 +6480,67 @@ function DashboardView({ clientInfo, onLogout }) {
             gap: 24px !important;
           }
           
+          /* Concierge section mobile redesign */
+          .concierge-section {
+            padding: 32px 20px !important;
+            margin-bottom: 32px !important;
+            border-radius: 16px !important;
+          }
+          
+          .concierge-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+          
+          .concierge-grid > div {
+            text-align: center !important;
+          }
+          
+          .concierge-grid img {
+            border-radius: 12px !important;
+          }
+          
           /* Flex layouts - stack on mobile */
           .flex-row {
             flex-direction: column !important;
+          }
+          
+          /* Profile section mobile redesign */
+          .profile-section-container {
+            flex-direction: column !important;
+            gap: 32px !important;
+          }
+          
+          .profile-section-left {
+            flex: 1 1 100% !important;
+            max-width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+          }
+          
+          .profile-section-right {
+            flex: 1 1 100% !important;
+            max-width: 100% !important;
+            margin-left: 0 !important;
+          }
+          
+          .profile-image-container {
+            width: 200px !important;
+            height: 200px !important;
+            margin: 0 auto 24px !important;
+          }
+          
+          .profile-title {
+            text-align: center !important;
+            font-size: 24px !important;
+            margin-bottom: 24px !important;
+          }
+          
+          /* Ensure all images respect container width */
+          img {
+            max-width: 100%;
+            height: auto;
           }
           
           /* Stack side-by-side layouts */
