@@ -417,6 +417,11 @@ function getSortableDateFromProposal(proposal) {
     }
   }
   
+  // Debug: Log if we can't find a date
+  if (!proposal.startDate && !proposal.eventDate && !proposal.endDate) {
+    console.warn('Proposal has no date fields:', proposal.projectNumber || 'unknown', proposal);
+  }
+  
   // Priority 2: Use startDate if available
   if (proposal.startDate) {
     if (proposal.startDate instanceof Date) {
@@ -448,10 +453,14 @@ function getSortableDateFromProposal(proposal) {
     } else if (typeof proposal.eventDate === 'string') {
       const eventDateStr = proposal.eventDate.trim();
       
-      // Try parsing as Date object first (handles GMT strings)
+      // Try parsing as Date object first (handles GMT strings and ISO dates)
       const dateObj = new Date(eventDateStr);
       if (!isNaN(dateObj.getTime())) {
-        return dateObj;
+        // Only use this if it's a reasonable date (not year 1970 or 1900 from failed parse)
+        const year = dateObj.getFullYear();
+        if (year >= 2000 && year <= 2100) {
+          return dateObj;
+        }
       }
       
       // Try parsing formatted strings like "April 5 - 13, 2025" or "April 5, 2025"
@@ -461,8 +470,24 @@ function getSortableDateFromProposal(proposal) {
       };
       
       // Pattern 1: "Month Day - Day, Year" or "Month Day-Day, Year" (date range)
+      // Also handles "March 29 - April 3, 2026" (cross-month ranges)
       let match = eventDateStr.match(/(\w+)\s+(\d+)\s*-\s*(\d+),?\s+(\d{4})/i);
-      if (match) {
+      if (!match) {
+        // Try cross-month: "March 29 - April 3, 2026"
+        match = eventDateStr.match(/(\w+)\s+(\d+)\s*-\s*(\w+)\s+(\d+),?\s+(\d{4})/i);
+        if (match) {
+          const startMonthName = match[1].toLowerCase();
+          const startMonth = monthMap[startMonthName];
+          const startDay = parseInt(match[2]);
+          const year = parseInt(match[5]);
+          if (startMonth !== undefined && startDay && year) {
+            const parsed = new Date(year, startMonth, startDay);
+            if (!isNaN(parsed.getTime())) {
+              return parsed;
+            }
+          }
+        }
+      } else {
         const monthName = match[1].toLowerCase();
         const month = monthMap[monthName];
         const day = parseInt(match[2]); // Use first date for sorting
@@ -539,7 +564,16 @@ function sortProposalsByDate(proposals) {
     const dateB = getSortableDateFromProposal(b);
     const timeA = dateA.getTime();
     const timeB = dateB.getTime();
-    return timeB - timeA; // Descending: newest first
+    
+    // Primary sort: by date (descending - newest first)
+    if (timeB !== timeA) {
+      return timeB - timeA;
+    }
+    
+    // Secondary sort: by projectNumber (descending) if dates are equal
+    const projectNumA = parseInt(a.projectNumber) || 0;
+    const projectNumB = parseInt(b.projectNumber) || 0;
+    return projectNumB - projectNumA;
   });
 }
 
@@ -2156,7 +2190,16 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
     const dateB = getSortableDateFromProposal(b);
     const timeA = dateA.getTime();
     const timeB = dateB.getTime();
-    return timeB - timeA; // Descending: newest first
+    
+    // Primary sort: by date (descending - newest first)
+    if (timeB !== timeA) {
+      return timeB - timeA;
+    }
+    
+    // Secondary sort: by projectNumber (descending) if dates are equal
+    const projectNumA = parseInt(a.projectNumber) || 0;
+    const projectNumB = parseInt(b.projectNumber) || 0;
+    return projectNumB - projectNumA;
   });
   
   const currentYearSpend = yearProposals.reduce((total, proposal) => {
@@ -3637,7 +3680,16 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
     const dateB = getSortableDateFromProposal(b);
     const timeA = dateA.getTime();
     const timeB = dateB.getTime();
-    return timeB - timeA; // Descending: newest first
+    
+    // Primary sort: by date (descending - newest first)
+    if (timeB !== timeA) {
+      return timeB - timeA;
+    }
+    
+    // Secondary sort: by projectNumber (descending) if dates are equal
+    const projectNumA = parseInt(a.projectNumber) || 0;
+    const projectNumB = parseInt(b.projectNumber) || 0;
+    return projectNumB - projectNumA;
   });
   
   // Calculate current year YTD spend from product spend (not invoice total)
@@ -6050,8 +6102,36 @@ function DashboardView({ clientInfo, onLogout }) {
       });
       
       // Sort proposals by date (most recent first) before setting state
-      const sortedProposals = sortProposalsByDate(proposalsResult.proposals || []);
+      const rawProposals = proposalsResult.proposals || [];
+      console.log('Raw proposals count:', rawProposals.length);
+      
+      // Debug: Log first few raw proposals
+      console.log('First 5 RAW proposals (before sorting):');
+      rawProposals.slice(0, 5).forEach((p, i) => {
+        console.log(`${i + 1}. Project ${p.projectNumber || 'N/A'}:`, {
+          eventDate: p.eventDate,
+          startDate: p.startDate,
+          timestamp: p.timestamp,
+          isHistorical: p.isHistorical
+        });
+      });
+      
+      const sortedProposals = sortProposalsByDate(rawProposals);
       console.log('Proposals sorted:', sortedProposals.length, 'proposals');
+      
+      // Debug: Log first few proposals with their dates AFTER sorting
+      console.log('First 5 proposals AFTER sorting:');
+      sortedProposals.slice(0, 5).forEach((p, i) => {
+        const sortDate = getSortableDateFromProposal(p);
+        console.log(`${i + 1}. Project ${p.projectNumber || 'N/A'}:`, {
+          eventDate: p.eventDate,
+          startDate: p.startDate,
+          timestamp: p.timestamp,
+          sortDate: sortDate.toISOString(),
+          sortTime: sortDate.getTime()
+        });
+      });
+      
       setProposals(sortedProposals);
       setSpendData(spendResult);
       setLoading(false);
