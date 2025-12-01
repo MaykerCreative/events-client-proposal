@@ -642,6 +642,56 @@ function isPastDate(dateStr) {
   return date < new Date();
 }
 
+// Calculate product spend for a proposal (used for points calculation)
+function calculateProductSpend(proposal) {
+  try {
+    if (proposal.isHistorical && proposal.historicalProductTotal) {
+      return parseFloat(proposal.historicalProductTotal) || 0;
+    }
+    
+    const sections = JSON.parse(proposal.sectionsJSON || '[]');
+    let productSpend = 0;
+    
+    sections.forEach(section => {
+      if (section.products && Array.isArray(section.products)) {
+        section.products.forEach(product => {
+          const quantity = parseFloat(product.quantity) || 0;
+          const price = parseFloat(product.price) || 0;
+          productSpend += quantity * price;
+        });
+      }
+    });
+    
+    const duration = proposal.startDate && proposal.endDate ? 
+      Math.ceil((new Date(proposal.endDate) - new Date(proposal.startDate)) / (1000 * 60 * 60 * 24)) + 1 : 1;
+    const rentalMultiplier = proposal.customRentalMultiplier ? 
+      parseFloat(proposal.customRentalMultiplier) : 
+      (duration <= 1 ? 1 : duration <= 3 ? 1.5 : duration <= 7 ? 2 : 2.5);
+    
+    const extendedProductTotal = productSpend * rentalMultiplier;
+    
+    const discountValue = parseFloat(proposal.discountValue || proposal.discount || 0) || 0;
+    let discountType = 'percentage';
+    if (proposal.discountName && proposal.discountName.startsWith('TYPE:')) {
+      const match = proposal.discountName.match(/^TYPE:(\w+)/);
+      if (match) discountType = match[1];
+    }
+    
+    const discount = discountType === 'dollar' 
+      ? discountValue 
+      : extendedProductTotal * (discountValue / 100);
+    
+    const rentalTotal = extendedProductTotal - discount;
+    const productCareFee = extendedProductTotal * 0.1;
+    const serviceFee = (rentalTotal + productCareFee) * 0.05;
+    
+    return rentalTotal + productCareFee + serviceFee;
+  } catch (e) {
+    console.error('Error calculating product spend:', e);
+    return 0;
+  }
+}
+
 // ============================================
 // MAIN APP COMPONENT
 // ============================================
@@ -890,7 +940,6 @@ function LoginView({ onLogin }) {
             <img 
               src={encodeURI('/Mayker Reserve - Black – 2.png')}
               alt="Mayker Reserve" 
-              onClick={() => setActiveSection('performance')}
               style={{ 
                 maxHeight: '50px', 
                 height: 'auto', 
@@ -899,8 +948,7 @@ function LoginView({ onLogin }) {
                 marginBottom: '16px', 
                 display: 'block', 
                 margin: '0 auto 16px auto',
-                objectFit: 'contain',
-                cursor: 'pointer'
+                objectFit: 'contain'
               }}
               onLoad={() => console.log('✅ Logo loaded')}
               onError={(e) => {
@@ -1617,56 +1665,6 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
     };
     fetchProducts();
   }, []);
-  
-  // Reuse tier calculation logic from PerformanceSection
-  const calculateProductSpend = (proposal) => {
-    try {
-      if (proposal.isHistorical && proposal.historicalProductTotal) {
-        return parseFloat(proposal.historicalProductTotal) || 0;
-      }
-      
-      const sections = JSON.parse(proposal.sectionsJSON || '[]');
-      let productSpend = 0;
-      
-      sections.forEach(section => {
-        if (section.products && Array.isArray(section.products)) {
-          section.products.forEach(product => {
-            const quantity = parseFloat(product.quantity) || 0;
-            const price = parseFloat(product.price) || 0;
-            productSpend += quantity * price;
-          });
-        }
-      });
-      
-      const duration = proposal.startDate && proposal.endDate ? 
-        Math.ceil((new Date(proposal.endDate) - new Date(proposal.startDate)) / (1000 * 60 * 60 * 24)) + 1 : 1;
-      const rentalMultiplier = proposal.customRentalMultiplier ? 
-        parseFloat(proposal.customRentalMultiplier) : 
-        (duration <= 1 ? 1 : duration <= 3 ? 1.5 : duration <= 7 ? 2 : 2.5);
-      
-      const extendedProductTotal = productSpend * rentalMultiplier;
-      
-      const discountValue = parseFloat(proposal.discountValue || proposal.discount || 0) || 0;
-      let discountType = 'percentage';
-      if (proposal.discountName && proposal.discountName.startsWith('TYPE:')) {
-        const match = proposal.discountName.match(/^TYPE:(\w+)/);
-        if (match) discountType = match[1];
-      }
-      
-      const discount = discountType === 'dollar' 
-        ? discountValue 
-        : extendedProductTotal * (discountValue / 100);
-      
-      const rentalTotal = extendedProductTotal - discount;
-      const productCareFee = extendedProductTotal * 0.1;
-      const serviceFee = (rentalTotal + productCareFee) * 0.05;
-      
-      return rentalTotal + productCareFee + serviceFee;
-    } catch (e) {
-      console.error('Error calculating product spend:', e);
-      return 0;
-    }
-  };
   
   const currentYear = new Date().getFullYear();
   const yearProposals = proposals.filter(p => {
