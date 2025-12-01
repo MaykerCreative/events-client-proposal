@@ -2014,69 +2014,138 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
     const proposalYear = start.getFullYear();
     return proposalYear === currentYear;
   }).sort((a, b) => {
-    // Helper function to extract a sortable date from various formats
+    // Robust helper function to extract a sortable date from various formats
     const getSortableDate = (proposal) => {
-      // Priority 1: Use timestamp for historical projects
+      // Priority 1: Use timestamp for historical projects (most reliable)
       if (proposal.isHistorical && proposal.timestamp) {
-        return new Date(proposal.timestamp);
-      }
-      
-      // Priority 2: Use startDate if it's a valid date string (YYYY-MM-DD)
-      if (proposal.startDate) {
-        if (typeof proposal.startDate === 'string' && /^\d{4}-\d{2}-\d{2}/.test(proposal.startDate.trim())) {
-          const parsed = parseDateSafely(proposal.startDate);
-          if (parsed && !isNaN(parsed.getTime())) {
-            return parsed;
-          }
-        } else if (proposal.startDate instanceof Date) {
-          return proposal.startDate;
+        const ts = new Date(proposal.timestamp);
+        if (!isNaN(ts.getTime())) {
+          return ts;
         }
       }
       
-      // Priority 3: Try to parse eventDate
-      if (proposal.eventDate) {
-        if (proposal.eventDate instanceof Date) {
-          return proposal.eventDate;
-        } else if (typeof proposal.eventDate === 'string') {
-          // Check if it's a GMT date string
-          if (proposal.eventDate.includes('GMT') || proposal.eventDate.match(/^\w{3}\s+\w{3}\s+\d{1,2}\s+\d{4}/)) {
-            const parsed = new Date(proposal.eventDate);
-            if (!isNaN(parsed.getTime())) {
+      // Priority 2: Use startDate if available
+      if (proposal.startDate) {
+        if (proposal.startDate instanceof Date) {
+          if (!isNaN(proposal.startDate.getTime())) {
+            return proposal.startDate;
+          }
+        } else if (typeof proposal.startDate === 'string') {
+          // Try YYYY-MM-DD format first
+          if (/^\d{4}-\d{2}-\d{2}/.test(proposal.startDate.trim())) {
+            const parsed = parseDateSafely(proposal.startDate);
+            if (parsed && !isNaN(parsed.getTime())) {
               return parsed;
             }
-          } else {
-            // Try to parse formatted date strings like "April 5 - 13, 2025" or "April 5, 2025"
-            // Extract the first date from the string
-            const dateMatch = proposal.eventDate.match(/(\w+)\s+(\d+)(?:\s*-\s*\d+)?,?\s+(\d{4})/);
-            if (dateMatch) {
-              const monthName = dateMatch[1];
-              const day = parseInt(dateMatch[2]);
-              const year = parseInt(dateMatch[3]);
-              const monthMap = {
-                'January': 0, 'February': 1, 'March': 2, 'April': 3, 'May': 4, 'June': 5,
-                'July': 6, 'August': 7, 'September': 8, 'October': 9, 'November': 10, 'December': 11
-              };
-              const month = monthMap[monthName];
-              if (month !== undefined) {
-                const parsed = new Date(year, month, day);
-                if (!isNaN(parsed.getTime())) {
-                  return parsed;
-                }
+          }
+          // Try parsing as-is
+          const parsed = new Date(proposal.startDate);
+          if (!isNaN(parsed.getTime())) {
+            return parsed;
+          }
+        }
+      }
+      
+      // Priority 3: Try to parse eventDate (can be in many formats)
+      if (proposal.eventDate) {
+        if (proposal.eventDate instanceof Date) {
+          if (!isNaN(proposal.eventDate.getTime())) {
+            return proposal.eventDate;
+          }
+        } else if (typeof proposal.eventDate === 'string') {
+          const eventDateStr = proposal.eventDate.trim();
+          
+          // Try parsing as Date object first (handles GMT strings)
+          const dateObj = new Date(eventDateStr);
+          if (!isNaN(dateObj.getTime())) {
+            return dateObj;
+          }
+          
+          // Try parsing formatted strings like "April 5 - 13, 2025" or "April 5, 2025"
+          // Match patterns: "Month Day, Year" or "Month Day - Day, Year" or "Month Day-Day, Year"
+          const monthMap = {
+            'january': 0, 'february': 1, 'march': 2, 'april': 3, 'may': 4, 'june': 5,
+            'july': 6, 'august': 7, 'september': 8, 'october': 9, 'november': 10, 'december': 11
+          };
+          
+          // Pattern 1: "Month Day - Day, Year" or "Month Day-Day, Year" (date range)
+          let match = eventDateStr.match(/(\w+)\s+(\d+)\s*-\s*(\d+),?\s+(\d{4})/i);
+          if (match) {
+            const monthName = match[1].toLowerCase();
+            const month = monthMap[monthName];
+            const day = parseInt(match[2]); // Use first date for sorting
+            const year = parseInt(match[4]);
+            if (month !== undefined && day && year) {
+              const parsed = new Date(year, month, day);
+              if (!isNaN(parsed.getTime())) {
+                return parsed;
               }
             }
           }
+          
+          // Pattern 2: "Month Day, Year" (single date)
+          match = eventDateStr.match(/(\w+)\s+(\d+),?\s+(\d{4})/i);
+          if (match) {
+            const monthName = match[1].toLowerCase();
+            const month = monthMap[monthName];
+            const day = parseInt(match[2]);
+            const year = parseInt(match[3]);
+            if (month !== undefined && day && year) {
+              const parsed = new Date(year, month, day);
+              if (!isNaN(parsed.getTime())) {
+                return parsed;
+              }
+            }
+          }
+          
+          // Pattern 3: MM/DD/YYYY format
+          match = eventDateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+          if (match) {
+            const month = parseInt(match[1]) - 1;
+            const day = parseInt(match[2]);
+            const year = parseInt(match[3]);
+            const parsed = new Date(year, month, day);
+            if (!isNaN(parsed.getTime())) {
+              return parsed;
+            }
+          }
+          
+          // Pattern 4: YYYY-MM-DD format
+          match = eventDateStr.match(/(\d{4})-(\d{2})-(\d{2})/);
+          if (match) {
+            const year = parseInt(match[1]);
+            const month = parseInt(match[2]) - 1;
+            const day = parseInt(match[3]);
+            const parsed = new Date(year, month, day);
+            if (!isNaN(parsed.getTime())) {
+              return parsed;
+            }
+          }
         }
       }
       
-      return null;
+      // Priority 4: Try endDate as last resort
+      if (proposal.endDate) {
+        if (proposal.endDate instanceof Date && !isNaN(proposal.endDate.getTime())) {
+          return proposal.endDate;
+        } else if (typeof proposal.endDate === 'string' && /^\d{4}-\d{2}-\d{2}/.test(proposal.endDate.trim())) {
+          const parsed = parseDateSafely(proposal.endDate);
+          if (parsed && !isNaN(parsed.getTime())) {
+            return parsed;
+          }
+        }
+      }
+      
+      // If we can't parse anything, return a very old date so it sorts to the bottom
+      return new Date(0);
     };
     
     const dateA = getSortableDate(a);
     const dateB = getSortableDate(b);
     
     // Most recent first (descending order)
-    const timeA = dateA ? dateA.getTime() : 0;
-    const timeB = dateB ? dateB.getTime() : 0;
+    const timeA = dateA.getTime();
+    const timeB = dateB.getTime();
     return timeB - timeA; // Descending: newest first
   });
   
@@ -3584,38 +3653,92 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
               return parsed;
             }
           } else {
-            // Try to parse formatted date strings like "April 5 - 13, 2025" or "April 5, 2025"
-            // Extract the first date from the string
-            const dateMatch = proposal.eventDate.match(/(\w+)\s+(\d+)(?:\s*-\s*\d+)?,?\s+(\d{4})/);
-            if (dateMatch) {
-              const monthName = dateMatch[1];
-              const day = parseInt(dateMatch[2]);
-              const year = parseInt(dateMatch[3]);
-              const monthMap = {
-                'January': 0, 'February': 1, 'March': 2, 'April': 3, 'May': 4, 'June': 5,
-                'July': 6, 'August': 7, 'September': 8, 'October': 9, 'November': 10, 'December': 11
-              };
+            // Try parsing formatted strings like "April 5 - 13, 2025" or "April 5, 2025"
+            const eventDateStr = proposal.eventDate.trim();
+            const monthMap = {
+              'january': 0, 'february': 1, 'march': 2, 'april': 3, 'may': 4, 'june': 5,
+              'july': 6, 'august': 7, 'september': 8, 'october': 9, 'november': 10, 'december': 11
+            };
+            
+            // Pattern 1: "Month Day - Day, Year" or "Month Day-Day, Year" (date range)
+            let match = eventDateStr.match(/(\w+)\s+(\d+)\s*-\s*(\d+),?\s+(\d{4})/i);
+            if (match) {
+              const monthName = match[1].toLowerCase();
               const month = monthMap[monthName];
-              if (month !== undefined) {
+              const day = parseInt(match[2]); // Use first date for sorting
+              const year = parseInt(match[4]);
+              if (month !== undefined && day && year) {
                 const parsed = new Date(year, month, day);
                 if (!isNaN(parsed.getTime())) {
                   return parsed;
                 }
               }
             }
+            
+            // Pattern 2: "Month Day, Year" (single date)
+            match = eventDateStr.match(/(\w+)\s+(\d+),?\s+(\d{4})/i);
+            if (match) {
+              const monthName = match[1].toLowerCase();
+              const month = monthMap[monthName];
+              const day = parseInt(match[2]);
+              const year = parseInt(match[3]);
+              if (month !== undefined && day && year) {
+                const parsed = new Date(year, month, day);
+                if (!isNaN(parsed.getTime())) {
+                  return parsed;
+                }
+              }
+            }
+            
+            // Pattern 3: MM/DD/YYYY format
+            match = eventDateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            if (match) {
+              const month = parseInt(match[1]) - 1;
+              const day = parseInt(match[2]);
+              const year = parseInt(match[3]);
+              const parsed = new Date(year, month, day);
+              if (!isNaN(parsed.getTime())) {
+                return parsed;
+              }
+            }
+            
+            // Pattern 4: YYYY-MM-DD format
+            match = eventDateStr.match(/(\d{4})-(\d{2})-(\d{2})/);
+            if (match) {
+              const year = parseInt(match[1]);
+              const month = parseInt(match[2]) - 1;
+              const day = parseInt(match[3]);
+              const parsed = new Date(year, month, day);
+              if (!isNaN(parsed.getTime())) {
+                return parsed;
+              }
+            }
           }
         }
       }
       
-      return null;
+      // Priority 4: Try endDate as last resort
+      if (proposal.endDate) {
+        if (proposal.endDate instanceof Date && !isNaN(proposal.endDate.getTime())) {
+          return proposal.endDate;
+        } else if (typeof proposal.endDate === 'string' && /^\d{4}-\d{2}-\d{2}/.test(proposal.endDate.trim())) {
+          const parsed = parseDateSafely(proposal.endDate);
+          if (parsed && !isNaN(parsed.getTime())) {
+            return parsed;
+          }
+        }
+      }
+      
+      // If we can't parse anything, return a very old date so it sorts to the bottom
+      return new Date(0);
     };
     
     const dateA = getSortableDate(a);
     const dateB = getSortableDate(b);
     
     // Most recent first (descending order)
-    const timeA = dateA ? dateA.getTime() : 0;
-    const timeB = dateB ? dateB.getTime() : 0;
+    const timeA = dateA.getTime();
+    const timeB = dateB.getTime();
     return timeB - timeA; // Descending: newest first
   });
   
