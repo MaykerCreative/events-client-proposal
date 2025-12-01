@@ -3757,7 +3757,10 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
     if (!start || isNaN(start.getTime())) return false;
     const proposalYear = start.getFullYear();
     return proposalYear === currentYear;
-  }).sort((a, b) => {
+  });
+  
+  // Sort by date (most recent first) - create new array to avoid mutation issues
+  const sortedYearProposals = [...yearProposals].sort((a, b) => {
     // Use shared utility function for consistent sorting
     const dateA = getSortableDateFromProposal(a);
     const dateB = getSortableDateFromProposal(b);
@@ -3774,6 +3777,9 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
     const projectNumB = parseInt(b.projectNumber) || 0;
     return projectNumB - projectNumA;
   });
+  
+  // Use the sorted array for all calculations and rendering
+  const yearProposals = sortedYearProposals;
   
   // Calculate current year YTD spend from product spend (not invoice total)
   const currentYearSpend = yearProposals.reduce((total, proposal) => {
