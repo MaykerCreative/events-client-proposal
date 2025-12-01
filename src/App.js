@@ -411,28 +411,55 @@ function formatDateRange(proposal) {
   // This works for both historical and regular projects that have eventDate set
   if (proposal.eventDate && typeof proposal.eventDate === 'string' && proposal.eventDate.trim()) {
     // eventDate is already formatted (e.g., "April 5-13, 2025" or "April 5 - 13, 2025")
-    // Normalize spacing around hyphens to be consistent (spaces around dash)
-    return proposal.eventDate.replace(/\s*-\s*/g, ' - ');
+    // Check if it looks like a formatted date string (contains month name and year)
+    // If it does, use it directly and normalize spacing around hyphens
+    const eventDateStr = proposal.eventDate.trim();
+    // Check if it contains a month name (common months)
+    const hasMonthName = /(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i.test(eventDateStr);
+    if (hasMonthName) {
+      // It's a formatted date string - normalize spacing around hyphens
+      return eventDateStr.replace(/\s*-\s*/g, ' - ');
+    }
+    // If it doesn't look like a formatted date, it might be a date string we need to parse
+    // Fall through to try parsing startDate/endDate
   }
   
   // Second priority: Try to use startDate and endDate if available
-  const start = parseDateSafely(proposal.startDate);
-  const end = parseDateSafely(proposal.endDate);
+  // Only parse if they exist and are valid date strings
+  let start = null;
+  let end = null;
   
-  // If we have a start date but no end date, format as single date
-  if (start && !end) {
-    if (!isNaN(start.getTime())) {
-      return start.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      });
+  if (proposal.startDate && typeof proposal.startDate === 'string' && proposal.startDate.trim()) {
+    start = parseDateSafely(proposal.startDate);
+    if (start && isNaN(start.getTime())) {
+      start = null; // Invalid date
     }
   }
   
+  if (proposal.endDate && typeof proposal.endDate === 'string' && proposal.endDate.trim()) {
+    end = parseDateSafely(proposal.endDate);
+    if (end && isNaN(end.getTime())) {
+      end = null; // Invalid date
+    }
+  }
+  
+  // If we have a start date but no end date, format as single date
+  if (start && !end) {
+    return start.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  }
+  
   // If we have both dates, format showing all dates
-  if (start && end && !isNaN(start.getTime()) && !isNaN(end.getTime())) {
+  if (start && end) {
     return formatAllDates(start, end);
+  }
+  
+  // Final fallback: if eventDate exists but didn't match our check, try to use it anyway
+  if (proposal.eventDate && typeof proposal.eventDate === 'string' && proposal.eventDate.trim()) {
+    return proposal.eventDate.trim();
   }
   
   return '';
