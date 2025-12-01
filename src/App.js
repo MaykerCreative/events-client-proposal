@@ -4425,14 +4425,36 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   ).sort((a, b) => a.name.localeCompare(b.name)); // Alphabetize
 
-  const handleDownload = (product) => {
-    // Create a temporary anchor element to trigger download
-    const link = document.createElement('a');
-    link.href = product.image;
-    link.download = `${product.name} - Mayker Events.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async (product) => {
+    try {
+      // Fetch the image as a blob
+      const response = await fetch(product.image);
+      const blob = await response.blob();
+      
+      // Create a blob URL
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      // Create a temporary anchor element to trigger download
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `${product.name} - Mayker Events.png`;
+      document.body.appendChild(link);
+      link.click();
+      
+      // Clean up
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+      // Fallback to direct link
+      const link = document.createElement('a');
+      link.href = product.image;
+      link.download = `${product.name} - Mayker Events.png`;
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
