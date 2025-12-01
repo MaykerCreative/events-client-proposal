@@ -409,6 +409,7 @@ function parseDateSafely(dateStr) {
 function formatDateRange(proposal) {
   // First priority: Use eventDate if available (it's already formatted from the backend)
   // This works for both historical and regular projects that have eventDate set
+  // Check eventDate first - this should be set for all projects (historical and regular)
   if (proposal.eventDate && typeof proposal.eventDate === 'string' && proposal.eventDate.trim()) {
     const eventDateStr = proposal.eventDate.trim();
     // Normalize spacing around hyphens to be consistent (spaces around dash)
@@ -457,6 +458,7 @@ function formatDateRange(proposal) {
     return formatAllDates(start, end);
   }
   
+  // If we have nothing, return empty string (will show as 'N/A' in the table)
   return '';
 }
 
