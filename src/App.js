@@ -1753,74 +1753,86 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         }
       ` }} />
       
-      {/* 1. Typographic Welcome Header with Mauve Background and Dot Grid */}
+      {/* 1. Typographic Welcome Header - Big Type on White with Watermark */}
       <style dangerouslySetInnerHTML={{ __html: `
-        .overview-header-container {
+        .overview-hero {
+          padding: 72px 96px 56px;
           position: relative;
-          background-color: #8A7971;
-          padding: 52px 48px;
+          background-color: transparent;
           margin-bottom: 48px;
-          text-align: center;
-          border-radius: 24px;
-          overflow: hidden;
         }
-        .overview-header-container::before {
+        .overview-hero::after {
           content: "";
           position: absolute;
-          top: 36px;
-          left: 36px;
-          width: 44px;
-          height: 44px;
-          background-image: 
-            radial-gradient(circle, rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
-          background-size: 8px 8px;
-          background-position: 0 0;
-          background-repeat: repeat;
+          top: 16px;
+          right: 72px;
+          width: 240px;
+          height: 240px;
+          background: url('/mayker_icon-black.svg') no-repeat center/contain;
+          opacity: 0.06;
           pointer-events: none;
+          z-index: 0;
+        }
+        .overview-hero__title {
+          font-family: 'Domaine Text', serif;
+          font-size: 44px;
+          line-height: 1.2;
+          font-weight: 400;
+          letter-spacing: -0.02em;
+          color: #3A3632;
+          margin-bottom: 12px;
+          position: relative;
           z-index: 1;
         }
-        @media (max-width: 480px) {
-          .overview-header-container {
-            padding: 36px 24px;
+        .overview-hero__subtitle {
+          font-family: 'NeueHaasUnica', sans-serif;
+          font-size: 15px;
+          line-height: 1.6;
+          color: rgba(58, 54, 50, 0.7);
+          max-width: 520px;
+          position: relative;
+          z-index: 1;
+        }
+        @media (max-width: 768px) {
+          .overview-hero {
+            padding: 48px 48px 40px;
           }
-          .overview-header-container::before {
-            top: 24px;
-            left: 24px;
-            width: 32px;
-            height: 32px;
-            background-size: 8px 8px;
+          .overview-hero::after {
+            top: 8px;
+            right: 48px;
+            width: 180px;
+            height: 180px;
+          }
+          .overview-hero__title {
+            font-size: 36px;
+          }
+        }
+        @media (max-width: 480px) {
+          .overview-hero {
+            padding: 32px 24px;
+          }
+          .overview-hero::after {
+            top: 8px;
+            right: 24px;
+            width: 140px;
+            height: 140px;
+            opacity: 0.05;
+          }
+          .overview-hero__title {
+            font-size: 32px;
+          }
+          .overview-hero__subtitle {
+            font-size: 14px;
           }
         }
       ` }} />
-      <div className="overview-header-container">
+      <div className="overview-hero">
         {/* Greeting Headline */}
-        <div style={{
-          fontSize: '30px',
-          fontWeight: '400',
-          color: '#FFFFFF',
-          fontFamily: "'Domaine Text', serif",
-          letterSpacing: '-0.02em',
-          marginBottom: '12px',
-          lineHeight: '1.3',
-          position: 'relative',
-          zIndex: 2
-        }}>
+        <div className="overview-hero__title">
           {getGreeting()}, {firstName ? firstName : 'there'}.
         </div>
         {/* Subtext */}
-        <div style={{
-          fontSize: '15px',
-          color: '#FFFFFF',
-          opacity: 0.72,
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          fontWeight: '400',
-          lineHeight: '1.6',
-          letterSpacing: '0.01em',
-          maxWidth: '480px',
-          margin: '12px auto 0',
-          position: 'relative',
-          zIndex: 2
-        }}>
+        <div className="overview-hero__subtitle">
           Here's a snapshot of your Mayker Reserve membership and upcoming events.
         </div>
       </div>
