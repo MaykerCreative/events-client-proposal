@@ -851,55 +851,6 @@ function LoginView({ onLogin }) {
   return (
     <div style={{ minHeight: '100vh', display: 'flex' }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @font-face {
-          font-family: 'NeueHaasUnica';
-          src: url('/NeueHaasUnica-Regular.woff2') format('woff2');
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'NeueHaasUnica';
-          src: url('/NeueHaasUnica-Light.woff2') format('woff2');
-          font-weight: 300;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'NeueHaasUnica';
-          src: url('/NeueHaasUnica-Medium.woff2') format('woff2');
-          font-weight: 500;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'NeueHaasUnica';
-          src: url('/NeueHaasUnica-Bold.woff2') format('woff2');
-          font-weight: 600;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-light.woff2') format('woff2');
-          font-weight: 300;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-medium.woff2') format('woff2');
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Domaine Text';
-          src: url('/test-domaine-text-bold.woff2') format('woff2');
-          font-weight: 600;
-          font-style: normal;
-          font-display: swap;
-        }
         body, * {
           font-family: 'NeueHaasUnica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
         }
