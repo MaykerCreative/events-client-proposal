@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset Test</title>
+</head>
+<body>
+    <h1>Testing Asset Loading</h1>
+    <p>If you can see the images below, assets are loading correctly.</p>
+    
+    <h2>Logo Test:</h2>
+    <img src="/Mayker Reserve - Black - 2.png" alt="Logo" style="max-width: 300px; border: 1px solid red;">
+    <p>Logo path: /Mayker Reserve - Black - 2.png</p>
+    
+    <h2>Icon Test:</h2>
+    <img src="/mayker_icon-black.png" alt="Icon" style="max-width: 100px; border: 1px solid red;">
+    <p>Icon path: /mayker_icon-black.png</p>
+    
+    <h2>Font Test:</h2>
+    <style>
+        @font-face {
+            font-family: 'TestFont';
+            src: url('/NeueHaasUnica-Regular.woff2') format('woff2');
+        }
+        .test-font {
+            font-family: 'TestFont', sans-serif;
+            font-size: 24px;
+        }
+    </style>
+    <p class="test-font">This text uses NeueHaasUnica font if loaded correctly.</p>
+    <p>Font path: /NeueHaasUnica-Regular.woff2</p>
+    
+    <script>
+        // Test if files exist
+        const testFiles = [
+            '/Mayker Reserve - Black - 2.png',
+            '/mayker_icon-black.png',
+            '/NeueHaasUnica-Regular.woff2'
+        ];
+        
+        testFiles.forEach(file => {
+            fetch(file)
+                .then(response => {
+                    if (response.ok) {
+                        console.log('✅', file, 'exists (status:', response.status + ')');
+                    } else {
+                        console.error('❌', file, 'failed (status:', response.status + ')');
+                    }
+                })
+                .catch(error => {
+                    console.error('❌', file, 'error:', error.message);
+                });
+        });
+    </script>
+</body>
+</html>
+
+
+
