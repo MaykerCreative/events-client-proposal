@@ -1223,7 +1223,12 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
     favoriteBrand: '',
     favoriteFlower: '',
     favoriteColor: '',
-    photo: null
+    photo: null,
+    preferredCommunication: clientInfo?.preferredCommunication || '',
+    preferredPaymentMethod: clientInfo?.preferredPaymentMethod || '',
+    taxExempt: clientInfo?.taxExempt || 'Not Exempt',
+    taxExemptDocument: null,
+    taxExemptDocumentUrl: clientInfo?.taxExemptDocumentUrl || ''
   });
 
   // Update formData when clientInfo changes
@@ -1240,7 +1245,11 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
         favoriteRestaurant: clientInfo.favoriteRestaurant || prev.favoriteRestaurant,
         favoriteBrand: clientInfo.favoriteBrand || prev.favoriteBrand,
         favoriteFlower: clientInfo.favoriteFlower || prev.favoriteFlower,
-        favoriteColor: clientInfo.favoriteColor || prev.favoriteColor
+        favoriteColor: clientInfo.favoriteColor || prev.favoriteColor,
+        preferredCommunication: clientInfo.preferredCommunication || prev.preferredCommunication,
+        preferredPaymentMethod: clientInfo.preferredPaymentMethod || prev.preferredPaymentMethod,
+        taxExempt: clientInfo.taxExempt || prev.taxExempt,
+        taxExemptDocumentUrl: clientInfo.taxExemptDocumentUrl || prev.taxExemptDocumentUrl
       }));
     }
   }, [clientInfo]);
