@@ -1892,85 +1892,112 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         }
       ` }} />
       
-      {/* 1. Typographic Welcome Header - Big Type on White with Centered Watermark */}
+      {/* 1. Welcome Header with Logo and Signature */}
       <style dangerouslySetInnerHTML={{ __html: `
         .overview-hero {
-          padding: 72px 96px 56px;
-          position: relative;
+          padding: 80px 96px 64px;
           background-color: transparent;
           margin-bottom: 48px;
           text-align: center;
         }
-        .overview-hero::after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 300px;
-          height: 300px;
-          background: url('/mayker_icon-black.svg') no-repeat center/contain;
-          opacity: 0.1;
-          pointer-events: none;
-          z-index: 0;
+        .overview-hero__logo {
+          width: 120px;
+          height: 120px;
+          margin: 0 auto 32px;
+          display: block;
         }
         .overview-hero__title {
           font-family: 'Domaine Text', serif;
-          font-size: 44px;
-          line-height: 1.2;
+          font-size: 36px;
+          line-height: 1.3;
           font-weight: 400;
-          letter-spacing: -0.02em;
+          letter-spacing: -0.01em;
           color: #3A3632;
-          margin-bottom: 12px;
-          position: relative;
-          z-index: 1;
+          margin-bottom: 16px;
         }
         .overview-hero__subtitle {
           font-family: 'NeueHaasUnica', sans-serif;
-          font-size: 15px;
+          font-size: 16px;
           line-height: 1.6;
+          color: rgba(58, 54, 50, 0.75);
+          max-width: 600px;
+          margin: 0 auto 40px;
+        }
+        .overview-hero__signature {
+          font-family: 'Autographer', cursive;
+          font-size: 18px;
+          color: #3A3632;
+          margin-top: 40px;
+        }
+        .overview-hero__signature-line {
+          font-family: 'NeueHaasUnica', sans-serif;
+          font-size: 14px;
           color: rgba(58, 54, 50, 0.7);
-          max-width: 520px;
-          margin: 0 auto;
-          position: relative;
-          z-index: 1;
+          margin-bottom: 8px;
         }
         @media (max-width: 768px) {
           .overview-hero {
-            padding: 48px 48px 40px;
+            padding: 64px 48px 48px;
           }
-          .overview-hero::after {
-            width: 240px;
-            height: 240px;
-          }
-          .overview-hero__title {
-            font-size: 36px;
-          }
-        }
-        @media (max-width: 480px) {
-          .overview-hero {
-            padding: 32px 24px;
-          }
-          .overview-hero::after {
-            width: 200px;
-            height: 200px;
+          .overview-hero__logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 24px;
           }
           .overview-hero__title {
             font-size: 32px;
           }
           .overview-hero__subtitle {
+            font-size: 15px;
+            max-width: 100%;
+          }
+        }
+        @media (max-width: 480px) {
+          .overview-hero {
+            padding: 48px 24px 40px;
+          }
+          .overview-hero__logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+          }
+          .overview-hero__title {
+            font-size: 28px;
+          }
+          .overview-hero__subtitle {
             font-size: 14px;
+          }
+          .overview-hero__signature {
+            font-size: 16px;
           }
         }
       ` }} />
       <div className="overview-hero">
-        {/* Greeting Headline */}
+        {/* Logo Mark */}
+        <img 
+          src="/mayker_round-stamp-lines-black.png" 
+          alt="Mayker" 
+          className="overview-hero__logo"
+          onError={(e) => {
+            // Fallback if image doesn't exist
+            e.target.style.display = 'none';
+          }}
+        />
+        
+        {/* Headline */}
         <div className="overview-hero__title">
           {getGreeting()}, {firstName ? firstName : 'there'}.
         </div>
-        {/* Subtext */}
+        
+        {/* Sub-head */}
         <div className="overview-hero__subtitle">
-          Here's a snapshot of your Mayker Reserve membership and upcoming events.
+          Welcome to your Mayker Reserve portal. A curated landing spot of your membership, projects, and benefits.
+        </div>
+        
+        {/* Signature */}
+        <div>
+          <div className="overview-hero__signature-line">Enjoy,</div>
+          <div className="overview-hero__signature">Megan and the Mayker Team</div>
         </div>
       </div>
 
