@@ -4393,17 +4393,31 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
   const [searchQuery, setSearchQuery] = useState('');
   
   // Product library - images should be in /public/products/ folder
-  // Format: product-name.png (will be converted to "Product Name" for display)
+  // Helper function to convert filename to product name (removes "- 1", "- 2", etc.)
+  const filenameToProductName = (filename) => {
+    // Remove .png extension
+    let name = filename.replace(/\.png$/i, '');
+    // Remove " - 1", " - 2", etc. patterns
+    name = name.replace(/\s*-\s*\d+$/, '');
+    return name;
+  };
+  
+  // Product library - list all products here
+  // Products with "- 1", "- 2" etc. in filename should be listed with clean name (without the number)
   const products = [
-    // Example products - replace with actual product list
-    // Images should be uploaded to /public/products/ folder
-    { id: 'accent-chair', name: 'Accent Chair', image: '/products/accent-chair.png' },
-    { id: 'bar-cart', name: 'Bar Cart', image: '/products/bar-cart.png' },
-    { id: 'dining-table', name: 'Dining Table', image: '/products/dining-table.png' },
-    { id: 'lounge-sofa', name: 'Lounge Sofa', image: '/products/lounge-sofa.png' },
-    { id: 'pendant-light', name: 'Pendant Light', image: '/products/pendant-light.png' },
-    { id: 'side-table', name: 'Side Table', image: '/products/side-table.png' },
+    { id: 'aaron-chair', name: 'Aaron Chair', image: '/products/Aaron Chair.png' },
+    { id: 'aberdeen-swivel-chair', name: 'Aberdeen Swivel Chair', image: '/products/Aberdeen Swivel Chair.png' },
+    { id: 'able-chair', name: 'Able Chair', image: '/products/Able Chair.png' },
+    { id: 'agave-side-table', name: 'Agave Side Table', image: '/products/Agave Side Table.png' },
+    { id: 'ana-nesting-table-set', name: 'Ana Nesting Table Set', image: '/products/Ana Nesting Table Set.png' },
+    { id: 'ana-swivel-chair', name: 'Ana Swivel Chair', image: '/products/Ana Swivel Chair.png' },
+    { id: 'anita-chair', name: 'Anita Chair', image: '/products/Anita Chair.png' },
+    { id: 'ansel-end-table', name: 'Ansel End Table', image: '/products/Ansel End Table.png' },
+    { id: 'baker-drinks-table', name: 'Baker Drinks Table', image: '/products/Baker Drinks Table.png' },
+    { id: 'baz-accent-table', name: 'Baz Accent Table', image: '/products/Baz Accent Table - 1.png' },
     // Add more products as images are uploaded
+    // For products with multiple photos (e.g., "Product - 1.png", "Product - 2.png"),
+    // only list the base product name once using the "- 1" image
   ];
 
   // Filter products based on search query
