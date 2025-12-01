@@ -1753,37 +1753,75 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         }
       ` }} />
       
-      {/* 1. Typographic Welcome Header */}
-      <div style={{
-        backgroundColor: '#E7E6E2',
-        padding: '75px 48px 50px',
-        marginBottom: '48px',
-        textAlign: 'center',
-        borderRadius: '20px'
-      }}>
+      {/* 1. Typographic Welcome Header with Mauve Background and Dot Grid */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .overview-header-container {
+          position: relative;
+          background-color: #8A7971;
+          padding: 52px 48px;
+          margin-bottom: 48px;
+          text-align: center;
+          border-radius: 24px;
+          overflow: hidden;
+        }
+        .overview-header-container::before {
+          content: "";
+          position: absolute;
+          top: 36px;
+          left: 36px;
+          width: 44px;
+          height: 44px;
+          background-image: 
+            radial-gradient(circle, rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
+          background-size: 8px 8px;
+          background-position: 0 0;
+          background-repeat: repeat;
+          pointer-events: none;
+          z-index: 1;
+        }
+        @media (max-width: 480px) {
+          .overview-header-container {
+            padding: 36px 24px;
+          }
+          .overview-header-container::before {
+            top: 24px;
+            left: 24px;
+            width: 32px;
+            height: 32px;
+            background-size: 8px 8px;
+          }
+        }
+      ` }} />
+      <div className="overview-header-container">
         {/* Greeting Headline */}
         <div style={{
-          fontSize: '32px',
-          fontWeight: '300',
-          color: brandCharcoal,
+          fontSize: '30px',
+          fontWeight: '400',
+          color: '#FFFFFF',
           fontFamily: "'Domaine Text', serif",
-          letterSpacing: '-0.01em',
-          marginBottom: '16px',
-          lineHeight: '1.3'
+          letterSpacing: '-0.02em',
+          marginBottom: '12px',
+          lineHeight: '1.3',
+          position: 'relative',
+          zIndex: 2
         }}>
           {getGreeting()}, {firstName ? firstName : 'there'}.
         </div>
         {/* Subtext */}
         <div style={{
-          fontSize: '16px',
-          color: '#6f6a61',
+          fontSize: '15px',
+          color: '#FFFFFF',
+          opacity: 0.72,
           fontFamily: "'NeueHaasUnica', sans-serif",
           fontWeight: '400',
           lineHeight: '1.6',
-          letterSpacing: '0.01em'
+          letterSpacing: '0.01em',
+          maxWidth: '480px',
+          margin: '12px auto 0',
+          position: 'relative',
+          zIndex: 2
         }}>
-          Here's a snapshot of your Mayker Reserve membership<br />
-          and upcoming events.
+          Here's a snapshot of your Mayker Reserve membership and upcoming events.
         </div>
       </div>
 
@@ -2918,6 +2956,62 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
     return total + calculateProductSpend(proposal);
   }, 0);
   
+  // Calculate total money saved (discounts) for current year
+  const currentYearMoneySaved = yearProposals.reduce((total, proposal) => {
+    try {
+      // Use the same logic as calculateDetailedTotals
+      const sections = JSON.parse(proposal.sectionsJSON || '[]');
+      
+      // Calculate base product total
+      let baseProductTotal = 0;
+      sections.forEach(section => {
+        if (section.products && Array.isArray(section.products)) {
+          section.products.forEach(product => {
+            const quantity = parseFloat(product.quantity) || 0;
+            const price = parseFloat(product.price) || 0;
+            baseProductTotal += quantity * price;
+          });
+        }
+      });
+      
+      // Get rental multiplier (same logic as calculateDetailedTotals)
+      let rentalMultiplier = 1.0;
+      if (proposal.customRentalMultiplier && proposal.customRentalMultiplier.trim() !== '') {
+        const parsed = parseFloat(proposal.customRentalMultiplier);
+        if (!isNaN(parsed) && parsed > 0) {
+          rentalMultiplier = parsed;
+        }
+      } else {
+        const start = parseDateSafely(proposal.startDate);
+        const end = parseDateSafely(proposal.endDate);
+        if (start && end) {
+          const diffTime = end.getTime() - start.getTime();
+          const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+          rentalMultiplier = getRentalMultiplier(diffDays);
+        }
+      }
+      
+      const extendedProductTotal = baseProductTotal * rentalMultiplier;
+      
+      // Calculate discount (same logic as calculateDetailedTotals)
+      const discountValue = parseFloat(proposal.discountValue || proposal.discount || 0) || 0;
+      let discountType = 'percentage';
+      if (proposal.discountName && proposal.discountName.startsWith('TYPE:')) {
+        const match = proposal.discountName.match(/^TYPE:(\w+)/);
+        if (match) discountType = match[1];
+      }
+      
+      const standardRateDiscount = discountType === 'dollar' 
+        ? discountValue 
+        : extendedProductTotal * (discountValue / 100);
+      
+      return total + standardRateDiscount;
+    } catch (e) {
+      console.error('Error calculating discount for proposal:', e);
+      return total;
+    }
+  }, 0);
+  
   // For 2026+, calculate 2025 total to determine tier status (carryover)
   // For 2025, use current year spend
   let tierBaseSpend = currentYearSpend;
@@ -3293,6 +3387,32 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
             lineHeight: '1.1'
           }}>
             {spendData?.proposalCount || 0}
+          </div>
+        </div>
+        
+        {/* Money Saved This Year */}
+        <div style={{ flex: '1' }}>
+          <div style={{ 
+            fontSize: '11px', 
+            fontWeight: '500', 
+            color: '#8b8b8b', 
+            textTransform: 'uppercase', 
+            letterSpacing: '0.15em', 
+            marginBottom: '16px',
+            fontFamily: "'NeueHaasUnica', sans-serif"
+          }}>
+            Money Saved This Year ({new Date().getFullYear()})
+          </div>
+          <div style={{ 
+            fontSize: '56px', 
+            fontWeight: '300', 
+            color: brandCharcoal, 
+            marginBottom: '12px',
+            fontFamily: "'Domaine Text', serif",
+            letterSpacing: '-0.03em',
+            lineHeight: '1.1'
+          }}>
+            ${Math.round(currentYearMoneySaved).toLocaleString('en-US')}
           </div>
         </div>
       </div>
