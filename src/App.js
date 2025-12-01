@@ -2427,7 +2427,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           borderRadius: '20px',
           overflow: 'hidden',
           backgroundColor: '#FAF8F3',
-          minHeight: '500px'
+          alignItems: 'stretch'
         }}
       >
         {/* Left: Image - 50% width, maintains aspect ratio like Member Perk */}
@@ -2461,14 +2461,16 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           />
         </div>
         
-        {/* Right: Editorial Text Block - 50% width */}
+        {/* Right: Editorial Text Block - 50% width, matches image height */}
         <div style={{
           backgroundColor: '#DED6CE',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '80px 60px',
-          borderRadius: '0 20px 20px 0'
+          borderRadius: '0 20px 20px 0',
+          height: '100%',
+          minHeight: '100%'
         }}>
           <div style={{
             width: '100%',
@@ -2563,6 +2565,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         .featured-member-section {
           display: grid !important;
           grid-template-columns: 1fr 1fr !important;
+          align-items: stretch !important;
         }
         .featured-member-section > div:first-child {
           position: relative !important;
@@ -2576,6 +2579,10 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           position: absolute !important;
           top: 0 !important;
           left: 0 !important;
+        }
+        .featured-member-section > div:last-child {
+          height: 100% !important;
+          min-height: 100% !important;
         }
         @media (max-width: 768px) {
           /* Mobile: Stack vertically */
