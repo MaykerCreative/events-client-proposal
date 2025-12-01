@@ -1753,23 +1753,25 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         }
       ` }} />
       
-      {/* 1. Typographic Welcome Header - Big Type on White with Watermark */}
+      {/* 1. Typographic Welcome Header - Big Type on White with Centered Watermark */}
       <style dangerouslySetInnerHTML={{ __html: `
         .overview-hero {
           padding: 72px 96px 56px;
           position: relative;
           background-color: transparent;
           margin-bottom: 48px;
+          text-align: center;
         }
         .overview-hero::after {
           content: "";
           position: absolute;
-          top: 16px;
-          right: 72px;
-          width: 240px;
-          height: 240px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 300px;
+          height: 300px;
           background: url('/mayker_icon-black.svg') no-repeat center/contain;
-          opacity: 0.06;
+          opacity: 0.1;
           pointer-events: none;
           z-index: 0;
         }
@@ -1790,6 +1792,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           line-height: 1.6;
           color: rgba(58, 54, 50, 0.7);
           max-width: 520px;
+          margin: 0 auto;
           position: relative;
           z-index: 1;
         }
@@ -1798,10 +1801,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             padding: 48px 48px 40px;
           }
           .overview-hero::after {
-            top: 8px;
-            right: 48px;
-            width: 180px;
-            height: 180px;
+            width: 240px;
+            height: 240px;
           }
           .overview-hero__title {
             font-size: 36px;
@@ -1812,11 +1813,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             padding: 32px 24px;
           }
           .overview-hero::after {
-            top: 8px;
-            right: 24px;
-            width: 140px;
-            height: 140px;
-            opacity: 0.05;
+            width: 200px;
+            height: 200px;
           }
           .overview-hero__title {
             font-size: 32px;
