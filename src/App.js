@@ -2432,7 +2432,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           overflow: 'hidden',
           borderRadius: '20px 0 0 20px',
           minHeight: '500px',
-          height: '100%'
+          height: '100%',
+          backgroundColor: '#DED6CE',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
           <img 
             src="/featured-member.jpg" 
@@ -2441,10 +2445,9 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
+              objectFit: 'contain',
               objectPosition: 'center',
-              display: 'block',
-              minHeight: '500px'
+              display: 'block'
             }}
             onError={(e) => {
               if (!e.target.src.includes('/assets/')) {
