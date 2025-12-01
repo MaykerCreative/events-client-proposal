@@ -890,6 +890,7 @@ function LoginView({ onLogin }) {
             <img 
               src={encodeURI('/Mayker Reserve - Black – 2.png')}
               alt="Mayker Reserve" 
+              onClick={() => setActiveSection('performance')}
               style={{ 
                 maxHeight: '50px', 
                 height: 'auto', 
@@ -898,7 +899,8 @@ function LoginView({ onLogin }) {
                 marginBottom: '16px', 
                 display: 'block', 
                 margin: '0 auto 16px auto',
-                objectFit: 'contain'
+                objectFit: 'contain',
+                cursor: 'pointer'
               }}
               onLoad={() => console.log('✅ Logo loaded')}
               onError={(e) => {
@@ -2438,7 +2440,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
+              objectFit: 'contain',
               display: 'block'
             }}
             onError={(e) => {
@@ -3628,7 +3630,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                 margin: 0,
                 fontStyle: 'italic'
               }}>
-                Points are earned from rental product, product care fees, and service fees. Delivery fees and tax are excluded.
+                Points are calculated from your invoice total, excluding delivery fees and tax.
               </p>
             </div>
           </>
@@ -3669,7 +3671,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
         fontFamily: "'Domaine Text', serif",
         letterSpacing: '-0.02em'
       }}>
-        Proposals
+        Projects
       </h2>
       
       {/* Proposal Tabs */}
@@ -3756,6 +3758,17 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                   </th>
                   <th style={{ 
                     padding: '14px 16px', 
+                    textAlign: 'right', 
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    color: brandCharcoal,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}>
+                    Points
+                  </th>
+                  <th style={{ 
+                    padding: '14px 16px', 
                     textAlign: 'left', 
                     fontSize: '12px',
                     fontWeight: '600',
@@ -3771,6 +3784,8 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                 {getProposalsForTab().map((proposal, index) => {
                   const total = calculateTotal(proposal);
                   const dateRange = formatDateRange(proposal);
+                  const productSpend = calculateProductSpend(proposal);
+                  const points = Math.round(productSpend);
                   return (
                     <tr 
                       key={proposal.id || index}
@@ -3805,6 +3820,15 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                         fontFamily: "'NeueHaasUnica', sans-serif"
                       }}>
                         ${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </td>
+                      <td style={{ 
+                        padding: '14px 16px', 
+                        fontSize: '14px',
+                        color: brandCharcoal,
+                        textAlign: 'right',
+                        fontFamily: "'NeueHaasUnica', sans-serif"
+                      }}>
+                        + {points.toLocaleString()} points
                       </td>
                       <td style={{ 
                         padding: '14px 16px', 
@@ -3874,6 +3898,20 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
       email: 'Mara@Mayker.com',
       photo: '/mara-meisberger.jpg',
       firstName: 'Mara'
+    },
+    {
+      name: 'Becca Farris',
+      title: 'Warehouse Manager',
+      email: 'Becca@Mayker.com',
+      photo: '/becca-farris.jpg',
+      firstName: 'Becca'
+    },
+    {
+      name: 'Robert Hamm',
+      title: 'Inventory Manager',
+      email: 'Robert@mayker.com',
+      photo: '/robert-hamm.jpg',
+      firstName: 'Robert'
     }
   ];
 
@@ -4238,6 +4276,27 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
               (615) 970-1244
             </a>
           </div>
+          <div>
+            <a
+              href="https://maykerevents.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: brandCharcoal,
+                textDecoration: 'none',
+                borderBottom: '1px solid transparent',
+                transition: 'border-color 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderBottomColor = brandCharcoal;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderBottomColor = 'transparent';
+              }}
+            >
+              maykerevents.com
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -4473,7 +4532,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
 
   return (
     <div style={{ backgroundColor: warmIvory, minHeight: '100vh', padding: '0' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 24px' }}>
+      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '48px 24px' }}>
         {/* Image Banner */}
         <div style={{
           width: '100%',
@@ -4620,7 +4679,9 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
             style={{
               marginBottom: sectionIndex < Object.keys(faqData).length - 1 ? '80px' : '80px',
               scrollMarginTop: '80px',
-              paddingTop: '32px' // Added breathing room above section titles
+              paddingTop: '32px',
+              paddingLeft: '48px',
+              paddingRight: '48px'
             }}
           >
             <h2 style={{
@@ -4780,7 +4841,7 @@ function DashboardView({ clientInfo, onLogout }) {
   const [spendData, setSpendData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeSection, setActiveSection] = useState('profile'); // 'profile', 'performance', 'proposals', 'resources', 'activity', 'faq', 'contact'
+  const [activeSection, setActiveSection] = useState('performance'); // 'profile', 'performance', 'proposals', 'resources', 'activity', 'faq', 'contact'
   const [proposalTab, setProposalTab] = useState('active'); // For proposals section
   const [selectedProposal, setSelectedProposal] = useState(null);
   const [profileData, setProfileData] = useState(null);
@@ -5038,11 +5099,13 @@ function DashboardView({ clientInfo, onLogout }) {
               <img 
                 src={encodeURI('/Mayker Reserve - Black – 2.png')}
                 alt="MAYKER reserve" 
+                onClick={() => setActiveSection('performance')}
                 style={{ 
                   height: '48px', 
                   width: 'auto',
                   maxWidth: '300px',
-                  display: 'block'
+                  display: 'block',
+                  cursor: 'pointer'
                 }}
                 onLoad={() => {
                   console.log('✅ Logo loaded successfully');
@@ -5227,6 +5290,27 @@ function DashboardView({ clientInfo, onLogout }) {
           }}>
             <div>EVENTS@MAYKER.COM</div>
             <div>(615) 970-1244</div>
+            <div>
+              <a
+                href="https://maykerevents.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderBottom: '1px solid transparent',
+                  transition: 'border-color 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderBottomColor = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderBottomColor = 'transparent';
+                }}
+              >
+                maykerevents.com
+              </a>
+            </div>
           </div>
           <img 
             src="/mayker_icon-whisper.png" 
