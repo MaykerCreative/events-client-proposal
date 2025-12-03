@@ -12,8 +12,8 @@ const SHOPIFY_STORE = 'maykerevents';
 const SHOPIFY_STOREFRONT_TOKEN = 'c5d91c74423126f87956f6f32d050878';
 const SHOPIFY_API_URL = `https://${SHOPIFY_STORE}.myshopify.com/api/2024-01/graphql.json`;
 
-// Admin Proposal App URL - Links to the admin proposal creation app
-const ADMIN_PROPOSAL_APP_URL = 'https://app.maykerevents.com';
+// Client Proposal View URL - Links to client-facing proposal view
+const CLIENT_PROPOSAL_VIEW_URL = 'https://clients.maykerevents.com';
 
 // ============================================
 // AUTHENTICATION SERVICE
@@ -6322,10 +6322,10 @@ function DashboardView({ clientInfo, onLogout }) {
     );
   }
   
-  // If a proposal is selected and has a projectNumber, redirect to admin app
+  // If a proposal is selected and has a projectNumber, redirect to client-facing proposal view
   if (selectedProposal && selectedProposal.projectNumber) {
-    const adminUrl = `${ADMIN_PROPOSAL_APP_URL}?projectNumber=${encodeURIComponent(selectedProposal.projectNumber)}${selectedProposal.version ? `&version=${encodeURIComponent(selectedProposal.version)}` : ''}&clientView=true`;
-    window.open(adminUrl, '_blank');
+    const clientUrl = `${CLIENT_PROPOSAL_VIEW_URL}/client/${selectedProposal.projectNumber}${selectedProposal.version ? `/${selectedProposal.version}` : ''}`;
+    window.open(clientUrl, '_blank');
     setSelectedProposal(null); // Clear selection after opening
     return null; // Don't render anything while redirecting
   }
@@ -7101,9 +7101,9 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
             ← Back to Dashboard
           </button>
           <div style={{ display: 'flex', gap: '12px' }}>
-            {ADMIN_PROPOSAL_APP_URL && proposal.projectNumber && (
+            {CLIENT_PROPOSAL_VIEW_URL && proposal.projectNumber && (
               <a
-                href={`${ADMIN_PROPOSAL_APP_URL}?projectNumber=${encodeURIComponent(proposal.projectNumber)}${proposal.version ? `&version=${encodeURIComponent(proposal.version)}` : ''}&clientView=true`}
+                href={`${CLIENT_PROPOSAL_VIEW_URL}/client/${proposal.projectNumber}${proposal.version ? `/${proposal.version}` : ''}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ padding: '8px 20px', backgroundColor: '#059669', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textDecoration: 'none', display: 'inline-block' }}
