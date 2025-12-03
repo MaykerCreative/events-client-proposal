@@ -2989,18 +2989,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                     fontFamily: "'NeueHaasUnica', sans-serif",
                     fontWeight: '500',
                     transition: 'all 0.2s ease',
-                  cursor: proposal.projectNumber ? 'pointer' : 'default'
-                }}
-                onMouseEnter={(e) => {
-                  if (proposal.projectNumber) {
-                    e.currentTarget.style.backgroundColor = '#f9fafb';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (proposal.projectNumber) {
-                    e.currentTarget.style.backgroundColor = 'white';
-                  }
-                }}}
+                    cursor: 'pointer'
+                  }}
                   onMouseEnter={(e) => {
                     e.target.style.backgroundColor = '#5a6b3a';
                   }}
