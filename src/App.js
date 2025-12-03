@@ -3203,8 +3203,6 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             ))}
           </div>
         </div>
-      </div>
-      
       {/* Responsive Styles for Featured Member Section */}
       <style dangerouslySetInnerHTML={{ __html: `
         .featured-member-section {
@@ -3256,6 +3254,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           }
         }
       ` }} />
+      </div>
+      
 
       {/* 9. Concierge Section - Editorial 3-Column Layout */}
       <div style={{
