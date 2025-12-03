@@ -7224,10 +7224,7 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
       
       {/* Navigation bar - hidden when printing */}
       <div className="no-print" style={{ position: 'fixed', top: 0, left: 0, right: 0, backgroundColor: 'white', borderBottom: '1px solid #e5e7eb', zIndex: 1000, padding: '16px 24px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-          <button onClick={onBack} style={{ color: '#6b7280', background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-            ← Back to Dashboard
-          </button>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px' }}>
           <div style={{ display: 'flex', gap: '12px' }}>
             {CLIENT_PROPOSAL_VIEW_URL && proposal.projectNumber && (
               <a
