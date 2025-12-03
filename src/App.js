@@ -3203,6 +3203,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             ))}
           </div>
         </div>
+
         {/* Responsive Styles for Featured Member Section */}
         <style dangerouslySetInnerHTML={{ __html: `
           .featured-member-section {
