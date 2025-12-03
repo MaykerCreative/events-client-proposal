@@ -3755,31 +3755,24 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
   const currentYear = new Date().getFullYear();
   // Filter and sort year proposals (most recent first)
   const yearProposals = proposals.filter(p => {
+    // Exclude cancelled projects
     if (p.status === 'Cancelled') return false;
     
-    // For historical projects, check eventDate or use timestamp
-    if (p.isHistorical) {
-      if (p.eventDate) {
-        // Try to extract year from eventDate string (e.g., "April 5, 2025" or "April 5-13, 2025")
-        const yearMatch = p.eventDate.match(/\d{4}/);
-        if (yearMatch) {
-          return parseInt(yearMatch[0]) === currentYear;
-        }
-      }
-      // Fall back to timestamp if available
-      if (p.timestamp) {
-        const proposalYear = new Date(p.timestamp).getFullYear();
-        return proposalYear === currentYear;
-      }
+    // Only include Approved, Confirmed, or Completed projects (exclude Pending)
+    if (p.status !== 'Approved' && p.status !== 'Confirmed' && p.status !== 'Completed') {
       return false;
     }
     
-    // For regular projects, use startDate
-    if (!p.startDate) return false;
-    const start = parseDateSafely(p.startDate);
-    if (!start || isNaN(start.getTime())) return false;
-    const proposalYear = start.getFullYear();
-    return proposalYear === currentYear;
+    // Use timestamp (booking date) to determine the year the project was booked
+    // This applies to both historical and regular projects
+    if (p.timestamp) {
+      const bookingYear = new Date(p.timestamp).getFullYear();
+      return bookingYear === currentYear;
+    }
+    
+    // Fallback: if no timestamp, try to use created date or other date fields
+    // But prefer timestamp as it represents when the project was booked
+    return false;
   }).sort((a, b) => {
     // Use shared utility function for consistent sorting
     const dateA = getSortableDateFromProposal(a);
