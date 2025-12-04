@@ -7952,6 +7952,9 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
     quantity: 1,
     notes: ''
   });
+  const [productSuggestions, setProductSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [productInputValue, setProductInputValue] = useState('');
   
   const brandCharcoal = '#2C2C2C';
   const brandTaupe = '#545142';
@@ -8008,6 +8011,9 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
     });
     
     setNewProduct({ section: '', name: '', quantity: 1, notes: '' });
+    setProductInputValue('');
+    setProductSuggestions([]);
+    setShowSuggestions(false);
     setShowAddProduct(false);
   };
   
@@ -8114,14 +8120,14 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
           <div style={{ marginBottom: '48px', textAlign: 'center', paddingBottom: '32px', borderBottom: `2px solid ${brandTaupe}30` }}>
             <div style={{ marginBottom: '24px' }}>
               <img 
-                src="/mayker_wordmark-events-black.svg" 
+                src="/mayker_icon-black.svg" 
                 alt="MAYKER EVENTS" 
-                style={{ height: '40px', width: 'auto', margin: '0 auto' }}
+                style={{ height: '48px', width: '48px', margin: '0 auto' }}
                 onError={(e) => {
                   if (!e.target.src.includes('/assets/')) {
-                    e.target.src = '/assets/mayker_wordmark-events-black.svg';
+                    e.target.src = '/assets/mayker_icon-black.svg';
                   } else if (!e.target.src.includes('cdn')) {
-                    e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_wordmark-events-black.svg';
+                    e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_icon-black.svg';
                   } else {
                     e.target.style.display = 'none';
                   }
@@ -8295,7 +8301,17 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                 </label>
                     <select
                       value={newProduct.section}
-                      onChange={(e) => setNewProduct({ ...newProduct, section: e.target.value })}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === '__ADD_NEW__') {
+                          const newSectionName = window.prompt('Enter the name for the new section:');
+                          if (newSectionName && newSectionName.trim()) {
+                            setNewProduct({ ...newProduct, section: newSectionName.trim() });
+                          }
+                        } else {
+                          setNewProduct({ ...newProduct, section: value });
+                        }
+                      }}
                       style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                     >
                       <option value="">Select section...</option>
@@ -8304,19 +8320,87 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                           {section.name || `Section ${idx + 1}`}
                         </option>
                       ))}
+                      <option value="__ADD_NEW__">+ Add New Section</option>
                     </select>
                   </div>
-                  <div>
+                  <div style={{ position: 'relative' }}>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                   Product Name
                 </label>
                     <input
                       type="text"
-                      value={newProduct.name}
-                      onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-                      placeholder="Enter product name..."
+                      value={productInputValue}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setProductInputValue(value);
+                        setNewProduct({ ...newProduct, name: value });
+                        
+                        // Filter catalog products based on input
+                        if (value.trim().length > 0 && catalog && Array.isArray(catalog)) {
+                          const filtered = catalog
+                            .filter(product => {
+                              const productName = (product.name || '').toLowerCase();
+                              return productName.includes(value.toLowerCase());
+                            })
+                            .slice(0, 10); // Limit to 10 suggestions
+                          setProductSuggestions(filtered);
+                          setShowSuggestions(filtered.length > 0);
+                        } else {
+                          setProductSuggestions([]);
+                          setShowSuggestions(false);
+                        }
+                      }}
+                      onFocus={() => {
+                        if (productSuggestions.length > 0) {
+                          setShowSuggestions(true);
+                        }
+                      }}
+                      onBlur={() => {
+                        // Delay hiding suggestions to allow click
+                        setTimeout(() => setShowSuggestions(false), 200);
+                      }}
+                      placeholder="Start typing product name..."
                       style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                     />
+                    {showSuggestions && productSuggestions.length > 0 && (
+                      <div style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: 0,
+                        right: 0,
+                        backgroundColor: 'white',
+                        border: `1px solid ${brandTaupe}40`,
+                        borderRadius: '4px',
+                        marginTop: '4px',
+                        maxHeight: '200px',
+                        overflowY: 'auto',
+                        zIndex: 1000,
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                      }}>
+                        {productSuggestions.map((product, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => {
+                              setProductInputValue(product.name || '');
+                              setNewProduct({ ...newProduct, name: product.name || '' });
+                              setShowSuggestions(false);
+                            }}
+                            style={{
+                              padding: '10px',
+                              cursor: 'pointer',
+                              fontSize: '14px',
+                              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
+                              color: brandCharcoal,
+                              borderBottom: idx < productSuggestions.length - 1 ? `1px solid ${brandTaupe}20` : 'none'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `${brandTaupe}08`}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                          >
+                            {product.name || 'Unnamed Product'}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
@@ -8356,6 +8440,9 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                     onClick={() => {
                       setShowAddProduct(false);
                       setNewProduct({ section: '', name: '', quantity: 1, notes: '' });
+                      setProductInputValue('');
+                      setProductSuggestions([]);
+                      setShowSuggestions(false);
                     }}
                     style={{ padding: '10px 20px', backgroundColor: '#f3f4f6', color: brandCharcoal, border: `1px solid ${brandTaupe}30`, borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500', transition: 'opacity 0.2s' }}
                     onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
