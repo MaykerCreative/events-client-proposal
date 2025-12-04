@@ -5219,11 +5219,12 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
     <div>
       {/* Image Banner */}
       <div style={{
-        width: '100%',
+        width: '100vw',
+        marginLeft: 'calc(-50vw + 50%)',
         height: '320px',
         marginBottom: '56px',
         marginTop: '0',
-        borderRadius: '12px',
+        borderRadius: '0',
         overflow: 'hidden',
         position: 'relative',
         backgroundColor: '#1a1a1a',
@@ -6379,11 +6380,12 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
       <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '48px 24px' }}>
         {/* Image Banner */}
         <div style={{
-          width: '100%',
+          width: '100vw',
+          marginLeft: 'calc(-50vw + 50%)',
           height: '320px',
           marginBottom: '56px',
           marginTop: '0',
-          borderRadius: '12px',
+          borderRadius: '0',
           overflow: 'hidden',
           position: 'relative',
           backgroundColor: '#1a1a1a',
@@ -6459,7 +6461,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
             </div>
           </div>
         </div>
-
+        
         {/* Chapter Navigation */}
         <nav style={{
           padding: '16px 0 32px',
@@ -7570,7 +7572,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
 
       {/* Footer */}
       <div style={{ 
-        backgroundColor: brandBrown,
+        backgroundColor: '#000000',
         padding: '32px',
         marginTop: 'auto'
       }}>
