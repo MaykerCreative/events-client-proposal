@@ -2946,7 +2946,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         }
         .overview-hero__title {
           font-family: 'Domaine Text', serif;
-          font-size: 36px;
+          font-size: 50px;
           line-height: 1.3;
           font-weight: 400;
           letter-spacing: -0.01em;
@@ -2983,7 +2983,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             margin-bottom: 24px;
           }
           .overview-hero__title {
-            font-size: 32px;
+            font-size: 50px;
           }
           .overview-hero__subtitle {
             font-size: 15px;
@@ -3139,7 +3139,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               position: 'relative'
             }}>
               <div style={{
-                fontSize: '34px',
+                fontSize: '20px',
                 fontWeight: '300',
                 color: '#000000',
                 fontFamily: "'Domaine Text', serif",
@@ -3150,7 +3150,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                 {tier.tier}
               </div>
               <div style={{
-                fontSize: '18px',
+                fontSize: '17px',
                 fontWeight: '300',
                 color: '#8b8b8b',
                 fontFamily: "'NeueHaasUnica', sans-serif",
@@ -3378,7 +3378,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           backgroundColor: '#E8E3DD'
         }}>
           <div style={{
-            fontSize: '18px',
+            fontSize: '17px',
             fontWeight: '300',
             color: '#000000',
             fontFamily: "'Domaine Text', serif",
@@ -3494,7 +3494,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
       {shopifyProducts.length > 0 && (
         <div style={panelStyle}>
           <div style={{
-            fontSize: '18px',
+            fontSize: '17px',
             fontWeight: '300',
             color: '#000000',
             fontFamily: "'Domaine Text', serif",
@@ -3756,7 +3756,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             
             {/* Headline */}
             <div style={{
-              fontSize: '42px',
+              fontSize: '50px',
               fontWeight: '300',
               color: '#1a1a1a',
               fontFamily: "'Domaine Text', serif",
@@ -3884,7 +3884,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         borderRadius: '20px'
       }} className="concierge-section">
         <div style={{
-          fontSize: '18px',
+          fontSize: '17px',
           fontWeight: '300',
           color: '#000000',
           fontFamily: "'Domaine Text', serif",
@@ -3942,7 +3942,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               General
             </div>
             <div style={{
-              fontSize: '24px',
+              fontSize: '20px',
               fontWeight: '300',
               color: '#1a1a1a',
               fontFamily: "'Domaine Text', serif",
@@ -4019,7 +4019,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               Custom Project
             </div>
             <div style={{
-              fontSize: '24px',
+              fontSize: '20px',
               fontWeight: '300',
               color: '#1a1a1a',
               fontFamily: "'Domaine Text', serif",
@@ -4096,7 +4096,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               Partnership
             </div>
             <div style={{
-              fontSize: '24px',
+              fontSize: '20px',
               fontWeight: '300',
               color: '#1a1a1a',
               fontFamily: "'Domaine Text', serif",
@@ -4468,7 +4468,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
           zIndex: 1
         }}>
           <div style={{
-            fontSize: '52px',
+            fontSize: '50px',
             fontWeight: '300',
             fontFamily: "'Domaine Text', serif",
             color: 'white',
@@ -4538,7 +4538,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             zIndex: 1
           }}>
             <div style={{ 
-              fontSize: '40px', 
+              fontSize: '50px', 
               fontWeight: '300', 
               color: '#000000',
               fontFamily: "'Domaine Text', serif",
@@ -5271,7 +5271,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
           zIndex: 1
         }}>
           <div style={{
-            fontSize: '52px',
+            fontSize: '50px',
             fontWeight: '300',
             fontFamily: "'Domaine Text', serif",
             color: 'white',
@@ -5652,7 +5652,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
           zIndex: 1
         }}>
           <div style={{
-            fontSize: '42px',
+            fontSize: '50px',
             fontWeight: '300',
             fontFamily: "'Domaine Text', serif",
             color: 'white',
@@ -5791,7 +5791,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
 
                 {/* Name */}
                 <div style={{
-                  fontSize: '22px',
+                  fontSize: '15px',
                   fontWeight: '300',
                   color: '#000000',
                   fontFamily: "'Domaine Text', serif",
@@ -6038,7 +6038,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
       
       <div style={{ marginBottom: '32px' }}>
         <h3 style={{ 
-          fontSize: '18px', 
+          fontSize: '17px', 
           fontWeight: '300', 
           color: '#000000', 
           marginBottom: '16px',
@@ -6405,7 +6405,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
             zIndex: 1
           }}>
             <div style={{
-              fontSize: '44px',
+              fontSize: '50px',
               fontWeight: '300',
               fontFamily: "'Domaine Text', serif",
               color: 'white',
@@ -6507,7 +6507,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
             }}
           >
             <h2 style={{
-              fontSize: '32px',
+              fontSize: '20px',
               fontWeight: '300',
               fontFamily: "'Domaine Text', serif",
               color: warmCharcoal,
@@ -7965,7 +7965,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
             />
             <div style={{ width: '60px', height: '0.5px', backgroundColor: 'rgba(255,255,255,0.4)', marginBottom: '24px' }}></div>
             <p style={{ fontSize: '14px', color: 'white', letterSpacing: '0.1em', marginBottom: '16px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textTransform: 'uppercase' }}>Product Selections</p>
-            <p style={{ fontSize: '18px', color: 'white', marginBottom: '6px', fontWeight: '300', fontFamily: "'Domaine Text', serif" }}>{proposal.clientName ? proposal.clientName.replace(/\s*\(V\d+\)\s*$/, '') : 'Proposal'}{proposal.status === 'Approved' ? ' (Final)' : ''}</p>
+            <p style={{ fontSize: '15px', color: 'white', marginBottom: '6px', fontWeight: '300', fontFamily: "'Domaine Text', serif" }}>{proposal.clientName ? proposal.clientName.replace(/\s*\(V\d+\)\s*$/, '') : 'Proposal'}{proposal.status === 'Approved' ? ' (Final)' : ''}</p>
             <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.9)', marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>{proposal.venueName}</p>
             <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.9)', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>{formatDateRange(proposal)}</p>
           </div>
@@ -8703,7 +8703,7 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog, showAlert, s
                 }}
               />
             </div>
-            <h1 style={{ fontSize: '32px', fontWeight: '300', color: '#000000', marginBottom: '12px', fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em' }}>
+            <h1 style={{ fontSize: '20px', fontWeight: '300', color: '#000000', marginBottom: '12px', fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em' }}>
               Request Changes
             </h1>
             <p style={{ fontSize: '15px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", maxWidth: '600px', margin: '0 auto', lineHeight: '1.6', marginBottom: '24px' }}>
