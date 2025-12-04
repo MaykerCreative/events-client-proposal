@@ -7924,7 +7924,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
                   await showAlert('Error approving proposal: ' + err.message);
                 }
               }
-            }} style={{ padding: '8px 20px', backgroundColor: brandCharcoal, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+            }} style={{ padding: '8px 20px', backgroundColor: '#000000', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
               Approve Proposal
             </button>
             <button onClick={handlePrintDownload} style={{ padding: '8px 20px', backgroundColor: brandCharcoal, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
@@ -8618,7 +8618,8 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog, showAlert, s
         originalProposal: {
           projectNumber: proposal.projectNumber,
           version: proposal.version,
-          clientName: proposal.clientName
+          clientName: proposal.clientName,
+          venueName: proposal.venueName
         }
       };
       
