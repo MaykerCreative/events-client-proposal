@@ -7234,6 +7234,42 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
     window.print();
   };
   
+  // Page counter for sequential numbering
+  const pageCounterRef = React.useRef(0);
+  
+  const getNextPageNumber = () => {
+    pageCounterRef.current += 1;
+    return pageCounterRef.current;
+  };
+  
+  // Reset counter when component mounts
+  React.useEffect(() => {
+    pageCounterRef.current = 0;
+  }, [proposal]);
+  
+  // Footer component
+  const PageFooter = ({ pageNum, isDark = false, useFlexbox = false }) => (
+    <div style={{
+      position: useFlexbox ? 'relative' : 'absolute',
+      bottom: useFlexbox ? 'auto' : '20px',
+      left: '60px',
+      right: '60px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      fontSize: '10px',
+      color: isDark ? 'rgba(255,255,255,0.8)' : '#666',
+      fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
+      pageBreakInside: 'avoid',
+      breakInside: 'avoid',
+      marginTop: useFlexbox ? 'auto' : '0',
+      paddingTop: useFlexbox ? '20px' : '0'
+    }}>
+      <div>EVENTS@MAYKER.COM</div>
+      <div>{pageNum}</div>
+    </div>
+  );
+  
   // If in change request mode, show ChangeRequestView
   if (isChangeRequestMode) {
     return (
@@ -7252,26 +7288,38 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: white; }
+        body { font-family: 'Neue Haas Unica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: white; }
+        .print-only { display: none !important; }
         @media print {
           .no-print { display: none !important; }
-          @page { 
-            size: letter; 
-            margin: 0.5in;
-          }
+          .print-only { display: block !important; }
+          .print-break-after { page-break-after: always; }
           body { 
             -webkit-print-color-adjust: exact; 
             print-color-adjust: exact;
             background: white;
           }
+          @page { 
+            size: letter; 
+            margin: 0;
+          }
+          @page:first { 
+            margin: 0;
+          }
           div[data-proposal-view="true"] {
             background: white !important;
+          }
+          div[data-proposal-view="true"] > div:first-of-type { 
+            page-break-after: always; 
           }
           div[style*="background-color: #545142"] {
             background-color: #545142 !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
           }
+          thead { display: table-header-group !important; }
+          thead tr { page-break-inside: avoid; }
+          .no-page-break { page-break-inside: avoid !important; break-inside: avoid !important; }
         }
       ` }} />
       
@@ -7285,16 +7333,6 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
             <button onClick={() => setIsChangeRequestMode(true)} style={{ padding: '8px 20px', backgroundColor: '#2563eb', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
               Request Changes
             </button>
-            {CLIENT_PROPOSAL_VIEW_URL && proposal.projectNumber && (
-              <a
-                href={`${CLIENT_PROPOSAL_VIEW_URL}/client/${proposal.projectNumber}${proposal.version ? `/${proposal.version}` : ''}?fromClientPortal=true`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ padding: '8px 20px', backgroundColor: '#059669', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textDecoration: 'none', display: 'inline-block' }}
-              >
-                View Full Proposal
-              </a>
-            )}
             <button onClick={handlePrintDownload} style={{ padding: '8px 20px', backgroundColor: brandCharcoal, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
               Print / Export as PDF
             </button>
@@ -7306,7 +7344,7 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
       </div>
       
       {/* COVER PAGE */}
-      <div style={{ backgroundColor: brandTaupe, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '60px 48px', pageBreakAfter: 'always' }}>
+      <div className="print-break-after" style={{ backgroundColor: brandTaupe, minHeight: '100vh', width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '60px 48px', position: 'relative', boxSizing: 'border-box', margin: 0, pageBreakAfter: 'always', pageBreakBefore: 'auto', overflow: 'hidden' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '80px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <img src="/mayker_wordmark-events-whisper.svg" alt="MAYKER EVENTS" style={{ height: '32px', marginBottom: '24px' }} onError={(e) => { e.target.style.display = 'none'; }} />
@@ -7322,7 +7360,7 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
           
       {/* PRODUCT SECTIONS */}
       {sections.map((section, sectionIndex) => (
-        <div key={sectionIndex} style={{ minHeight: '100vh', padding: '30px 60px 40px', pageBreakAfter: 'always' }}>
+        <div key={sectionIndex} style={{ minHeight: '100vh', padding: '30px 60px 40px', position: 'relative', pageBreakAfter: 'always' }}>
           <div style={{ marginBottom: '20px', paddingBottom: '15px', borderBottom: '1px solid #e5e7eb' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <img src="/mayker_wordmark-events-black.svg" alt="Mayker Events" style={{ height: '22px', marginTop: '4px' }} onError={(e) => { e.target.style.display = 'none'; }} />
@@ -7337,7 +7375,7 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
             </div>
           </div>
           
-          <h2 style={{ fontSize: '18px', fontWeight: '400', color: brandCharcoal, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Domaine Text', serif" }}>
+          <h2 style={{ fontSize: '18px', fontWeight: '400', color: brandCharcoal, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'center', fontFamily: "'Domaine Text', serif" }}>
             {section.name}
           </h2>
           
@@ -7361,11 +7399,13 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
           </div>
             ))}
           </div>
+          
+          <PageFooter pageNum={getNextPageNumber()} />
         </div>
       ))}
 
       {/* INVOICE & PROJECT DETAILS PAGE (Combined) */}
-      <div style={{ minHeight: '100vh', padding: '30px 60px 40px', pageBreakAfter: 'always' }}>
+      <div style={{ minHeight: '100vh', padding: '30px 60px 40px', position: 'relative', pageBreakAfter: 'always' }}>
         <div style={{ marginBottom: '20px', paddingBottom: '15px', borderBottom: '1px solid #e5e7eb' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <img src="/mayker_wordmark-events-black.svg" alt="Mayker Events" style={{ height: '22px', marginTop: '4px' }} onError={(e) => { e.target.style.display = 'none'; }} />
@@ -7495,12 +7535,7 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
           </div>
         </div>
         
-        {/* Footer */}
-        <div style={{ marginTop: '60px', paddingTop: '20px', borderTop: '1px solid #e5e7eb', textAlign: 'center' }}>
-          <p style={{ fontSize: '9px', color: '#999', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            Mayker Events • events@mayker.com
-          </p>
-        </div>
+        <PageFooter pageNum={getNextPageNumber()} useFlexbox={true} />
       </div>
     </div>
   );
@@ -7531,6 +7566,9 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
   });
   
   const brandCharcoal = '#2C2C2C';
+  const brandTaupe = '#545142';
+  const brandBrown = '#603f27';
+  const brandBlue = '#7693a9';
   
   const handleQuantityChange = (sectionIdx, productIdx, newQuantity) => {
     const key = `${sectionIdx}-${productIdx}`;
@@ -7646,65 +7684,104 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
   
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', paddingTop: '80px' }}>
+      {/* Header with logo */}
+      <div className="no-print" style={{ position: 'fixed', top: 0, left: 0, right: 0, backgroundColor: 'white', borderBottom: '1px solid #e5e7eb', zIndex: 1000, padding: '16px 24px' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+          <img 
+            src="/mayker_wordmark-events-black.svg" 
+            alt="MAYKER EVENTS" 
+            style={{ height: '32px', width: 'auto' }}
+            onError={(e) => {
+              if (!e.target.src.includes('/assets/')) {
+                e.target.src = '/assets/mayker_wordmark-events-black.svg';
+              } else {
+                e.target.style.display = 'none';
+              }
+            }}
+          />
+          <button
+            onClick={onCancel}
+            style={{ padding: '8px 20px', backgroundColor: '#f3f4f6', color: brandCharcoal, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+          >
+            Back to View
+          </button>
+        </div>
+      </div>
+      
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px' }}>
-        <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '32px', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-          <div style={{ marginBottom: '32px' }}>
-            <h1 style={{ fontSize: '28px', fontWeight: '600', color: brandCharcoal, marginBottom: '8px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+        <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '48px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)', border: `1px solid ${brandTaupe}20` }}>
+          {/* Branded header section */}
+          <div style={{ marginBottom: '48px', textAlign: 'center', paddingBottom: '32px', borderBottom: `2px solid ${brandTaupe}30` }}>
+            <div style={{ marginBottom: '16px' }}>
+              <img 
+                src="/mayker_icon-black.svg" 
+                alt="Mayker Events" 
+                style={{ height: '48px', width: 'auto', margin: '0 auto' }}
+                onError={(e) => {
+                  if (!e.target.src.includes('/assets/')) {
+                    e.target.src = '/assets/mayker_icon-black.svg';
+                  } else {
+                    e.target.style.display = 'none';
+                  }
+                }}
+              />
+            </div>
+            <h1 style={{ fontSize: '32px', fontWeight: '400', color: brandCharcoal, marginBottom: '12px', fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em' }}>
               Request Changes
             </h1>
-            <p style={{ fontSize: '14px', color: '#6b7280', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+            <p style={{ fontSize: '15px', color: brandTaupe, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}>
               Please review the proposal below and indicate any changes you'd like to request. The team will review and respond to your request.
             </p>
           </div>
           
           {/* Date/Time Changes */}
-          <div style={{ marginBottom: '40px', padding: '24px', backgroundColor: '#f9fafb', borderRadius: '6px', border: '1px solid #e5e7eb' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '20px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+          <div style={{ marginBottom: '40px', padding: '28px', backgroundColor: `${brandTaupe}08`, borderRadius: '6px', border: `1px solid ${brandTaupe}30` }}>
+            <h2 style={{ fontSize: '20px', fontWeight: '400', color: brandCharcoal, marginBottom: '24px', fontFamily: "'Domaine Text', serif", textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Event Dates & Times
             </h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                   Event Start Date
                 </label>
                 <input
                   type="date"
                   value={changeRequest.dateTimeChanges.startDate}
                   onChange={(e) => handleDateTimeChange('startDate', e.target.value)}
-                  style={{ width: '100%', padding: '10px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                  style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                   Event End Date
                 </label>
                 <input
                   type="date"
                   value={changeRequest.dateTimeChanges.endDate}
                   onChange={(e) => handleDateTimeChange('endDate', e.target.value)}
-                  style={{ width: '100%', padding: '10px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                  style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                   Load-In Time
                 </label>
                 <input
                   type="time"
                   value={changeRequest.dateTimeChanges.deliveryTime}
                   onChange={(e) => handleDateTimeChange('deliveryTime', e.target.value)}
-                  style={{ width: '100%', padding: '10px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                  style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                   Strike Time
                 </label>
                 <input
                   type="time"
                   value={changeRequest.dateTimeChanges.strikeTime}
                   onChange={(e) => handleDateTimeChange('strikeTime', e.target.value)}
-                  style={{ width: '100%', padding: '10px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                  style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                 />
               </div>
             </div>
@@ -7712,13 +7789,13 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
           
           {/* Quantity Changes */}
           <div style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, marginBottom: '20px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+            <h2 style={{ fontSize: '20px', fontWeight: '400', color: brandCharcoal, marginBottom: '24px', fontFamily: "'Domaine Text', serif", textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Product Quantities
             </h2>
             {sections.map((section, sectionIdx) => (
               section.products && section.products.length > 0 && (
-                <div key={sectionIdx} style={{ marginBottom: '32px', padding: '20px', backgroundColor: '#f9fafb', borderRadius: '6px', border: '1px solid #e5e7eb' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: '600', color: brandCharcoal, marginBottom: '16px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                <div key={sectionIdx} style={{ marginBottom: '32px', padding: '24px', backgroundColor: `${brandTaupe}08`, borderRadius: '6px', border: `1px solid ${brandTaupe}30` }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: '500', color: brandCharcoal, marginBottom: '20px', fontFamily: "'Domaine Text', serif", textTransform: 'uppercase', letterSpacing: '0.03em' }}>
                     {section.name || 'Unnamed Section'}
                   </h3>
                   {section.products.map((product, productIdx) => {
@@ -7729,13 +7806,13 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                     const hasChange = change && change.newQuantity !== originalQuantity;
                     
                     return (
-                      <div key={productIdx} style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px', padding: '12px', backgroundColor: hasChange ? '#fef3c7' : 'white', borderRadius: '4px', border: hasChange ? '1px solid #fbbf24' : '1px solid #e5e7eb' }}>
+                      <div key={productIdx} style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px', padding: '14px', backgroundColor: hasChange ? `${brandBlue}15` : 'white', borderRadius: '4px', border: hasChange ? `2px solid ${brandBlue}` : `1px solid ${brandTaupe}30` }}>
                         <div style={{ flex: 1 }}>
                           <div style={{ fontSize: '14px', fontWeight: '500', color: brandCharcoal, marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                             {product.name}
                           </div>
                           {hasChange && (
-                            <div style={{ fontSize: '12px', color: '#92400e', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                            <div style={{ fontSize: '12px', color: brandTaupe, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500' }}>
                               Original: {originalQuantity} → New: {change.newQuantity}
                             </div>
                           )}
@@ -7743,7 +7820,9 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <button
                             onClick={() => handleQuantityChange(sectionIdx, productIdx, Math.max(0, currentQuantity - 1))}
-                            style={{ width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f3f4f6', border: '1px solid #d1d5db', borderRadius: '4px', cursor: 'pointer', fontSize: '18px', color: brandCharcoal }}
+                            style={{ width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: brandCharcoal, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '20px', color: 'white', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500', transition: 'opacity 0.2s' }}
+                            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                           >
                             −
                           </button>
@@ -7752,11 +7831,13 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                             value={currentQuantity}
                             onChange={(e) => handleQuantityChange(sectionIdx, productIdx, e.target.value)}
                             min="0"
-                            style={{ width: '80px', padding: '6px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                            style={{ width: '80px', padding: '8px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                           />
                           <button
                             onClick={() => handleQuantityChange(sectionIdx, productIdx, currentQuantity + 1)}
-                            style={{ width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f3f4f6', border: '1px solid #d1d5db', borderRadius: '4px', cursor: 'pointer', fontSize: '18px', color: brandCharcoal }}
+                            style={{ width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: brandCharcoal, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '20px', color: 'white', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500', transition: 'opacity 0.2s' }}
+                            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                           >
                             +
                           </button>
@@ -7771,14 +7852,16 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
           
           {/* New Products */}
           <div style={{ marginBottom: '40px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 style={{ fontSize: '18px', fontWeight: '600', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: '400', color: brandCharcoal, fontFamily: "'Domaine Text', serif", textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Request New Products
               </h2>
               {!showAddProduct && (
                 <button
                   onClick={() => setShowAddProduct(true)}
-                  style={{ padding: '8px 16px', backgroundColor: '#2563eb', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                  style={{ padding: '10px 20px', backgroundColor: brandCharcoal, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500', transition: 'opacity 0.2s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                 >
                   + Add Product Request
                 </button>
@@ -7786,16 +7869,16 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
             </div>
             
             {showAddProduct && (
-              <div style={{ padding: '20px', backgroundColor: '#f9fafb', borderRadius: '6px', border: '1px solid #e5e7eb', marginBottom: '16px' }}>
+              <div style={{ padding: '24px', backgroundColor: `${brandTaupe}08`, borderRadius: '6px', border: `1px solid ${brandTaupe}30`, marginBottom: '16px' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gap: '16px', marginBottom: '16px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-                      Section
-                    </label>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                  Section
+                </label>
                     <select
                       value={newProduct.section}
                       onChange={(e) => setNewProduct({ ...newProduct, section: e.target.value })}
-                      style={{ width: '100%', padding: '10px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                      style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                     >
                       <option value="">Select section...</option>
                       {sections.map((section, idx) => (
@@ -7806,19 +7889,19 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-                      Product Name
-                    </label>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                  Product Name
+                </label>
                     <input
                       type="text"
                       value={newProduct.name}
                       onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
                       placeholder="Enter product name..."
-                      style={{ width: '100%', padding: '10px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                      style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                       Quantity
                     </label>
                     <input
@@ -7826,12 +7909,12 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                       value={newProduct.quantity}
                       onChange={(e) => setNewProduct({ ...newProduct, quantity: parseInt(e.target.value) || 1 })}
                       min="1"
-                      style={{ width: '100%', padding: '10px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                      style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", color: brandCharcoal }}
                     />
                   </div>
                 </div>
                 <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '8px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                     Notes (optional)
                   </label>
                   <textarea
@@ -7839,13 +7922,15 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                     onChange={(e) => setNewProduct({ ...newProduct, notes: e.target.value })}
                     placeholder="Any additional details about this product..."
                     rows="3"
-                    style={{ width: '100%', padding: '10px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", resize: 'vertical' }}
+                    style={{ width: '100%', padding: '10px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", resize: 'vertical', color: brandCharcoal }}
                   />
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button
                     onClick={handleAddNewProduct}
-                    style={{ padding: '8px 16px', backgroundColor: '#059669', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                    style={{ padding: '10px 20px', backgroundColor: brandCharcoal, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500', transition: 'opacity 0.2s' }}
+                    onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                    onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                   >
                     Add Product
                   </button>
@@ -7854,7 +7939,9 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                       setShowAddProduct(false);
                       setNewProduct({ section: '', name: '', quantity: 1, notes: '' });
                     }}
-                    style={{ padding: '8px 16px', backgroundColor: '#6b7280', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                    style={{ padding: '10px 20px', backgroundColor: '#f3f4f6', color: brandCharcoal, border: `1px solid ${brandTaupe}30`, borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500', transition: 'opacity 0.2s' }}
+                    onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                    onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                   >
                     Cancel
                   </button>
@@ -7865,19 +7952,21 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
             {changeRequest.newProducts.length > 0 && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {changeRequest.newProducts.map((product, idx) => (
-                  <div key={idx} style={{ padding: '16px', backgroundColor: '#fef3c7', borderRadius: '6px', border: '1px solid #fbbf24', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div key={idx} style={{ padding: '16px', backgroundColor: `${brandBlue}15`, borderRadius: '6px', border: `2px solid ${brandBlue}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ fontSize: '14px', fontWeight: '500', color: brandCharcoal, marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                         {product.name} (Qty: {product.quantity})
                       </div>
-                      <div style={{ fontSize: '12px', color: '#92400e', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                      <div style={{ fontSize: '12px', color: brandTaupe, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500' }}>
                         Section: {product.section}
                         {product.notes && ` • ${product.notes}`}
                       </div>
                     </div>
                     <button
                       onClick={() => handleRemoveNewProduct(idx)}
-                      style={{ padding: '6px 12px', backgroundColor: '#dc2626', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+                      style={{ padding: '8px 16px', backgroundColor: brandTaupe, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500', transition: 'opacity 0.2s' }}
+                      onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                      onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                     >
                       Remove
                     </button>
@@ -7888,18 +7977,22 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
           </div>
           
           {/* Action Buttons */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', borderTop: '1px solid #e5e7eb' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '32px', borderTop: `2px solid ${brandTaupe}30` }}>
             <button
               onClick={onCancel}
               disabled={submitting}
-              style={{ padding: '12px 24px', backgroundColor: '#f3f4f6', color: brandCharcoal, border: 'none', borderRadius: '4px', cursor: submitting ? 'not-allowed' : 'pointer', fontSize: '14px', fontWeight: '500', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+              style={{ padding: '12px 24px', backgroundColor: '#f3f4f6', color: brandCharcoal, border: `1px solid ${brandTaupe}30`, borderRadius: '4px', cursor: submitting ? 'not-allowed' : 'pointer', fontSize: '14px', fontWeight: '500', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", transition: 'opacity 0.2s' }}
+              onMouseEnter={(e) => !submitting && (e.currentTarget.style.opacity = '0.8')}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={submitting || !hasChanges}
-              style={{ padding: '12px 24px', backgroundColor: hasChanges && !submitting ? '#2563eb' : '#9ca3af', color: 'white', border: 'none', borderRadius: '4px', cursor: (submitting || !hasChanges) ? 'not-allowed' : 'pointer', fontSize: '14px', fontWeight: '500', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}
+              style={{ padding: '12px 24px', backgroundColor: hasChanges && !submitting ? brandCharcoal : '#9ca3af', color: 'white', border: 'none', borderRadius: '4px', cursor: (submitting || !hasChanges) ? 'not-allowed' : 'pointer', fontSize: '14px', fontWeight: '500', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", transition: 'opacity 0.2s' }}
+              onMouseEnter={(e) => !submitting && hasChanges && (e.currentTarget.style.opacity = '0.8')}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               {submitting ? 'Submitting...' : 'Submit Change Request'}
             </button>
