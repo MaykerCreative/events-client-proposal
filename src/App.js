@@ -6353,20 +6353,19 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
 
   return (
     <div style={{ backgroundColor: 'white', minHeight: '100vh', padding: '0' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '48px 24px' }}>
-        {/* Image Banner */}
-        <div style={{
-          width: '100vw',
-          marginLeft: 'calc(-50vw + 50%)',
-          height: '320px',
-          marginBottom: '56px',
-          marginTop: '0',
-          borderRadius: '0',
-          overflow: 'hidden',
-          position: 'relative',
-          backgroundColor: '#1a1a1a',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)'
-        }}>
+      {/* Image Banner */}
+      <div style={{
+        width: '100vw',
+        marginLeft: 'calc(-50vw + 50%)',
+        height: '320px',
+        marginBottom: '56px',
+        marginTop: '0',
+        borderRadius: '0',
+        overflow: 'hidden',
+        position: 'relative',
+        backgroundColor: '#1a1a1a',
+        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)'
+      }}>
           <img 
             src="/faq-banner.jpg" 
             alt="FAQ" 
@@ -6437,7 +6436,8 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
             </div>
           </div>
         </div>
-        
+      
+      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 24px 48px' }}>
         {/* Chapter Navigation */}
         <nav style={{
           padding: '16px 0 32px',
