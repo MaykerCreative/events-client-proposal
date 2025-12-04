@@ -7583,7 +7583,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: '#000000',
+        backgroundColor: '#1a1a1a',
         padding: '32px',
         zIndex: 998
       }}>
