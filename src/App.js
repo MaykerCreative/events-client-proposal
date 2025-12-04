@@ -3137,21 +3137,21 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               textAlign: 'center',
               zIndex: 2,
               position: 'relative',
-              padding: '20px'
+              padding: '24px'
             }}>
               <div style={{
-                fontSize: '16px',
+                fontSize: '14px',
                 fontWeight: '300',
                 color: '#000000',
                 fontFamily: "'Domaine Text', serif",
                 letterSpacing: '-0.02em',
                 lineHeight: '1.2',
-                marginBottom: '8px'
+                marginBottom: '6px'
               }}>
                 {tier.tier}
               </div>
               <div style={{
-                fontSize: '14px',
+                fontSize: '12px',
                 fontWeight: '300',
                 color: '#8b8b8b',
                 fontFamily: "'NeueHaasUnica', sans-serif",
@@ -6409,16 +6409,17 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
       >
         <div style={{ 
           marginBottom: '64px',
-          display: 'flex',
-          gap: '32px',
-          alignItems: 'flex-start'
+          width: '100%'
         }}>
           <div style={{ 
-          flex: '1',
+          width: '100%',
           padding: '32px',
           backgroundColor: '#FAF8F3',
           borderRadius: '8px',
-          border: '1px solid #e8e8e3'
+          border: '1px solid #e8e8e3',
+          display: 'flex',
+          gap: '32px',
+          alignItems: 'flex-start'
         }}>
           <h3 style={{ 
             fontSize: '17px', 
@@ -6560,7 +6561,6 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
             )}
           </div>
         )}
-        </div>
           <div style={{
             flex: '0 0 40%',
             maxWidth: '500px',
@@ -6583,6 +6583,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
               }}
             />
           </div>
+        </div>
         </div>
       </section>
       
