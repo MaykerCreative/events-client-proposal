@@ -3140,18 +3140,18 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               padding: '24px'
             }}>
               <div style={{
-                fontSize: '14px',
+                fontSize: '20px',
                 fontWeight: '300',
                 color: '#000000',
                 fontFamily: "'Domaine Text', serif",
                 letterSpacing: '-0.02em',
                 lineHeight: '1.2',
-                marginBottom: '6px'
+                marginBottom: '8px'
               }}>
                 {tier.tier}
               </div>
               <div style={{
-                fontSize: '12px',
+                fontSize: '16px',
                 fontWeight: '300',
                 color: '#8b8b8b',
                 fontFamily: "'NeueHaasUnica', sans-serif",
@@ -4538,21 +4538,22 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
           {/* Center content */}
           <div style={{
             textAlign: 'center',
-            zIndex: 1
+            zIndex: 1,
+            padding: '24px'
           }}>
             <div style={{ 
-              fontSize: '50px', 
+              fontSize: '18px', 
               fontWeight: '300', 
               color: '#000000',
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.02em',
               lineHeight: '1.2',
-              marginBottom: '12px'
+              marginBottom: '8px'
             }}>
               {tier.tier}
             </div>
             <div style={{ 
-              fontSize: '20px', 
+              fontSize: '14px', 
               fontWeight: '300', 
               color: '#8b8b8b',
               fontFamily: "'NeueHaasUnica', sans-serif",
