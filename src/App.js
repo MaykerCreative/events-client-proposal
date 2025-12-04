@@ -5650,7 +5650,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
           zIndex: 1
         }}>
           <div style={{
-            fontSize: '52px',
+            fontSize: '42px',
             fontWeight: '300',
             fontFamily: "'Domaine Text', serif",
             color: 'white',
@@ -6350,7 +6350,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
   }, []);
 
   return (
-    <div style={{ backgroundColor: warmIvory, minHeight: '100vh', padding: '0' }}>
+    <div style={{ backgroundColor: 'white', minHeight: '100vh', padding: '0' }}>
       <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '48px 24px' }}>
         {/* Image Banner */}
         <div style={{
@@ -6404,7 +6404,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
             zIndex: 1
           }}>
             <div style={{
-              fontSize: '52px',
+              fontSize: '44px',
               fontWeight: '300',
               fontFamily: "'Domaine Text', serif",
               color: 'white',
@@ -6459,7 +6459,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
                     scrollToSection(sectionId);
                   }}
                   style={{
-                    fontSize: '13px',
+                    fontSize: '12px',
                     fontWeight: '400',
                     fontFamily: "'NeueHaasUnica', sans-serif",
                     color: isActive ? maykerOlive : mediumGrey,
@@ -6505,7 +6505,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
             }}
           >
             <h2 style={{
-              fontSize: '36px',
+              fontSize: '32px',
               fontWeight: '300',
               fontFamily: "'Domaine Text', serif",
               color: warmCharcoal,
@@ -6515,7 +6515,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
               {section.title}
             </h2>
             <p style={{
-              fontSize: '14px',
+              fontSize: '13px',
               fontWeight: '400',
               fontFamily: "'NeueHaasUnica', sans-serif",
               color: mediumGrey, // Slightly darker for better readability
@@ -6541,7 +6541,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
                   <div key={itemIndex}>
                     <div
                       style={{
-                        backgroundColor: isOpen ? '#BDB6A8' : '#FFFFFF',
+                        backgroundColor: isOpen ? '#F7F6F0' : '#FFFFFF',
                         borderRadius: '8px',
                         border: '1px solid #E4E1D8', // Soft warm-grey border
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)', // Very subtle shadow
@@ -6549,13 +6549,13 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
                         transition: 'all 0.25s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#BDB6A8';
+                        e.currentTarget.style.backgroundColor = '#F7F6F0';
                       }}
                       onMouseLeave={(e) => {
                         if (!isOpen) {
                           e.currentTarget.style.backgroundColor = '#FFFFFF';
                         } else {
-                          e.currentTarget.style.backgroundColor = '#BDB6A8';
+                          e.currentTarget.style.backgroundColor = '#F7F6F0';
                         }
                       }}
                     >
@@ -6577,7 +6577,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
                         }}
                       >
                         <span style={{
-                          fontSize: '16px',
+                          fontSize: '14px',
                           fontWeight: '500',
                           fontFamily: "'NeueHaasUnica', sans-serif",
                           color: warmCharcoal,
@@ -6615,7 +6615,7 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
                       >
                         <div style={{
                           paddingTop: '4px',
-                          fontSize: '15px',
+                          fontSize: '13px',
                           fontWeight: '400',
                           fontFamily: "'NeueHaasUnica', sans-serif",
                           color: warmCharcoal,
@@ -6664,9 +6664,21 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
   const [editingProfile, setEditingProfile] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showBottomNav, setShowBottomNav] = useState(false);
   
   useEffect(() => {
     fetchData();
+  }, []);
+  
+  // Show/hide bottom nav based on window width (hide when desktop nav is visible)
+  useEffect(() => {
+    const handleResize = () => {
+      setShowBottomNav(window.innerWidth < 769);
+    };
+    
+    handleResize(); // Set initial state
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
   
   // Close mobile menu when section changes
@@ -7501,7 +7513,8 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
           zIndex: 999,
           maxWidth: '1400px',
           marginLeft: 'auto',
-          marginRight: 'auto'
+          marginRight: 'auto',
+          display: showBottomNav ? 'block' : 'none'
         }} className="bottom-nav">
           <div style={{ 
             maxWidth: '1400px', 
