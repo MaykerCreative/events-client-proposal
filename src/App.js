@@ -6410,10 +6410,11 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
         <div style={{ 
           marginBottom: '64px',
           display: 'flex',
-          justifyContent: 'flex-start'
+          gap: '32px',
+          alignItems: 'flex-start'
         }}>
           <div style={{ 
-          width: '50%',
+          flex: '1',
           padding: '32px',
           backgroundColor: '#FAF8F3',
           borderRadius: '8px',
@@ -6560,7 +6561,29 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
           </div>
         )}
         </div>
-      </div>
+          <div style={{
+            flex: '0 0 40%',
+            maxWidth: '500px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <img 
+              src="/MAP.png" 
+              alt="Service Area Map" 
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'contain',
+                borderRadius: '8px'
+              }}
+              onError={(e) => {
+                console.error('MAP.png failed to load:', e.target.src);
+                e.target.style.display = 'none';
+              }}
+            />
+          </div>
+        </div>
       </section>
       
       {/* Product Visual Library */}
