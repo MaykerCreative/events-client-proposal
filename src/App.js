@@ -7934,13 +7934,40 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
 // ============================================
 
 function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
+  // Helper function to convert time string (e.g., "11:00 AM") to HH:MM format for time input
+  const convertTimeToInputFormat = (timeStr) => {
+    if (!timeStr || !timeStr.trim()) return '';
+    // If already in HH:MM format, return as is
+    if (/^\d{2}:\d{2}$/.test(timeStr.trim())) {
+      return timeStr.trim();
+    }
+    // Try to parse formats like "11:00 AM", "11:00AM", "11 AM", etc.
+    try {
+      const time = timeStr.trim().toUpperCase();
+      const match = time.match(/(\d{1,2}):?(\d{2})?\s*(AM|PM)?/);
+      if (match) {
+        let hours = parseInt(match[1]);
+        const minutes = match[2] ? parseInt(match[2]) : 0;
+        const period = match[3];
+        
+        if (period === 'PM' && hours !== 12) hours += 12;
+        if (period === 'AM' && hours === 12) hours = 0;
+        
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      }
+    } catch (e) {
+      console.warn('Error parsing time:', timeStr, e);
+    }
+    return '';
+  };
+  
   const [changeRequest, setChangeRequest] = useState({
     quantityChanges: {},
     dateTimeChanges: {
       startDate: proposal.startDate || '',
       endDate: proposal.endDate || '',
-      deliveryTime: proposal.deliveryTime || '',
-      strikeTime: proposal.strikeTime || ''
+      deliveryTime: convertTimeToInputFormat(proposal.deliveryTime || ''),
+      strikeTime: convertTimeToInputFormat(proposal.strikeTime || '')
     },
     newProducts: []
   });
@@ -8024,13 +8051,20 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
     });
   };
   
+  // Helper to normalize time for comparison
+  const normalizeTimeForComparison = (timeStr) => {
+    if (!timeStr) return '';
+    // Convert to HH:MM format for comparison
+    return convertTimeToInputFormat(timeStr);
+  };
+  
   const handleSubmit = async () => {
     const hasQuantityChanges = Object.keys(changeRequest.quantityChanges).length > 0;
     const hasDateTimeChanges = 
       changeRequest.dateTimeChanges.startDate !== (proposal.startDate || '') ||
       changeRequest.dateTimeChanges.endDate !== (proposal.endDate || '') ||
-      changeRequest.dateTimeChanges.deliveryTime !== (proposal.deliveryTime || '') ||
-      changeRequest.dateTimeChanges.strikeTime !== (proposal.strikeTime || '');
+      normalizeTimeForComparison(changeRequest.dateTimeChanges.deliveryTime) !== normalizeTimeForComparison(proposal.deliveryTime || '') ||
+      normalizeTimeForComparison(changeRequest.dateTimeChanges.strikeTime) !== normalizeTimeForComparison(proposal.strikeTime || '');
     const hasNewProducts = changeRequest.newProducts.length > 0;
     
     if (!hasQuantityChanges && !hasDateTimeChanges && !hasNewProducts) {
@@ -8044,6 +8078,23 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
     
     setSubmitting(true);
     try {
+      // Helper to convert HH:MM format back to readable format (e.g., "11:00 AM")
+      const convertTimeToReadableFormat = (timeStr) => {
+        if (!timeStr || !timeStr.trim()) return '';
+        // If already in readable format (contains AM/PM), return as is
+        if (/AM|PM/i.test(timeStr)) return timeStr;
+        // Convert HH:MM to readable format
+        try {
+          const [hours, minutes] = timeStr.split(':').map(Number);
+          const period = hours >= 12 ? 'PM' : 'AM';
+          const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+          const displayMinutes = minutes.toString().padStart(2, '0');
+          return `${displayHours}:${displayMinutes} ${period}`;
+        } catch (e) {
+          return timeStr; // Return as-is if conversion fails
+        }
+      };
+      
       const changeRequestData = {
         type: 'changeRequest',
         projectNumber: proposal.projectNumber,
@@ -8051,7 +8102,12 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
         timestamp: new Date().toISOString(),
         changes: {
           quantityChanges: changeRequest.quantityChanges,
-          dateTimeChanges: changeRequest.dateTimeChanges,
+          dateTimeChanges: {
+            ...changeRequest.dateTimeChanges,
+            // Convert times back to readable format for storage
+            deliveryTime: convertTimeToReadableFormat(changeRequest.dateTimeChanges.deliveryTime),
+            strikeTime: convertTimeToReadableFormat(changeRequest.dateTimeChanges.strikeTime)
+          },
           newProducts: changeRequest.newProducts,
           miscNotes: miscNotes.trim()
         },
@@ -8306,7 +8362,12 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                         if (value === '__ADD_NEW__') {
                           const newSectionName = window.prompt('Enter the name for the new section:');
                           if (newSectionName && newSectionName.trim()) {
-                            setNewProduct({ ...newProduct, section: newSectionName.trim() });
+                            const trimmedName = newSectionName.trim();
+                            // Add to custom sections if not already there
+                            if (!customSections.includes(trimmedName)) {
+                              setCustomSections([...customSections, trimmedName]);
+                            }
+                            setNewProduct({ ...newProduct, section: trimmedName });
                           }
                         } else {
                           setNewProduct({ ...newProduct, section: value });
@@ -8318,6 +8379,11 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                       {sections.map((section, idx) => (
                         <option key={idx} value={section.name || `Section ${idx + 1}`}>
                           {section.name || `Section ${idx + 1}`}
+                        </option>
+                      ))}
+                      {customSections.map((customSection, idx) => (
+                        <option key={`custom-${idx}`} value={customSection}>
+                          {customSection}
                         </option>
                       ))}
                       <option value="__ADD_NEW__">+ Add New Section</option>
