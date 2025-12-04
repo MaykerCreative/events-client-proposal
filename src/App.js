@@ -6155,43 +6155,118 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
 
   return (
     <div>
-      <h2 style={{ 
-        fontSize: '32px', 
-        fontWeight: '300', 
-        color: brandCharcoal, 
-        marginBottom: '32px',
-        fontFamily: "'Domaine Text', serif",
-        letterSpacing: '-0.02em'
+      {/* Image Banner */}
+      <div style={{
+        width: '100%',
+        height: '300px',
+        overflow: 'hidden',
+        position: 'relative',
+        backgroundColor: '#1a1a1a',
+        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+        marginBottom: '48px'
       }}>
-        Resources
-      </h2>
+        <img 
+          src="/resources-banner.jpg" 
+          alt="Resources" 
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            filter: 'brightness(0.7) contrast(1.1) saturate(1.2)',
+            opacity: '0.9'
+          }}
+          onError={(e) => {
+            // Fallback if image doesn't exist yet
+            e.target.style.display = 'none';
+          }}
+        />
+        {/* Dark overlay for richer look */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5))'
+        }} />
+        {/* Text Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '48px',
+          zIndex: 1
+        }}>
+          <div style={{
+            fontSize: '50px',
+            fontWeight: '300',
+            fontFamily: "'Domaine Text', serif",
+            color: 'white',
+            marginBottom: '20px',
+            textAlign: 'center',
+            letterSpacing: '-0.02em',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+          }}>
+            Resources
+          </div>
+          <div style={{
+            width: '60px',
+            height: '1px',
+            background: 'rgba(255, 255, 255, 0.6)',
+            margin: '0 auto 24px'
+          }} />
+          <div style={{
+            fontSize: '11px',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'rgba(255, 255, 255, 0.9)',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            textAlign: 'center',
+            lineHeight: '1.6',
+            fontWeight: '400'
+          }}>
+            PRODUCT LIBRARY, CALCULATORS, AND HELPFUL TOOLS.
+          </div>
+        </div>
+      </div>
       
       {/* Rental Minimum Calculator */}
       <div style={{ 
         marginBottom: '64px',
-        padding: '32px',
-        backgroundColor: '#FAF8F3',
-        borderRadius: '8px',
-        border: '1px solid #e8e8e3'
+        display: 'flex',
+        justifyContent: 'flex-start'
       }}>
-        <h3 style={{ 
-          fontSize: '17px', 
-          fontWeight: '300', 
-          color: '#000000', 
-          marginBottom: '16px',
-          fontFamily: "'Domaine Text', serif"
+        <div style={{ 
+          width: '50%',
+          padding: '32px',
+          backgroundColor: '#FAF8F3',
+          borderRadius: '8px',
+          border: '1px solid #e8e8e3'
         }}>
-          Rental Minimum Calculator
-        </h3>
-        <p style={{ 
-          fontSize: '14px', 
-          color: '#666', 
-          marginBottom: '24px',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          lineHeight: '1.6'
-        }}>
-          Enter your event address to calculate the rental minimum based on distance from our warehouse.
-        </p>
+          <h3 style={{ 
+            fontSize: '17px', 
+            fontWeight: '300', 
+            color: '#000000', 
+            marginBottom: '16px',
+            fontFamily: "'Domaine Text', serif"
+          }}>
+            Rental Minimum Calculator
+          </h3>
+          <p style={{ 
+            fontSize: '14px', 
+            color: '#666', 
+            marginBottom: '24px',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            lineHeight: '1.6'
+          }}>
+            Enter your event address to see the rental minimum for your area. If you have concerns about meeting the minimum, connect with your Client Coordinator and share any relevant details—our team is here to help find the best solution.
+          </p>
         
         <div style={{ 
           display: 'flex', 
@@ -6237,7 +6312,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
               fontSize: '14px',
               fontFamily: "'NeueHaasUnica', sans-serif",
               fontWeight: '500',
-              backgroundColor: brandCharcoal,
+              backgroundColor: '#000000',
               color: '#fff',
               border: 'none',
               borderRadius: '8px',
@@ -6274,12 +6349,13 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
           </div>
         )}
         
-        {rentalDistance !== null && rentalMinimum && (
+        {rentalMinimum && (
           <div style={{
             padding: '24px',
             backgroundColor: '#fff',
             borderRadius: '8px',
-            border: '1px solid #e8e8e3'
+            border: '1px solid #e8e8e3',
+            marginTop: '24px'
           }}>
             <div style={{
               fontSize: '12px',
@@ -6289,74 +6365,29 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
               letterSpacing: '0.1em',
               marginBottom: '12px'
             }}>
-              Distance from Warehouse
+              Rental Minimum
             </div>
-            <div style={{
-              fontSize: '24px',
-              fontWeight: '300',
-              color: '#000000',
-              fontFamily: "'Domaine Text', serif",
-              marginBottom: '8px'
-            }}>
-              {rentalDistance} miles
-            </div>
-            <div style={{
-              fontSize: '12px',
-              color: '#8b8b8b',
-              fontFamily: "'NeueHaasUnica', sans-serif",
-              marginBottom: '24px'
-            }}>
-              {rentalMinimum.range}
-            </div>
-            <div style={{
-              borderTop: '1px solid #e8e8e3',
-              paddingTop: '24px',
-              marginTop: '24px'
-            }}>
+            {rentalMinimum.amount ? (
               <div style={{
-                fontSize: '12px',
-                color: '#8b8b8b',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: '12px'
+                fontSize: '32px',
+                fontWeight: '300',
+                color: brandCharcoal,
+                fontFamily: "'Domaine Text', serif"
               }}>
-                Rental Minimum
+                ${rentalMinimum.amount.toLocaleString()}
               </div>
-              {rentalMinimum.amount ? (
-                <div style={{
-                  fontSize: '32px',
-                  fontWeight: '300',
-                  color: brandCharcoal,
-                  fontFamily: "'Domaine Text', serif"
-                }}>
-                  ${rentalMinimum.amount.toLocaleString()}
-                </div>
-              ) : (
-                <div style={{
-                  fontSize: '16px',
-                  fontWeight: '400',
-                  color: '#000000',
-                  fontFamily: "'NeueHaasUnica', sans-serif"
-                }}>
-                  {rentalMinimum.range}
-                </div>
-              )}
-            </div>
+            ) : (
+              <div style={{
+                fontSize: '16px',
+                fontWeight: '400',
+                color: '#000000',
+                fontFamily: "'NeueHaasUnica', sans-serif"
+              }}>
+                {rentalMinimum.range}
+              </div>
+            )}
           </div>
         )}
-        
-        <div style={{
-          marginTop: '24px',
-          padding: '16px',
-          backgroundColor: '#fff',
-          borderRadius: '8px',
-          fontSize: '12px',
-          color: '#8b8b8b',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          lineHeight: '1.6'
-        }}>
-          <strong style={{ color: '#000000' }}>Warehouse Location:</strong> {WAREHOUSE_ADDRESS}
         </div>
       </div>
       
