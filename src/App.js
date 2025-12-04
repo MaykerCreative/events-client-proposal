@@ -7892,7 +7892,8 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
   const brandCharcoal = '#2C2C2C';
   const brandTaupe = '#545142';
   const brandBrown = '#603f27';
-  const brandBlue = '#7693a9';
+  // Use brandTaupe for highlights instead of blue
+  const highlightColor = brandTaupe;
   
   const handleQuantityChange = (sectionIdx, productIdx, newQuantity) => {
     const key = `${sectionIdx}-${productIdx}`;
@@ -7979,7 +7980,8 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
         changes: {
           quantityChanges: changeRequest.quantityChanges,
           dateTimeChanges: changeRequest.dateTimeChanges,
-          newProducts: changeRequest.newProducts
+          newProducts: changeRequest.newProducts,
+          miscNotes: miscNotes.trim()
         },
         originalProposal: {
           projectNumber: proposal.projectNumber,
@@ -8004,10 +8006,18 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
     changeRequest.dateTimeChanges.endDate !== (proposal.endDate || '') ||
     changeRequest.dateTimeChanges.deliveryTime !== (proposal.deliveryTime || '') ||
     changeRequest.dateTimeChanges.strikeTime !== (proposal.strikeTime || '') ||
-    changeRequest.newProducts.length > 0;
+    changeRequest.newProducts.length > 0 ||
+    (miscNotes && miscNotes.trim().length > 0);
+  
+  const [miscNotes, setMiscNotes] = useState('');
+  
+  // Scroll to top when component mounts
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', paddingTop: '80px' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', paddingTop: '100px' }}>
       {/* Header with logo */}
       <div className="no-print" style={{ position: 'fixed', top: 0, left: 0, right: 0, backgroundColor: 'white', borderBottom: '1px solid #e5e7eb', zIndex: 1000, padding: '16px 24px' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
@@ -8018,6 +8028,8 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
             onError={(e) => {
               if (!e.target.src.includes('/assets/')) {
                 e.target.src = '/assets/mayker_wordmark-events-black.svg';
+              } else if (!e.target.src.includes('cdn')) {
+                e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_wordmark-events-black.svg';
               } else {
                 e.target.style.display = 'none';
               }
@@ -8036,14 +8048,16 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
         <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '48px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)', border: `1px solid ${brandTaupe}20` }}>
           {/* Branded header section */}
           <div style={{ marginBottom: '48px', textAlign: 'center', paddingBottom: '32px', borderBottom: `2px solid ${brandTaupe}30` }}>
-            <div style={{ marginBottom: '16px' }}>
+            <div style={{ marginBottom: '24px' }}>
               <img 
-                src="/mayker_icon-black.svg" 
-                alt="Mayker Events" 
-                style={{ height: '48px', width: 'auto', margin: '0 auto' }}
+                src="/mayker_wordmark-events-black.svg" 
+                alt="MAYKER EVENTS" 
+                style={{ height: '40px', width: 'auto', margin: '0 auto' }}
                 onError={(e) => {
                   if (!e.target.src.includes('/assets/')) {
-                    e.target.src = '/assets/mayker_icon-black.svg';
+                    e.target.src = '/assets/mayker_wordmark-events-black.svg';
+                  } else if (!e.target.src.includes('cdn')) {
+                    e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_wordmark-events-black.svg';
                   } else {
                     e.target.style.display = 'none';
                   }
@@ -8053,9 +8067,25 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
             <h1 style={{ fontSize: '32px', fontWeight: '400', color: brandCharcoal, marginBottom: '12px', fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em' }}>
               Request Changes
             </h1>
-            <p style={{ fontSize: '15px', color: brandTaupe, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}>
+            <p style={{ fontSize: '15px', color: brandTaupe, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", maxWidth: '600px', margin: '0 auto', lineHeight: '1.6', marginBottom: '24px' }}>
               Please review the proposal below and indicate any changes you'd like to request. The team will review and respond to your request.
             </p>
+            
+            {/* Project Information */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '40px', flexWrap: 'wrap', marginTop: '24px', paddingTop: '24px', borderTop: `1px solid ${brandTaupe}20` }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '11px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Client</div>
+                <div style={{ fontSize: '14px', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500' }}>{proposal.clientName || 'N/A'}</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '11px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Venue</div>
+                <div style={{ fontSize: '14px', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500' }}>{proposal.venueName || 'N/A'}</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '11px', color: brandTaupe, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Event Dates</div>
+                <div style={{ fontSize: '14px', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", fontWeight: '500' }}>{formatDateRange(proposal) || 'N/A'}</div>
+              </div>
+            </div>
           </div>
           
           {/* Date/Time Changes */}
@@ -8130,7 +8160,7 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                     const hasChange = change && change.newQuantity !== originalQuantity;
                     
                     return (
-                      <div key={productIdx} style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px', padding: '14px', backgroundColor: hasChange ? `${brandBlue}15` : 'white', borderRadius: '4px', border: hasChange ? `2px solid ${brandBlue}` : `1px solid ${brandTaupe}30` }}>
+                      <div key={productIdx} style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px', padding: '14px', backgroundColor: hasChange ? `${highlightColor}15` : 'white', borderRadius: '4px', border: hasChange ? `2px solid ${highlightColor}` : `1px solid ${brandTaupe}30` }}>
                         <div style={{ flex: 1 }}>
                           <div style={{ fontSize: '14px', fontWeight: '500', color: brandCharcoal, marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                             {product.name}
@@ -8276,7 +8306,7 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
             {changeRequest.newProducts.length > 0 && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {changeRequest.newProducts.map((product, idx) => (
-                  <div key={idx} style={{ padding: '16px', backgroundColor: `${brandBlue}15`, borderRadius: '6px', border: `2px solid ${brandBlue}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div key={idx} style={{ padding: '16px', backgroundColor: `${highlightColor}15`, borderRadius: '6px', border: `2px solid ${highlightColor}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ fontSize: '14px', fontWeight: '500', color: brandCharcoal, marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                         {product.name} (Qty: {product.quantity})
@@ -8298,6 +8328,20 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
                 ))}
               </div>
             )}
+          </div>
+          
+          {/* Miscellaneous Notes Section */}
+          <div style={{ marginBottom: '40px', padding: '28px', backgroundColor: `${brandTaupe}08`, borderRadius: '6px', border: `1px solid ${brandTaupe}30` }}>
+            <h2 style={{ fontSize: '20px', fontWeight: '400', color: brandCharcoal, marginBottom: '24px', fontFamily: "'Domaine Text', serif", textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Additional Notes / Miscellaneous Requests
+            </h2>
+            <textarea
+              value={miscNotes}
+              onChange={(e) => setMiscNotes(e.target.value)}
+              placeholder="Any additional notes, questions, or miscellaneous requests..."
+              rows="6"
+              style={{ width: '100%', padding: '12px', border: `1px solid ${brandTaupe}40`, borderRadius: '4px', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", resize: 'vertical', color: brandCharcoal }}
+            />
           </div>
           
           {/* Action Buttons */}
