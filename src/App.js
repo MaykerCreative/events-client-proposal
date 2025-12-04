@@ -7247,6 +7247,99 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
     pageCounterRef.current = 0;
   }, [proposal]);
   
+  // Shared header component for all pages
+  const PageHeader = ({ sectionName, showSectionName = false, onBack }) => (
+    <div style={{ marginBottom: '20px' }}>
+      {/* Top header row */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+        <div>
+          <div 
+            onClick={(e) => { 
+              e.preventDefault(); 
+              e.stopPropagation();
+              try {
+                if (onBack && typeof onBack === 'function') {
+                  onBack();
+                } else {
+                  window.location.href = window.location.origin + window.location.pathname.split('/').slice(0, -1).join('/') || '/';
+                }
+              } catch (error) {
+                window.location.href = window.location.origin;
+              }
+            }} 
+            style={{ 
+              textDecoration: 'none', 
+              cursor: 'pointer',
+              display: 'inline-block',
+              userSelect: 'none',
+              pointerEvents: 'auto',
+              transition: 'opacity 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            className="no-print"
+          >
+            <img 
+              src="/mayker_wordmark-events-black.svg" 
+              alt="MAYKER EVENTS" 
+              onError={(e) => {
+                if (!e.target.src.includes('/assets/')) {
+                  e.target.src = '/assets/mayker_wordmark-events-black.svg';
+                } else if (!e.target.src.includes('cdn')) {
+                  e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_wordmark-events-black.svg';
+                } else {
+                  e.target.style.display = 'none';
+                }
+              }}
+              style={{ height: '32px', width: 'auto', maxWidth: '300px', display: 'block' }} 
+            />
+          </div>
+          {/* Print version - non-clickable */}
+          <img 
+            src="/mayker_wordmark-events-black.svg" 
+            alt="MAYKER EVENTS" 
+            className="print-only"
+            onError={(e) => {
+              if (!e.target.src.includes('/assets/')) {
+                e.target.src = '/assets/mayker_wordmark-events-black.svg';
+              } else {
+                e.target.style.display = 'none';
+              }
+            }}
+            style={{ height: '32px', width: 'auto', maxWidth: '300px', display: 'block' }} 
+          />
+        </div>
+        <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <div style={{ fontSize: '9px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.4', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+            <div>{proposal.clientName}</div>
+            <div>{formatDateRange(proposal)}</div>
+            <div>{proposal.venueName}</div>
+          </div>
+          <img 
+            src="/mayker_icon-black.svg" 
+            alt="M" 
+            style={{ height: '38px' }}
+            onError={(e) => {
+              if (!e.target.src.includes('/assets/')) {
+                e.target.src = '/assets/mayker_icon-black.svg';
+              } else if (!e.target.src.includes('cdn')) {
+                e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_icon-black.svg';
+              } else {
+                e.target.style.display = 'none';
+              }
+            }}
+          />
+        </div>
+      </div>
+      {/* Separator line */}
+      <div style={{ borderBottom: '1px solid #e5e7eb', marginBottom: showSectionName ? '15px' : '0' }}></div>
+      {/* Section name below separator if provided */}
+      {showSectionName && sectionName && (
+        <div style={{ fontSize: '14px', fontWeight: '400', color: brandCharcoal, marginTop: '15px', fontFamily: "'Domaine Text', serif", textTransform: 'uppercase', letterSpacing: '0.02em', textAlign: 'center' }}>{sectionName}</div>
+      )}
+    </div>
+  );
+  
   // Footer component
   const PageFooter = ({ pageNum, isDark = false, useFlexbox = false }) => (
     <div style={{
@@ -7269,6 +7362,8 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
       <div>{pageNum}</div>
     </div>
   );
+  
+  const productsPerPage = 9;
   
   // If in change request mode, show ChangeRequestView
   if (isChangeRequestMode) {
@@ -7358,185 +7453,414 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
         </div>
           </div>
           
-      {/* PRODUCT SECTIONS */}
-      {sections.map((section, sectionIndex) => (
-        <div key={sectionIndex} style={{ minHeight: '100vh', padding: '30px 60px 40px', position: 'relative', pageBreakAfter: 'always' }}>
-          <div style={{ marginBottom: '20px', paddingBottom: '15px', borderBottom: '1px solid #e5e7eb' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <img src="/mayker_wordmark-events-black.svg" alt="Mayker Events" style={{ height: '22px', marginTop: '4px' }} onError={(e) => { e.target.style.display = 'none'; }} />
-              <div style={{ textAlign: 'right', display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
-                <div style={{ fontSize: '9px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.4', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                  <div>{proposal.clientName || ''}</div>
-                  <div>{formatDateRange(proposal)}</div>
-                  <div>{proposal.venueName || ''}</div>
-                </div>
-                <img src="/mayker_icon-black.svg" alt="M" style={{ height: '38px' }} onError={(e) => { e.target.style.display = 'none'; }} />
-              </div>
-            </div>
-          </div>
-          
-          <h2 style={{ fontSize: '18px', fontWeight: '400', color: brandCharcoal, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'center', fontFamily: "'Domaine Text', serif" }}>
-            {section.name}
-          </h2>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-            {section.products && section.products.map((product, productIndex) => (
-              <div key={productIndex} style={{ backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '4px' }}>
-                <div style={{ aspectRatio: '1', backgroundColor: '#e5e5e5', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#999', overflow: 'hidden', borderRadius: '2px' }}>
-                  {product.imageUrl ? (
-                    <img src={product.imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
-                  ) : (
-                    '[Product Image]'
-                  )}
-            </div>
-                <h3 style={{ fontSize: '11px', fontWeight: '500', color: brandCharcoal, textTransform: 'uppercase', marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-                  {product.name}
-                </h3>
-                <p style={{ fontSize: '10px', color: '#666', marginBottom: '4px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Quantity: {product.quantity}</p>
-                {product.dimensions && (
-                  <p style={{ fontSize: '10px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>{product.dimensions}</p>
-                )}
-          </div>
-            ))}
-          </div>
-          
-          <PageFooter pageNum={getNextPageNumber()} />
-        </div>
-      ))}
-
-      {/* INVOICE & PROJECT DETAILS PAGE (Combined) */}
-      <div style={{ minHeight: '100vh', padding: '30px 60px 40px', position: 'relative', pageBreakAfter: 'always' }}>
-        <div style={{ marginBottom: '20px', paddingBottom: '15px', borderBottom: '1px solid #e5e7eb' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <img src="/mayker_wordmark-events-black.svg" alt="Mayker Events" style={{ height: '22px', marginTop: '4px' }} onError={(e) => { e.target.style.display = 'none'; }} />
-            <div style={{ textAlign: 'right', display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
-              <div style={{ fontSize: '9px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.4', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                <div>{proposal.clientName || ''}</div>
-                <div>{formatDateRange(proposal)}</div>
-                <div>{proposal.venueName || ''}</div>
-              </div>
-              <img src="/mayker_icon-black.svg" alt="M" style={{ height: '38px' }} onError={(e) => { e.target.style.display = 'none'; }} />
-            </div>
-            </div>
-          </div>
-          
-        <h2 style={{ fontSize: '18px', fontWeight: '400', color: brandCharcoal, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'center', fontFamily: "'Domaine Text', serif" }}>Invoice</h2>
+      {(() => {
+        const sectionPages = [];
         
-        {/* Invoice table */}
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '30px' }}>
-          <thead>
-            <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-              <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'left', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Section</th>
-              <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'left', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Product</th>
-              <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Qty</th>
-              <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Unit Price</th>
-              <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sections.flatMap((section, sectionIndex) =>
-              section.products && section.products.map((product, productIndex) => {
-                const extendedPrice = product.price * totals.rentalMultiplier;
-                const lineTotal = extendedPrice * product.quantity;
+        sections.forEach((section, sectionIndex) => {
+          // Check if this is an image page (support both new format with type and legacy format)
+          const isImagePage = (section.type === 'image' || (!section.products || section.products.length === 0)) && (section.imageDriveId || section.imageData || section.imageUrl);
+          if (isImagePage) {
+            sectionPages.push(
+              <div 
+                key={`image-${sectionIndex}`} 
+                style={{ minHeight: '100vh', width: '100%', maxWidth: '100%', padding: '30px 60px 40px', position: 'relative', pageBreakBefore: sectionIndex === 0 ? 'auto' : 'always', boxSizing: 'border-box', overflow: 'hidden' }}
+              >
+                <PageHeader onBack={onBack} />
                 
-                return (
-                  <tr key={`${sectionIndex}-${productIndex}`} style={{ borderBottom: '1px solid #f8f8f8' }}>
-                    <td style={{ padding: '10px 0', fontSize: '11px', color: '#888', fontStyle: 'italic', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-                      {productIndex === 0 ? section.name : ''}
-                    </td>
-                    <td style={{ padding: '10px 0', fontSize: '11px', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-                      {product.name}
-                    </td>
-                    <td style={{ padding: '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-                      {product.quantity}
-                    </td>
-                    <td style={{ padding: '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
-                      ${formatNumber(extendedPrice)}
-                    </td>
-                    <td style={{ padding: '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
-                      ${formatNumber(lineTotal)}
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 200px)', flexDirection: 'column' }}>
+                  <img 
+                    src={section.imageDriveId ? `https://drive.google.com/uc?export=view&id=${section.imageDriveId}` : (section.imageUrl || section.imageData)} 
+                    alt="Floor plan or collage" 
+                    style={{ maxWidth: '100%', maxHeight: 'calc(100vh - 200px)', objectFit: 'contain' }}
+                    crossOrigin="anonymous"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+                <PageFooter pageNum={getNextPageNumber()} />
+              </div>
+            );
+            return; // Skip product rendering for image pages
+          }
+          
+          // Regular product section
+          const totalPages = Math.ceil((section.products?.length || 0) / productsPerPage);
+          
+          for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+            const startIndex = pageIndex * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const pageProducts = (section.products || []).slice(startIndex, endIndex);
+            const isLastPageOfSection = pageIndex === totalPages - 1;
+            const isLastSection = sectionIndex === sections.length - 1;
+            const isFirstPageOfSection = pageIndex === 0;
+            
+            // First product page should not have pageBreakBefore to avoid blank page after cover
+            const isFirstProductPage = sectionIndex === 0 && pageIndex === 0;
+            
+            sectionPages.push(
+              <div 
+                key={`${sectionIndex}-${pageIndex}`} 
+                style={{ minHeight: '100vh', width: '100%', maxWidth: '100%', padding: '30px 60px 40px', position: 'relative', pageBreakBefore: isFirstProductPage ? 'auto' : 'always', pageBreakAfter: 'auto', pageBreakInside: 'avoid', breakInside: 'avoid', boxSizing: 'border-box' }}
+              >
+                <PageHeader sectionName={isFirstPageOfSection ? section.name : null} showSectionName={isFirstPageOfSection} onBack={onBack} />
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridAutoRows: 'min-content', gap: '14px', pageBreakInside: 'avoid', breakInside: 'avoid', width: '100%', boxSizing: 'border-box' }}>
+                  {pageProducts.map((product, productIndex) => (
+                    <div key={productIndex} style={{ backgroundColor: '#f9f9f9', padding: '10px', borderRadius: '4px', display: 'flex', flexDirection: 'column', pageBreakInside: 'avoid', breakInside: 'avoid', height: 'fit-content' }}>
+                      <div style={{ aspectRatio: '1', backgroundColor: '#e5e5e5', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#999', overflow: 'hidden', borderRadius: '2px' }}>
+                        {product.imageUrl ? (
+                          <img src={product.imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
+                        ) : (
+                          '[Product Image]'
+                        )}
+                      </div>
+                      <h3 style={{ fontSize: '10px', fontWeight: '500', color: brandCharcoal, textTransform: 'uppercase', marginBottom: '2px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.2' }}>
+                        {product.name}
+                      </h3>
+                      <p style={{ fontSize: '9px', color: '#666', marginBottom: '2px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Quantity: {product.quantity}</p>
+                      {product.dimensions && (
+                        <p style={{ fontSize: '9px', color: '#666', marginBottom: product.note && product.note.trim() ? '2px' : '0', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Size: {product.dimensions}</p>
+                      )}
+                      {product.note && product.note.trim() && (
+                        <p style={{ fontSize: '9px', color: '#666', marginBottom: '0', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Product Note: {product.note}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <PageFooter pageNum={getNextPageNumber()} />
+              </div>
+            );
+          }
+        });
         
-        {/* Totals section - Combined with Project Details */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '60px', marginTop: '40px' }}>
-          {/* Invoice Totals - Left Side */}
-          <div style={{ flex: '1' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
-              <tbody>
-                <tr>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right', width: '50%' }}>Product Subtotal</td>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", width: '50%' }}>
-                    ${formatNumber(totals.productSubtotal)}
-                  </td>
+        return sectionPages;
+      })()}
+
+      {(() => {
+        // Collect all products (excluding image pages)
+        const allProducts = [];
+        sections.forEach((section, sectionIndex) => {
+          // Skip image pages
+          if (section.type === 'image') return;
+          
+          (section.products || []).forEach((product, productIndex) => {
+            allProducts.push({ section, sectionIndex, product, productIndex });
+          });
+        });
+        
+        // Calculate how many products fit per page (approximately 23 rows)
+        const rowsPerPage = 23;
+        const totalInvoicePages = Math.ceil(allProducts.length / rowsPerPage);
+        
+        // Invoice header component
+        const InvoiceHeader = ({ isFirstPage }) => (
+          <div style={{ marginBottom: '30px', pageBreakInside: 'avoid', breakInside: 'avoid', display: 'block', visibility: 'visible' }}>
+            <PageHeader />
+            {/* INVOICE title */}
+            <h2 style={{ fontSize: '14px', fontWeight: '400', color: brandCharcoal, marginTop: '15px', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.02em', textAlign: 'center', fontFamily: "'Domaine Text', serif" }}>
+              {isFirstPage ? 'Invoice' : 'Invoice (Cont.)'}
+            </h2>
+            {/* Column headers */}
+            <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', borderSpacing: 0, marginBottom: '0' }}>
+              <colgroup>
+                <col style={{ width: '15%' }} />
+                <col style={{ width: '45%' }} />
+                <col style={{ width: '10%' }} />
+                <col style={{ width: '15%' }} />
+                <col style={{ width: '15%' }} />
+              </colgroup>
+              <thead>
+                <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'left', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Section</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'left', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Product</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Qty</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Unit Price</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Total</th>
                 </tr>
-                {totals.standardRateDiscount > 0 && (
-                  <tr>
-                    <td style={{ padding: '8px 0', fontSize: '11px', color: '#059669', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right' }}>
-                      Discount ({proposal.discount || proposal.discountValue || 0}% off)
-                    </td>
-                    <td style={{ padding: '8px 0', fontSize: '11px', color: '#059669', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-                      -${formatNumber(totals.standardRateDiscount)}
-                    </td>
-                  </tr>
-                )}
-                <tr style={{ borderTop: '1px solid #e5e7eb', borderBottom: '1px solid #e5e7eb' }}>
-                  <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '500', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right' }}>Rental Total</td>
-                  <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '500', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.rentalTotal)}</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right' }}>Product Care (10%)</td>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.productCare)}</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right' }}>Service Fee (5%)</td>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.serviceFee)}</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right' }}>Delivery</td>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.delivery)}</td>
-                </tr>
-                <tr style={{ borderTop: '1px solid #e5e7eb' }}>
-                  <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '500', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right' }}>Subtotal</td>
-                  <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '500', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.subtotal)}</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right' }}>Tax (9.75%)</td>
-                  <td style={{ padding: '8px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.tax)}</td>
-                </tr>
-                <tr style={{ borderTop: '2px solid ' + brandCharcoal }}>
-                  <td style={{ padding: '14px 0', fontSize: '14px', fontWeight: '600', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'right' }}>TOTAL</td>
-                  <td style={{ padding: '14px 0', fontSize: '14px', fontWeight: '600', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.total)}</td>
-                </tr>
-              </tbody>
+              </thead>
             </table>
           </div>
-          
-          {/* Project Details - Right Side */}
-          <div style={{ flex: '1' }}>
-            <h2 style={{ fontSize: '16px', fontWeight: '400', color: brandCharcoal, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Domaine Text', serif" }}>Project Details</h2>
-            
-            <p style={{ marginBottom: '24px', fontSize: '12px', lineHeight: '1.6', color: '#444', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-              The project fee quoted is based on the current scope of rentals, as well as the delivery details below. If your requirements change, delivery fees may adjust accordingly:
-            </p>
-            
-            <ul style={{ fontSize: '12px', lineHeight: '1.8', marginBottom: '20px', color: '#222', listStyle: 'none', padding: 0, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
-              <li style={{ marginBottom: '8px' }}><strong>Project Location:</strong> {proposal.venueName}, {proposal.city}, {proposal.state}</li>
-              <li style={{ marginBottom: '8px' }}><strong>Delivery Date:</strong> {parseDateSafely(proposal.startDate)?.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) || ''}</li>
-              <li style={{ marginBottom: '8px' }}><strong>Preferred Delivery Window:</strong> {proposal.deliveryTime || 'TBD'}</li>
-              <li style={{ marginBottom: '8px' }}><strong>Pick-Up Date:</strong> {parseDateSafely(proposal.endDate)?.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) || ''}</li>
-              <li style={{ marginBottom: '8px' }}><strong>Preferred Pick-Up Window:</strong> {proposal.strikeTime || 'TBD'}</li>
-            </ul>
-          </div>
-        </div>
+        );
         
-        <PageFooter pageNum={getNextPageNumber()} useFlexbox={true} />
-      </div>
+        // Create invoice pages
+        const invoicePages = [];
+        for (let pageIndex = 0; pageIndex < totalInvoicePages; pageIndex++) {
+          const startIndex = pageIndex * rowsPerPage;
+          const endIndex = startIndex + rowsPerPage;
+          const pageProducts = allProducts.slice(startIndex, endIndex);
+          const isLastPage = pageIndex === totalInvoicePages - 1;
+          const isFirstPage = pageIndex === 0;
+          
+          const currentPageNum = getNextPageNumber();
+          invoicePages.push(
+            <div 
+              key={`invoice-page-${pageIndex}`} 
+              style={{ 
+                minHeight: '100vh', 
+                width: '100%',
+                maxWidth: '100%',
+                padding: '30px 60px',
+                paddingBottom: '60px',
+                position: 'relative',
+                pageBreakBefore: pageIndex > 0 ? 'always' : 'always',
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
+              {isLastPage ? (
+                <>
+                  <div style={{ flex: '0 0 auto', pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                    <InvoiceHeader isFirstPage={isFirstPage} />
+                  </div>
+                  
+                  <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', borderSpacing: 0 }}>
+                      <colgroup>
+                        <col style={{ width: '15%' }} />
+                        <col style={{ width: '45%' }} />
+                        <col style={{ width: '10%' }} />
+                        <col style={{ width: '15%' }} />
+                        <col style={{ width: '15%' }} />
+                      </colgroup>
+                      <tbody>
+                        {pageProducts.map((item, pageItemIndex) => {
+                          const { section, sectionIndex, product, productIndex } = item;
+                          const extendedPrice = product.price * totals.rentalMultiplier;
+                          const lineTotal = extendedPrice * product.quantity;
+                          
+                          const showSectionName = pageItemIndex === 0 || 
+                            (pageItemIndex > 0 && pageProducts[pageItemIndex - 1].sectionIndex !== sectionIndex) ||
+                            productIndex === 0;
+                          
+                          return (
+                            <tr key={`${sectionIndex}-${productIndex}`} style={{ borderBottom: '1px solid #f8f8f8' }}>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#888', fontStyle: 'italic', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                                {showSectionName ? section.name : ''}
+                              </td>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                                {product.name}
+                              </td>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                                {product.quantity}
+                              </td>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+                                ${formatNumber(extendedPrice)}
+                              </td>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+                                ${formatNumber(lineTotal)}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div style={{ flex: '0 0 auto' }}>
+                    <InvoiceHeader isFirstPage={isFirstPage} />
+                  </div>
+                  
+                  <div style={{ flex: '1 1 auto', minHeight: 0 }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', borderSpacing: 0 }}>
+                    <colgroup>
+                      <col style={{ width: '15%' }} />
+                      <col style={{ width: '45%' }} />
+                      <col style={{ width: '10%' }} />
+                      <col style={{ width: '15%' }} />
+                      <col style={{ width: '15%' }} />
+                    </colgroup>
+                    <tbody>
+                      {pageProducts.map((item, pageItemIndex) => {
+                        const { section, sectionIndex, product, productIndex } = item;
+                        const extendedPrice = product.price * totals.rentalMultiplier;
+                        const lineTotal = extendedPrice * product.quantity;
+                        
+                        const showSectionName = pageItemIndex === 0 || 
+                          (pageItemIndex > 0 && pageProducts[pageItemIndex - 1].sectionIndex !== sectionIndex) ||
+                          productIndex === 0;
+                        
+                        return (
+                          <tr key={`${sectionIndex}-${productIndex}`} style={{ borderBottom: '1px solid #f8f8f8' }}>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#888', fontStyle: 'italic', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                              {showSectionName ? section.name : ''}
+                            </td>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                              {product.name}
+                            </td>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                              {product.quantity}
+                            </td>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+                              ${formatNumber(extendedPrice)}
+                            </td>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+                              ${formatNumber(lineTotal)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  </div>
+                </>
+              )}
+              <PageFooter pageNum={currentPageNum} />
+            </div>
+          );
+        }
+        
+        return invoicePages;
+      })()}
+
+      {(() => {
+        const currentPageNum = getNextPageNumber();
+        return (
+          <div key="totals-and-details" style={{ minHeight: '100vh', width: '100%', maxWidth: '100%', padding: '50px 80px 40px', position: 'relative', pageBreakBefore: 'always', boxSizing: 'border-box', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            {/* Template-style header - logo only */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '35px' }}>
+              <div className="no-print">
+                <img 
+                  src="/assets/mayker_primary-w-tag-date-black.png" 
+                  alt="Mayker" 
+                  onError={(e) => {
+                    if (e.target.src.includes('/assets/')) {
+                      e.target.src = '/mayker_primary-w-tag-date-black.png';
+                    } else if (!e.target.src.includes('cdn')) {
+                      e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/assets/mayker_primary-w-tag-date-black.png';
+                    } else {
+                      e.target.style.display = 'none';
+                    }
+                  }}
+                  style={{ height: '120px', width: 'auto', maxWidth: '400px' }} 
+                />
+              </div>
+              {/* Print version - non-clickable */}
+              <div className="print-only">
+                <img 
+                  src="/assets/mayker_primary-w-tag-date-black.png" 
+                  alt="Mayker" 
+                  onError={(e) => {
+                    if (e.target.src.includes('/assets/')) {
+                      e.target.src = '/mayker_primary-w-tag-date-black.png';
+                    } else if (!e.target.src.includes('cdn')) {
+                      e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/assets/mayker_primary-w-tag-date-black.png';
+                    } else {
+                      e.target.style.display = 'none';
+                    }
+                  }}
+                  style={{ height: '120px', width: 'auto', maxWidth: '400px' }} 
+                />
+              </div>
+            </div>
+            
+            {/* Content container with border */}
+            <div style={{ flex: '1', border: '1px solid #2C2C2C', padding: '40px 35px 30px', backgroundColor: 'white', maxWidth: '700px', margin: '0 auto', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+              {/* Totals Section - Two Column Layout */}
+              <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'flex-start' }}>
+                <div style={{ width: '140px', flexShrink: 0, paddingRight: '20px' }}>
+                  <h2 style={{ fontSize: '13px', fontWeight: '400', color: brandCharcoal, fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
+                    Total
+                  </h2>
+                </div>
+                <div className="no-page-break" style={{ flex: '1', minWidth: 0 }}>
+                  <table className="no-page-break" style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <tbody>
+                      <tr>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left', width: '50%' }}>Product Subtotal</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", width: '50%' }}>
+                          ${formatNumber(totals.productSubtotal)}
+                        </td>
+                      </tr>
+                      {totals.standardRateDiscount > 0 && (
+                        <tr>
+                          <td style={{ padding: '6px 0', fontSize: '11px', color: '#059669', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>
+                            Discount ({proposal.discount || proposal.discountValue || 0}% off)
+                          </td>
+                          <td style={{ padding: '6px 0', fontSize: '11px', color: '#059669', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                            -${formatNumber(totals.standardRateDiscount)}
+                          </td>
+                        </tr>
+                      )}
+                      <tr style={{ borderTop: '1px solid #e5e7eb', borderBottom: '1px solid #e5e7eb' }}>
+                        <td style={{ padding: '8px 0', fontSize: '11px', fontWeight: '400', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Rental Total</td>
+                        <td style={{ padding: '8px 0', fontSize: '11px', fontWeight: '400', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.rentalTotal)}</td>
+                      </tr>
+                      <tr>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Product Care (10%)</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.productCare)}</td>
+                      </tr>
+                      <tr>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Service Fee (5%)</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.serviceFee)}</td>
+                      </tr>
+                      <tr>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Delivery</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.delivery)}</td>
+                      </tr>
+                      <tr style={{ borderTop: '1px solid #e5e7eb' }}>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Subtotal</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.subtotal)}</td>
+                      </tr>
+                      <tr>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>
+                          Tax ({proposal.taxRate || 9.75}%)
+                        </td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.tax)}</td>
+                      </tr>
+                      <tr style={{ borderTop: '1px solid #2C2C2C' }}>
+                        <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '400', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Total</td>
+                        <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '400', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.total)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              {/* Project Description Section - Two Column Layout */}
+              <div style={{ paddingTop: '30px', borderTop: '1px solid #e5e7eb', marginBottom: '30px', display: 'flex', alignItems: 'flex-start' }}>
+                <div style={{ width: '140px', flexShrink: 0, paddingRight: '20px' }}>
+                  <h2 style={{ fontSize: '13px', fontWeight: '400', color: brandCharcoal, fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
+                    Project Description
+                  </h2>
+                </div>
+                <div style={{ flex: '1', minWidth: 0 }}>
+                  <p style={{ marginBottom: '12px', fontSize: '12px', lineHeight: '1.5', color: '#444', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                    The quoted delivery fee reflects the current rental scope and delivery details. If project needs change, we can adjust, but fees may be updated accordingly:
+                  </p>
+                  <ul style={{ fontSize: '12px', lineHeight: '1.6', marginBottom: '0', color: '#222', listStyle: 'none', padding: 0, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                    <li style={{ marginBottom: '5px' }}><span style={{ fontWeight: '400' }}>Project Address:</span> {proposal.venueName}, {proposal.city}, {proposal.state}</li>
+                    <li style={{ marginBottom: '5px' }}><span style={{ fontWeight: '400' }}>Delivery Date:</span> {parseDateSafely(proposal.startDate)?.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) || ''}</li>
+                    <li style={{ marginBottom: '5px' }}><span style={{ fontWeight: '400' }}>Preferred Delivery Window:</span> {proposal.deliveryTime || 'TBD'}</li>
+                    <li style={{ marginBottom: '5px' }}><span style={{ fontWeight: '400' }}>Pick-Up Date:</span> {parseDateSafely(proposal.endDate)?.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) || ''}</li>
+                    <li style={{ marginBottom: '5px' }}><span style={{ fontWeight: '400' }}>Preferred Pick-Up Window:</span> {proposal.strikeTime || 'TBD'}</li>
+                  </ul>
+                </div>
+              </div>
+              
+              {/* Confirmation and Payment Section */}
+              <div style={{ paddingTop: '30px', borderTop: '1px solid #e5e7eb', display: 'flex', alignItems: 'flex-start' }}>
+                <div style={{ width: '140px', flexShrink: 0, paddingRight: '20px' }}>
+                  <h2 style={{ fontSize: '13px', fontWeight: '400', color: brandCharcoal, fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
+                    Confirmation and Payment
+                  </h2>
+                </div>
+                <div style={{ flex: '1', minWidth: 0 }}>
+                  <p style={{ marginBottom: '0', fontSize: '12px', lineHeight: '1.5', color: '#444', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                    Projects are confirmed with a signed service agreement and deposit payment. We accept wire, ACH, credit card (3% processing fee), and check.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Footer */}
+            <PageFooter pageNum={currentPageNum} useFlexbox={true} />
+          </div>
+        );
+      })()}
     </div>
   );
 }
