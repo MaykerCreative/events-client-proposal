@@ -3203,8 +3203,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                   {proposal.projectNumber && (
                     <button
                       onClick={() => {
-                        const clientUrl = `${CLIENT_PROPOSAL_VIEW_URL}/client/${proposal.projectNumber}${proposal.version ? `/${proposal.version}` : ''}?fromClientPortal=true`;
-                        window.open(clientUrl, '_blank');
+                        setSelectedProposal(proposal);
                       }}
                       style={{
                         padding: '6px 16px',
@@ -3711,7 +3710,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
   );
 }
 
-function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2C' }) {
+function PerformanceSection({ spendData, proposals = [], setSelectedProposal, brandCharcoal = '#2C2C2C' }) {
   // Calculate product spend for each proposal (rental products + product care + service fees, excluding delivery and tax)
   const calculateProductSpend = (proposal) => {
     try {
@@ -4654,8 +4653,7 @@ function PerformanceSection({ spendData, proposals = [], brandCharcoal = '#2C2C2
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                const clientUrl = `${CLIENT_PROPOSAL_VIEW_URL}/client/${proposal.projectNumber}${proposal.version ? `/${proposal.version}` : ''}?fromClientPortal=true`;
-                                window.open(clientUrl, '_blank');
+                                setSelectedProposal(proposal);
                               }}
                               style={{
                                 padding: '6px 16px',
@@ -5047,8 +5045,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              const clientUrl = `${CLIENT_PROPOSAL_VIEW_URL}/client/${proposal.projectNumber}${proposal.version ? `/${proposal.version}` : ''}?fromClientPortal=true`;
-                              window.open(clientUrl, '_blank');
+                              setSelectedProposal(proposal);
                             }}
                             style={{
                               padding: '6px 16px',
@@ -6471,15 +6468,7 @@ function DashboardView({ clientInfo, onLogout }) {
     );
   }
   
-  // If a proposal is selected and has a projectNumber, redirect to client-facing proposal view
-  if (selectedProposal && selectedProposal.projectNumber) {
-    const clientUrl = `${CLIENT_PROPOSAL_VIEW_URL}/client/${selectedProposal.projectNumber}${selectedProposal.version ? `/${selectedProposal.version}` : ''}?fromClientPortal=true`;
-    window.open(clientUrl, '_blank');
-    setSelectedProposal(null); // Clear selection after opening
-    return null; // Don't render anything while redirecting
-  }
-  
-  // Fallback: if proposal selected but no projectNumber, show local view
+  // If a proposal is selected, show local ProposalDetailView with change request functionality
   if (selectedProposal) {
     return (
       <ProposalDetailView 
@@ -7037,6 +7026,7 @@ function DashboardView({ clientInfo, onLogout }) {
             <PerformanceSection 
               spendData={spendData}
               proposals={proposals}
+              setSelectedProposal={setSelectedProposal}
               brandCharcoal={brandCharcoal}
             />
           )}
