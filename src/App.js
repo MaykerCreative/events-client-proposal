@@ -1876,7 +1876,7 @@ function LoginView({ onLogin, showAlert, showPrompt }) {
 // DASHBOARD SECTIONS
 // ============================================
 
-function ProfileSection({ clientInfo, profileData, editingProfile, setEditingProfile, onLogout, brandCharcoal = '#2C2C2C', brandBrown = '#603f27', brandBlue = '#7693a9' }) {
+function ProfileSection({ clientInfo, profileData, editingProfile, setEditingProfile, onLogout, showAlert, showPrompt, showConfirm, brandCharcoal = '#2C2C2C', brandBrown = '#603f27', brandBlue = '#7693a9' }) {
   // Generate Member ID from email hash (or use existing ID if available)
   const generateMemberID = () => {
     if (clientInfo?.memberId) return clientInfo.memberId;
@@ -7418,6 +7418,9 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
               editingProfile={editingProfile}
               setEditingProfile={setEditingProfile}
               onLogout={onLogout}
+              showAlert={showAlert}
+              showPrompt={showPrompt}
+              showConfirm={showConfirm}
               brandCharcoal={brandCharcoal}
               brandBrown={brandBrown}
               brandBlue={brandBlue}
