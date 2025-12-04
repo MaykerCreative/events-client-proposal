@@ -3136,21 +3136,22 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             <div style={{
               textAlign: 'center',
               zIndex: 2,
-              position: 'relative'
+              position: 'relative',
+              padding: '20px'
             }}>
               <div style={{
-                fontSize: '20px',
+                fontSize: '16px',
                 fontWeight: '300',
                 color: '#000000',
                 fontFamily: "'Domaine Text', serif",
                 letterSpacing: '-0.02em',
                 lineHeight: '1.2',
-                marginBottom: '10px'
+                marginBottom: '8px'
               }}>
                 {tier.tier}
               </div>
               <div style={{
-                fontSize: '17px',
+                fontSize: '14px',
                 fontWeight: '300',
                 color: '#8b8b8b',
                 fontFamily: "'NeueHaasUnica', sans-serif",
@@ -5963,6 +5964,129 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
 
 function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [rentalAddress, setRentalAddress] = useState('');
+  const [rentalDistance, setRentalDistance] = useState(null);
+  const [rentalMinimum, setRentalMinimum] = useState(null);
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [calculationError, setCalculationError] = useState(null);
+  
+  // Warehouse address
+  const WAREHOUSE_ADDRESS = '258 Mason Road, La Vergne, TN 37086';
+  
+  // Rental minimum tiers based on distance
+  const getRentalMinimum = (distance) => {
+    if (distance < 50) return { amount: 500, range: 'Nashville (under 50 miles)' };
+    if (distance >= 50 && distance < 100) return { amount: 1500, range: '50-100 miles' };
+    if (distance >= 100 && distance < 300) return { amount: 3500, range: '100-300 miles' };
+    if (distance >= 300 && distance < 600) return { amount: 8500, range: '300-600 miles' };
+    if (distance >= 600 && distance < 800) return { amount: 15000, range: '600-800 miles' };
+    if (distance >= 800 && distance < 1000) return { amount: 30000, range: '800-1000 miles' };
+    if (distance >= 1000 && distance < 2000) return { amount: 50000, range: '1000-2000 miles' };
+    return { amount: null, range: 'Over 2000 miles - Please contact us' };
+  };
+  
+  // Calculate distance using Google Maps Distance Matrix API
+  const calculateDistance = async () => {
+    if (!rentalAddress.trim()) {
+      setCalculationError('Please enter an address');
+      return;
+    }
+    
+    setIsCalculating(true);
+    setCalculationError(null);
+    setRentalDistance(null);
+    setRentalMinimum(null);
+    
+    try {
+      // Use Google Maps Distance Matrix API
+      // Note: In production, you'll need to add your Google Maps API key
+      // For now, we'll use a geocoding approach with Haversine formula
+      
+      // Geocode both addresses
+      const geocodeAddress = async (address) => {
+        const response = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=AIzaSyDummyKey`
+        );
+        // If API key is not available, use a fallback method
+        // For now, we'll use a simpler approach with the Distance Matrix API
+        // But we need an API key, so let's use a different approach
+        
+        // Alternative: Use OpenRouteService or similar free API
+        // Or use Haversine with geocoding from a free service
+        
+        // For now, let's use a client-side solution with a geocoding service
+        // We'll use a CORS proxy or direct API call if available
+        throw new Error('API key needed');
+      };
+      
+      // Try using Google Maps Distance Matrix API via a proxy or direct call
+      // Since we don't have an API key configured, we'll use a fallback method
+      // Using Haversine formula with coordinates from geocoding
+      
+      // For production, you would:
+      // 1. Get Google Maps API key
+      // 2. Use Distance Matrix API for accurate driving distance
+      // 3. Or use Haversine for straight-line distance as approximation
+      
+      // For now, let's create a working solution using a free geocoding service
+      // We'll use OpenStreetMap Nominatim API (free, no key required)
+      
+      const geocodeWithNominatim = async (address) => {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`,
+          {
+            headers: {
+              'User-Agent': 'MaykerEvents/1.0'
+            }
+          }
+        );
+        const data = await response.json();
+        if (data && data.length > 0) {
+          return {
+            lat: parseFloat(data[0].lat),
+            lon: parseFloat(data[0].lon)
+          };
+        }
+        throw new Error('Address not found');
+      };
+      
+      // Get coordinates for both addresses
+      const [warehouseCoords, destinationCoords] = await Promise.all([
+        geocodeWithNominatim(WAREHOUSE_ADDRESS),
+        geocodeWithNominatim(rentalAddress)
+      ]);
+      
+      // Calculate distance using Haversine formula (great circle distance)
+      const haversineDistance = (lat1, lon1, lat2, lon2) => {
+        const R = 3959; // Earth's radius in miles
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = 
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+      };
+      
+      const distance = haversineDistance(
+        warehouseCoords.lat,
+        warehouseCoords.lon,
+        destinationCoords.lat,
+        destinationCoords.lon
+      );
+      
+      setRentalDistance(Math.round(distance));
+      const minimum = getRentalMinimum(distance);
+      setRentalMinimum(minimum);
+      
+    } catch (error) {
+      console.error('Error calculating distance:', error);
+      setCalculationError('Unable to calculate distance. Please check the address and try again.');
+    } finally {
+      setIsCalculating(false);
+    }
+  };
   
   // Product library - images should be in /public/products/ folder
   // Helper function to convert filename to product name (removes "- 1", "- 2", etc.)
@@ -6041,6 +6165,200 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
       }}>
         Resources
       </h2>
+      
+      {/* Rental Minimum Calculator */}
+      <div style={{ 
+        marginBottom: '64px',
+        padding: '32px',
+        backgroundColor: '#FAF8F3',
+        borderRadius: '8px',
+        border: '1px solid #e8e8e3'
+      }}>
+        <h3 style={{ 
+          fontSize: '17px', 
+          fontWeight: '300', 
+          color: '#000000', 
+          marginBottom: '16px',
+          fontFamily: "'Domaine Text', serif"
+        }}>
+          Rental Minimum Calculator
+        </h3>
+        <p style={{ 
+          fontSize: '14px', 
+          color: '#666', 
+          marginBottom: '24px',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          lineHeight: '1.6'
+        }}>
+          Enter your event address to calculate the rental minimum based on distance from our warehouse.
+        </p>
+        
+        <div style={{ 
+          display: 'flex', 
+          gap: '12px', 
+          marginBottom: '24px',
+          flexWrap: 'wrap'
+        }}>
+          <input
+            type="text"
+            placeholder="Enter event address (e.g., 123 Main St, Nashville, TN 37203)"
+            value={rentalAddress}
+            onChange={(e) => setRentalAddress(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                calculateDistance();
+              }
+            }}
+            style={{
+              flex: '1',
+              minWidth: '300px',
+              padding: '12px 16px',
+              fontSize: '14px',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              border: '1px solid #e5e7eb',
+              borderRadius: '8px',
+              backgroundColor: '#fff',
+              color: '#000000',
+              outline: 'none',
+              transition: 'border-color 0.2s'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = '#545142';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = '#e5e7eb';
+            }}
+          />
+          <button
+            onClick={calculateDistance}
+            disabled={isCalculating}
+            style={{
+              padding: '12px 24px',
+              fontSize: '14px',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              fontWeight: '500',
+              backgroundColor: brandCharcoal,
+              color: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: isCalculating ? 'not-allowed' : 'pointer',
+              opacity: isCalculating ? 0.6 : 1,
+              transition: 'opacity 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              if (!isCalculating) {
+                e.currentTarget.style.opacity = '0.9';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isCalculating) {
+                e.currentTarget.style.opacity = '1';
+              }
+            }}
+          >
+            {isCalculating ? 'Calculating...' : 'Calculate'}
+          </button>
+        </div>
+        
+        {calculationError && (
+          <div style={{
+            padding: '12px 16px',
+            backgroundColor: '#fee2e2',
+            color: '#dc2626',
+            borderRadius: '8px',
+            marginBottom: '24px',
+            fontSize: '14px',
+            fontFamily: "'NeueHaasUnica', sans-serif"
+          }}>
+            {calculationError}
+          </div>
+        )}
+        
+        {rentalDistance !== null && rentalMinimum && (
+          <div style={{
+            padding: '24px',
+            backgroundColor: '#fff',
+            borderRadius: '8px',
+            border: '1px solid #e8e8e3'
+          }}>
+            <div style={{
+              fontSize: '12px',
+              color: '#8b8b8b',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              marginBottom: '12px'
+            }}>
+              Distance from Warehouse
+            </div>
+            <div style={{
+              fontSize: '24px',
+              fontWeight: '300',
+              color: '#000000',
+              fontFamily: "'Domaine Text', serif",
+              marginBottom: '8px'
+            }}>
+              {rentalDistance} miles
+            </div>
+            <div style={{
+              fontSize: '12px',
+              color: '#8b8b8b',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              marginBottom: '24px'
+            }}>
+              {rentalMinimum.range}
+            </div>
+            <div style={{
+              borderTop: '1px solid #e8e8e3',
+              paddingTop: '24px',
+              marginTop: '24px'
+            }}>
+              <div style={{
+                fontSize: '12px',
+                color: '#8b8b8b',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                marginBottom: '12px'
+              }}>
+                Rental Minimum
+              </div>
+              {rentalMinimum.amount ? (
+                <div style={{
+                  fontSize: '32px',
+                  fontWeight: '300',
+                  color: brandCharcoal,
+                  fontFamily: "'Domaine Text', serif"
+                }}>
+                  ${rentalMinimum.amount.toLocaleString()}
+                </div>
+              ) : (
+                <div style={{
+                  fontSize: '16px',
+                  fontWeight: '400',
+                  color: '#000000',
+                  fontFamily: "'NeueHaasUnica', sans-serif"
+                }}>
+                  {rentalMinimum.range}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        
+        <div style={{
+          marginTop: '24px',
+          padding: '16px',
+          backgroundColor: '#fff',
+          borderRadius: '8px',
+          fontSize: '12px',
+          color: '#8b8b8b',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          lineHeight: '1.6'
+        }}>
+          <strong style={{ color: '#000000' }}>Warehouse Location:</strong> {WAREHOUSE_ADDRESS}
+        </div>
+      </div>
       
       <div style={{ marginBottom: '32px' }}>
         <h3 style={{ 
