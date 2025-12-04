@@ -7302,6 +7302,8 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
             onError={(e) => {
               if (!e.target.src.includes('/assets/')) {
                 e.target.src = '/assets/mayker_wordmark-events-black.svg';
+              } else if (!e.target.src.includes('cdn')) {
+                e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_wordmark-events-black.svg';
               } else {
                 e.target.style.display = 'none';
               }
@@ -7882,8 +7884,44 @@ function ProposalDetailView({ proposal, onBack, onLogout }) {
               </div>
             </div>
             
-            {/* Footer */}
-            <PageFooter pageNum={currentPageNum} useFlexbox={true} />
+            {/* Template-style footer - outside the bordered container */}
+            <div style={{ marginTop: '30px', paddingTop: '0' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                <div className="no-print">
+                  <img 
+                    src="/mayker_wordmark-events-black.svg" 
+                    alt="MAYKER EVENTS" 
+                    onError={(e) => {
+                      if (!e.target.src.includes('/assets/')) {
+                        e.target.src = '/assets/mayker_wordmark-events-black.svg';
+                      } else if (!e.target.src.includes('cdn')) {
+                        e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_wordmark-events-black.svg';
+                      } else {
+                        e.target.style.display = 'none';
+                      }
+                    }}
+                    style={{ height: '24px', width: 'auto', maxWidth: '250px', display: 'block' }} 
+                  />
+                </div>
+                {/* Print version - non-clickable */}
+                <img 
+                  src="/mayker_wordmark-events-black.svg" 
+                  alt="MAYKER EVENTS" 
+                  className="print-only"
+                  onError={(e) => {
+                    if (!e.target.src.includes('/assets/')) {
+                      e.target.src = '/assets/mayker_wordmark-events-black.svg';
+                    } else if (!e.target.src.includes('cdn')) {
+                      e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_wordmark-events-black.svg';
+                    } else {
+                      e.target.style.display = 'none';
+                    }
+                  }}
+                  style={{ height: '24px', width: 'auto', maxWidth: '250px', display: 'block' }} 
+                />
+                <div style={{ fontSize: '11px', color: brandCharcoal }}>events@mayker.com | (615) 970.1244</div>
+              </div>
+            </div>
           </div>
         );
       })()}
