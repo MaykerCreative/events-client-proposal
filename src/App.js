@@ -175,7 +175,7 @@ function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
             style={{
               padding: '10px 24px',
               backgroundColor: '#f3f4f6',
-              color: brandMahogany,
+              color: '#000000',
               border: `1px solid ${brandSage}30`,
               borderRadius: '4px',
               cursor: 'pointer',
@@ -321,7 +321,7 @@ function PromptModal({ message, placeholder, onConfirm, onCancel, isOpen, defaul
             style={{
               padding: '10px 24px',
               backgroundColor: '#f3f4f6',
-              color: brandMahogany,
+              color: '#000000',
               border: `1px solid ${brandSage}30`,
               borderRadius: '4px',
               cursor: 'pointer',
@@ -1675,7 +1675,7 @@ function LoginView({ onLogin, showAlert, showPrompt }) {
       {/* Left Side - Login Form */}
       <div style={{ 
         flex: '0 0 50%', 
-        backgroundColor: '#fafaf8', 
+        backgroundColor: 'white', 
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
@@ -1765,7 +1765,7 @@ function LoginView({ onLogin, showAlert, showPrompt }) {
                 fontSize: '14px', 
                 fontWeight: '500', 
                 marginBottom: '8px', 
-                color: brandCharcoal 
+                color: '#000000' 
               }}>
                 Email:
               </label>
@@ -1793,7 +1793,7 @@ function LoginView({ onLogin, showAlert, showPrompt }) {
                 fontSize: '14px', 
                 fontWeight: '500', 
                 marginBottom: '8px', 
-                color: brandCharcoal 
+                color: '#000000' 
               }}>
                 Password:
               </label>
@@ -1831,7 +1831,7 @@ function LoginView({ onLogin, showAlert, showPrompt }) {
                   flex: 1,
                   padding: '10px 16px',
                   backgroundColor: 'transparent',
-                  color: brandCharcoal,
+                  color: '#000000',
                   border: '1px solid #d1d5db',
                   borderRadius: '6px',
                   fontSize: '13px',
@@ -1893,7 +1893,8 @@ function LoginView({ onLogin, showAlert, showPrompt }) {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        position: 'relative'
+        position: 'relative',
+        width: '100%'
       }}>
         {/* Optional overlay for better text contrast if needed */}
         <div style={{
@@ -1902,7 +1903,7 @@ function LoginView({ onLogin, showAlert, showPrompt }) {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.1)' // Subtle dark overlay
+          backgroundColor: 'rgba(0, 0, 0, 0.05)' // Lighter overlay
         }} />
       </div>
     </div>
@@ -1989,7 +1990,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
       fontSize: '15px',
       fontFamily: "'NeueHaasUnica', sans-serif",
       backgroundColor: 'transparent',
-      color: readOnly ? '#999' : brandCharcoal,
+      color: readOnly ? '#999' : '#000000',
       boxSizing: 'border-box',
       outline: 'none',
       transition: 'border-color 0.2s'
@@ -2002,7 +2003,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
           fontSize: '13px', 
           fontWeight: '600', 
           marginBottom: '8px', 
-          color: brandCharcoal,
+          color: '#000000',
           fontFamily: "'NeueHaasUnica', sans-serif",
           textTransform: 'uppercase',
           letterSpacing: '0.05em'
@@ -2034,7 +2035,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
         ) : (
           <div style={{ 
             fontSize: '15px', 
-            color: readOnly ? '#999' : brandCharcoal, 
+            color: readOnly ? '#999' : '#000000', 
             padding: '8px 0',
             borderBottom: '1px solid #e5e7eb',
             minHeight: '23px',
@@ -2055,7 +2056,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
           <h2 style={{ 
             fontSize: '20px', 
             fontWeight: '300', 
-            color: brandCharcoal,
+            color: '#000000',
             fontFamily: "'Domaine Text', serif",
             marginBottom: '32px',
             letterSpacing: '-0.01em',
@@ -2114,7 +2115,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
             <h3 style={{ 
               fontSize: '13px', 
               fontWeight: '600', 
-              color: brandCharcoal,
+              color: '#000000',
               fontFamily: "'NeueHaasUnica', sans-serif",
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
@@ -2176,7 +2177,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
             <h3 style={{ 
               fontSize: '13px', 
               fontWeight: '600', 
-              color: brandCharcoal,
+              color: '#000000',
               fontFamily: "'NeueHaasUnica', sans-serif",
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
@@ -2192,7 +2193,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 fontSize: '13px', 
                 fontWeight: '600', 
                 marginBottom: '8px', 
-                color: brandCharcoal,
+                color: '#000000',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em'
@@ -2212,7 +2213,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                     fontSize: '15px',
                     fontFamily: "'NeueHaasUnica', sans-serif",
                     backgroundColor: 'transparent',
-                    color: brandCharcoal,
+                    color: '#000000',
                     boxSizing: 'border-box',
                     outline: 'none',
                     cursor: 'pointer',
@@ -2227,7 +2228,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
               ) : (
                 <div style={{ 
                   fontSize: '15px', 
-                  color: brandCharcoal, 
+                  color: '#000000', 
                   padding: '8px 0',
                   borderBottom: '1px solid #e5e7eb',
                   minHeight: '23px'
@@ -2244,7 +2245,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 fontSize: '13px', 
                 fontWeight: '600', 
                 marginBottom: '8px', 
-                color: brandCharcoal,
+                color: '#000000',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em'
@@ -2264,7 +2265,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                     fontSize: '15px',
                     fontFamily: "'NeueHaasUnica', sans-serif",
                     backgroundColor: 'transparent',
-                    color: brandCharcoal,
+                    color: '#000000',
                     boxSizing: 'border-box',
                     outline: 'none',
                     cursor: 'pointer',
@@ -2279,7 +2280,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
               ) : (
                 <div style={{ 
                   fontSize: '15px', 
-                  color: brandCharcoal, 
+                  color: '#000000', 
                   padding: '8px 0',
                   borderBottom: '1px solid #e5e7eb',
                   minHeight: '23px'
@@ -2296,7 +2297,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 fontSize: '13px', 
                 fontWeight: '600', 
                 marginBottom: '8px', 
-                color: brandCharcoal,
+                color: '#000000',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em'
@@ -2316,7 +2317,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                     fontSize: '15px',
                     fontFamily: "'NeueHaasUnica', sans-serif",
                     backgroundColor: 'transparent',
-                    color: brandCharcoal,
+                    color: '#000000',
                     boxSizing: 'border-box',
                     outline: 'none',
                     cursor: 'pointer',
@@ -2329,7 +2330,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
               ) : (
                 <div style={{ 
                   fontSize: '15px', 
-                  color: brandCharcoal, 
+                  color: '#000000', 
                   padding: '8px 0',
                   borderBottom: '1px solid #e5e7eb',
                   minHeight: '23px'
@@ -2347,7 +2348,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                   fontSize: '13px', 
                   fontWeight: '600', 
                   marginBottom: '8px', 
-                  color: brandCharcoal,
+                  color: '#000000',
                   fontFamily: "'NeueHaasUnica', sans-serif",
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em'
@@ -2367,7 +2368,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                           href={formData.taxExemptDocumentUrl} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          style={{ color: '#6b7d47', textDecoration: 'underline' }}
+                          style={{ color: '#545142', textDecoration: 'underline' }}
                         >
                           View Document
                         </a>
@@ -2414,7 +2415,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 ) : (
                   <div style={{ 
                     fontSize: '15px', 
-                    color: brandCharcoal, 
+                    color: '#000000', 
                     padding: '8px 0',
                     borderBottom: '1px solid #e5e7eb',
                     minHeight: '23px'
@@ -2424,7 +2425,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                         href={formData.taxExemptDocumentUrl} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        style={{ color: '#6b7d47', textDecoration: 'underline' }}
+                        style={{ color: '#545142', textDecoration: 'underline' }}
                       >
                         View Tax Exempt Document
                       </a>
@@ -2442,7 +2443,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
             <h3 style={{ 
               fontSize: '13px', 
               fontWeight: '600', 
-              color: brandCharcoal,
+              color: '#000000',
               fontFamily: "'NeueHaasUnica', sans-serif",
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
@@ -2494,8 +2495,8 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
               onClick={() => setEditingProfile(true)}
               style={{
                 padding: '14px 28px',
-                backgroundColor: '#fafaf8',
-                color: brandCharcoal,
+                backgroundColor: 'white',
+                color: '#000000',
                 border: '1px solid #e8e8e3',
                 borderRadius: '12px',
                 cursor: 'pointer',
@@ -2514,7 +2515,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#fafaf8';
+                e.currentTarget.style.backgroundColor = 'white';
                 e.currentTarget.style.borderColor = '#e8e8e3';
                 e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
                 e.currentTarget.style.transform = 'translateY(0)';
@@ -2536,8 +2537,8 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
               }}
               style={{
                 padding: '14px 28px',
-                backgroundColor: '#fafaf8',
-                color: brandCharcoal,
+                backgroundColor: 'white',
+                color: '#000000',
                 border: '1px solid #e8e8e3',
                 borderRadius: '12px',
                 cursor: 'pointer',
@@ -2556,7 +2557,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#fafaf8';
+                e.currentTarget.style.backgroundColor = 'white';
                 e.currentTarget.style.borderColor = '#e8e8e3';
                 e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
                 e.currentTarget.style.transform = 'translateY(0)';
@@ -2624,8 +2625,8 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
               }}
               style={{
                 padding: '14px 28px',
-                backgroundColor: '#fafaf8',
-                color: brandCharcoal,
+                backgroundColor: 'white',
+                color: '#000000',
                 border: '1px solid #e8e8e3',
                 borderRadius: '12px',
                 cursor: 'pointer',
@@ -2644,7 +2645,7 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#fafaf8';
+                e.currentTarget.style.backgroundColor = 'white';
                 e.currentTarget.style.borderColor = '#e8e8e3';
                 e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
                 e.currentTarget.style.transform = 'translateY(0)';
@@ -2899,7 +2900,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
   
   // Panel styling (reused throughout)
   const panelStyle = {
-    backgroundColor: '#fafaf8',
+    backgroundColor: 'white',
     border: 'none',
     padding: '64px 48px',
     borderRadius: '20px',
@@ -2908,7 +2909,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
   };
   
   const smallerPanelStyle = {
-    backgroundColor: '#fafaf8',
+    backgroundColor: 'white',
     border: 'none',
     padding: '32px',
     borderRadius: '20px',
@@ -3128,7 +3129,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               width: '200px',
               height: '200px',
               borderRadius: '50%',
-              border: tier.tier === 'House Member' ? '3px solid #6b7d47' : tier.tier === 'Inner Circle' ? '3px solid #d4af37' : '3px solid #2C2C2C',
+              border: tier.tier === 'House Member' ? '3px solid #545142' : tier.tier === 'Inner Circle' ? '3px solid #d4af37' : '3px solid #2C2C2C',
               backgroundColor: 'transparent',
               zIndex: 1
             }} />
@@ -3140,7 +3141,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               <div style={{
                 fontSize: '34px',
                 fontWeight: '300',
-                color: brandCharcoal,
+                color: '#000000',
                 fontFamily: "'Domaine Text', serif",
                 letterSpacing: '-0.02em',
                 lineHeight: '1.2',
@@ -3173,7 +3174,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               <div style={{
                 width: '60px',
                 height: '1px',
-                backgroundColor: '#6b7d47',
+                backgroundColor: '#545142',
                 marginBottom: '20px',
                 opacity: 0.3
               }} />
@@ -3202,7 +3203,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                 <div style={{
                   width: `${Math.min(tier.progress, 100)}%`,
                   height: '100%',
-                  backgroundColor: tier.tier === 'House Member' ? '#6b7d47' : tier.tier === 'Inner Circle' ? '#d4af37' : '#2C2C2C',
+                  backgroundColor: tier.tier === 'House Member' ? '#545142' : tier.tier === 'Inner Circle' ? '#d4af37' : '#2C2C2C',
                   transition: 'width 0.8s ease',
                   borderRadius: '2px'
                 }} />
@@ -3216,7 +3217,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               }}>
                 <div style={{
                   fontSize: '16px',
-                  color: brandCharcoal,
+                  color: '#000000',
                   fontFamily: "'NeueHaasUnica', sans-serif",
                   fontWeight: '500',
                   lineHeight: '1.4'
@@ -3248,7 +3249,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             }}>
               <div style={{
                 fontSize: '14px',
-                color: brandCharcoal,
+                color: '#000000',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 fontWeight: '400',
                 lineHeight: '1.6',
@@ -3327,7 +3328,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             <div style={{
               width: '60px',
               height: '1px',
-              backgroundColor: '#6b7d47',
+              backgroundColor: '#545142',
               marginBottom: '12px',
               opacity: 0.4
             }} />
@@ -3379,7 +3380,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           <div style={{
             fontSize: '18px',
             fontWeight: '300',
-            color: brandCharcoal,
+            color: '#000000',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.01em',
             marginBottom: '24px'
@@ -3410,7 +3411,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                   <div style={{
                     fontSize: '16px',
                     fontWeight: '500',
-                    color: brandCharcoal,
+                    color: '#000000',
                     fontFamily: "'NeueHaasUnica', sans-serif",
                     marginBottom: '8px'
                   }}>
@@ -3462,7 +3463,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                       }}
                       style={{
                         padding: '6px 16px',
-                        backgroundColor: '#6b7d47',
+                        backgroundColor: '#545142',
                         color: 'white',
                         border: 'none',
                         borderRadius: '6px',
@@ -3473,10 +3474,10 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                         transition: 'all 0.2s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#5a6b3a';
+                        e.currentTarget.style.backgroundColor = '#545142';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#6b7d47';
+                        e.currentTarget.style.backgroundColor = '#545142';
                       }}
                     >
                       View
@@ -3495,7 +3496,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           <div style={{
             fontSize: '18px',
             fontWeight: '300',
-            color: brandCharcoal,
+            color: '#000000',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.01em',
             marginBottom: '32px'
@@ -3540,7 +3541,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                 <h3 style={{
                   fontSize: '20px',
                   fontWeight: '300',
-                  color: brandCharcoal,
+                  color: '#000000',
                   fontFamily: "'Domaine Text', serif",
                   letterSpacing: '-0.01em',
                   marginBottom: '16px'
@@ -3567,7 +3568,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                   style={{
                     display: 'inline-block',
                     padding: '12px 24px',
-                    backgroundColor: '#6b7d47',
+                    backgroundColor: '#545142',
                     color: 'white',
                     textDecoration: 'none',
                     borderRadius: '6px',
@@ -3577,10 +3578,10 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                     transition: 'all 0.2s ease'
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#5a6b3a';
+                    e.target.style.backgroundColor = '#545142';
                   }}
                   onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = '#6b7d47';
+                    e.target.style.backgroundColor = '#545142';
                   }}
                 >
                   View Product
@@ -3624,7 +3625,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                   <h3 style={{
                     fontSize: '16px',
                     fontWeight: '500',
-                    color: brandCharcoal,
+                    color: '#000000',
                     fontFamily: "'NeueHaasUnica', sans-serif",
                     marginBottom: '8px'
                   }}>
@@ -3652,8 +3653,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                       display: 'inline-block',
                       padding: '10px 20px',
                       backgroundColor: 'transparent',
-                      color: '#6b7d47',
-                      border: '1px solid #6b7d47',
+                      color: '#545142',
+                      border: '1px solid #545142',
                       textDecoration: 'none',
                       borderRadius: '6px',
                       fontSize: '12px',
@@ -3663,12 +3664,12 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = '#6b7d47';
+                      e.target.style.backgroundColor = '#545142';
                       e.target.style.color = 'white';
                     }}
                     onMouseLeave={(e) => {
                       e.target.style.backgroundColor = 'transparent';
-                      e.target.style.color = '#6b7d47';
+                      e.target.style.color = '#545142';
                     }}
                   >
                     View Product
@@ -3800,7 +3801,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               rel="noopener noreferrer"
               style={{
                 fontSize: '14px',
-                color: '#6b7d47',
+                color: '#545142',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textDecoration: 'none',
                 fontWeight: '400',
@@ -3810,11 +3811,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               }}
               onMouseEnter={(e) => {
                 e.target.style.textDecoration = 'underline';
-                e.target.style.color = '#5a6b3a';
+                e.target.style.color = '#545142';
               }}
               onMouseLeave={(e) => {
                 e.target.style.textDecoration = 'none';
-                e.target.style.color = '#6b7d47';
+                e.target.style.color = '#545142';
               }}
             >
               hillandcocreative.com
@@ -3885,7 +3886,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         <div style={{
           fontSize: '18px',
           fontWeight: '300',
-          color: brandCharcoal,
+          color: '#000000',
           fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.01em',
           marginBottom: '24px'
@@ -3955,7 +3956,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               href="mailto:events@mayker.com"
               style={{
                 fontSize: '12px',
-                color: '#6b7d47',
+                color: '#545142',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textDecoration: 'none',
                 fontWeight: '400',
@@ -3965,11 +3966,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               }}
               onMouseEnter={(e) => {
                 e.target.style.textDecoration = 'underline';
-                e.target.style.color = '#5a6b3a';
+                e.target.style.color = '#545142';
               }}
               onMouseLeave={(e) => {
                 e.target.style.textDecoration = 'none';
-                e.target.style.color = '#6b7d47';
+                e.target.style.color = '#545142';
               }}
             >
               EVENTS@MAYKER.COM
@@ -4032,7 +4033,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               href="mailto:noelle@mayker.com"
               style={{
                 fontSize: '12px',
-                color: '#6b7d47',
+                color: '#545142',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textDecoration: 'none',
                 fontWeight: '400',
@@ -4042,11 +4043,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               }}
               onMouseEnter={(e) => {
                 e.target.style.textDecoration = 'underline';
-                e.target.style.color = '#5a6b3a';
+                e.target.style.color = '#545142';
               }}
               onMouseLeave={(e) => {
                 e.target.style.textDecoration = 'none';
-                e.target.style.color = '#6b7d47';
+                e.target.style.color = '#545142';
               }}
             >
               NOELLE@MAYKER.COM
@@ -4109,7 +4110,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               href="mailto:constance@mayker.com"
               style={{
                 fontSize: '12px',
-                color: '#6b7d47',
+                color: '#545142',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 textDecoration: 'none',
                 fontWeight: '400',
@@ -4119,11 +4120,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               }}
               onMouseEnter={(e) => {
                 e.target.style.textDecoration = 'underline';
-                e.target.style.color = '#5a6b3a';
+                e.target.style.color = '#545142';
               }}
               onMouseLeave={(e) => {
                 e.target.style.textDecoration = 'none';
-                e.target.style.color = '#6b7d47';
+                e.target.style.color = '#545142';
               }}
             >
               CONSTANCE@MAYKER.COM
@@ -4499,7 +4500,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
       
       {/* Tier Status - Medallion with Progress Bar */}
       <div style={{ 
-        backgroundColor: '#fafaf8', 
+        backgroundColor: 'white', 
         border: 'none',
         padding: '64px 48px', 
         borderRadius: '20px', 
@@ -4526,7 +4527,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             width: '240px',
             height: '240px',
             borderRadius: '50%',
-            border: tier.tier === 'House Member' ? '3px solid #6b7d47' : tier.tier === 'Inner Circle' ? '3px solid #d4af37' : '3px solid #2C2C2C',
+            border: tier.tier === 'House Member' ? '3px solid #545142' : tier.tier === 'Inner Circle' ? '3px solid #d4af37' : '3px solid #2C2C2C',
             backgroundColor: 'transparent'
           }} />
           {/* Center content */}
@@ -4537,7 +4538,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             <div style={{ 
               fontSize: '40px', 
               fontWeight: '300', 
-              color: brandCharcoal,
+              color: '#000000',
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.02em',
               lineHeight: '1.2',
@@ -4626,7 +4627,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                 <div style={{
                   width: `${Math.min(tier.progress, 100)}%`,
                   height: '100%',
-                  backgroundColor: tier.tier === 'House Member' ? '#6b7d47' : tier.tier === 'Inner Circle' ? '#d4af37' : '#2C2C2C',
+                  backgroundColor: tier.tier === 'House Member' ? '#545142' : tier.tier === 'Inner Circle' ? '#d4af37' : '#2C2C2C',
                   transition: 'width 0.8s ease',
                   borderRadius: '2px'
                 }} />
@@ -4642,7 +4643,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                 {/* Line 1 - Primary */}
                 <div style={{ 
                   fontSize: '16px', 
-                  color: brandCharcoal, 
+                  color: '#000000', 
                   fontFamily: "'NeueHaasUnica', sans-serif",
                   fontWeight: '500',
                   lineHeight: '1.4'
@@ -4668,7 +4669,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
 
       {/* YTD Stats Card */}
       <div style={{ 
-        backgroundColor: '#fafaf8', 
+        backgroundColor: 'white', 
         padding: '32px', 
         borderRadius: '16px', 
         marginBottom: '40px',
@@ -4694,7 +4695,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
           <div style={{ 
             fontSize: '56px', 
             fontWeight: '300', 
-            color: brandCharcoal, 
+            color: '#000000', 
             marginBottom: '12px',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.03em',
@@ -4720,7 +4721,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
           <div style={{ 
             fontSize: '56px', 
             fontWeight: '300', 
-            color: brandCharcoal, 
+            color: '#000000', 
             marginBottom: '12px',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.03em',
@@ -4746,7 +4747,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
           <div style={{ 
             fontSize: '56px', 
             fontWeight: '300', 
-            color: brandCharcoal, 
+            color: '#000000', 
             marginBottom: '12px',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.03em',
@@ -4762,7 +4763,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
         <h3 style={{ 
           fontSize: '18px', 
           fontWeight: '300', 
-          color: brandCharcoal, 
+          color: '#000000', 
           marginBottom: '24px',
           fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.01em'
@@ -4773,9 +4774,9 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
           {/* House Member - Olive */}
           <div className={tier.tier === 'House Member' ? 'tier-card-selected' : ''} style={{ 
             padding: '32px', 
-            backgroundColor: '#fafaf8', 
+            backgroundColor: 'white', 
             borderRadius: '16px', 
-            border: tier.tier === 'House Member' ? '1px solid #6b7d47' : '1px solid #e8e8e3',
+            border: tier.tier === 'House Member' ? '1px solid #545142' : '1px solid #e8e8e3',
             transition: 'all 0.3s ease',
             boxShadow: tier.tier === 'House Member' 
               ? '0 4px 12px rgba(107, 125, 71, 0.15)' 
@@ -4790,7 +4791,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                 left: 0,
                 right: 0,
                 height: '3px',
-                backgroundColor: '#6b7d47'
+                backgroundColor: '#545142'
               }} />
             )}
             <div style={{ 
@@ -4807,7 +4808,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             <div style={{ 
               fontSize: '36px', 
               fontWeight: '300', 
-              color: brandCharcoal,
+              color: '#000000',
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.03em',
               marginBottom: '12px',
@@ -4829,7 +4830,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
           {/* Inner Circle - Soft Gold */}
           <div className={tier.tier === 'Inner Circle' ? 'tier-card-selected' : ''} style={{ 
             padding: '32px', 
-            backgroundColor: '#fafaf8', 
+            backgroundColor: 'white', 
             borderRadius: '16px', 
             border: tier.tier === 'Inner Circle' ? '1px solid #d4af37' : '1px solid #e8e8e3',
             transition: 'all 0.3s ease',
@@ -4863,7 +4864,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             <div style={{ 
               fontSize: '36px', 
               fontWeight: '300', 
-              color: brandCharcoal,
+              color: '#000000',
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.03em',
               marginBottom: '12px',
@@ -4885,7 +4886,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
           {/* Founders Estate - Charcoal with Olive accent */}
           <div className={tier.tier === 'Founders Estate' ? 'tier-card-selected' : ''} style={{ 
             padding: '32px', 
-            backgroundColor: '#fafaf8', 
+            backgroundColor: 'white', 
             borderRadius: '16px', 
             border: tier.tier === 'Founders Estate' ? '1px solid #2C2C2C' : '1px solid #e8e8e3',
             transition: 'all 0.3s ease',
@@ -4902,7 +4903,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                 left: 0,
                 right: 0,
                 height: '3px',
-                backgroundColor: '#6b7d47'
+                backgroundColor: '#545142'
               }} />
             )}
             <div style={{ 
@@ -4919,7 +4920,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             <div style={{ 
               fontSize: '36px', 
               fontWeight: '300', 
-              color: brandCharcoal,
+              color: '#000000',
               fontFamily: "'Domaine Text', serif",
               letterSpacing: '-0.03em',
               marginBottom: '12px',
@@ -4945,7 +4946,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
         <h3 style={{ 
           fontSize: '20px', 
           fontWeight: '300', 
-          color: brandCharcoal, 
+          color: '#000000', 
           marginBottom: '24px',
           fontFamily: "'Domaine Text', serif",
           letterSpacing: '-0.01em'
@@ -4986,7 +4987,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                       textAlign: 'left', 
                       fontSize: '12px',
                       fontWeight: '600',
-                      color: brandCharcoal,
+                      color: '#000000',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
                     }}>
@@ -4997,7 +4998,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                       textAlign: 'left', 
                       fontSize: '12px',
                       fontWeight: '600',
-                      color: brandCharcoal,
+                      color: '#000000',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
                     }}>
@@ -5008,7 +5009,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                       textAlign: 'left', 
                       fontSize: '12px',
                       fontWeight: '600',
-                      color: brandCharcoal,
+                      color: '#000000',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
                     }}>
@@ -5019,7 +5020,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                       textAlign: 'right', 
                       fontSize: '12px',
                       fontWeight: '600',
-                      color: brandCharcoal,
+                      color: '#000000',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
                     }}>
@@ -5030,7 +5031,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                       textAlign: 'center', 
                       fontSize: '12px',
                       fontWeight: '600',
-                      color: brandCharcoal,
+                      color: '#000000',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
                     }}>
@@ -5062,14 +5063,14 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                         <td style={{ 
                           padding: '14px 16px', 
                           fontSize: '14px',
-                          color: brandCharcoal
+                          color: '#000000'
                         }}>
                           {formatDateRange(proposal) || 'N/A'}
                         </td>
                         <td style={{ 
                           padding: '14px 16px', 
                           fontSize: '14px',
-                          color: brandCharcoal,
+                          color: '#000000',
                           fontWeight: '500'
                         }}>
                           {proposal.venueName || 'N/A'}
@@ -5077,14 +5078,14 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                         <td style={{ 
                           padding: '14px 16px', 
                           fontSize: '14px',
-                          color: brandCharcoal
+                          color: '#000000'
                         }}>
                           {status}
                         </td>
                         <td style={{ 
                           padding: '14px 16px', 
                           fontSize: '14px',
-                          color: brandCharcoal,
+                          color: '#000000',
                           textAlign: 'right',
                           fontFamily: "'NeueHaasUnica', sans-serif"
                         }}>
@@ -5103,7 +5104,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                               }}
                               style={{
                                 padding: '6px 16px',
-                                backgroundColor: '#6b7d47',
+                                backgroundColor: '#545142',
                                 color: 'white',
                                 border: 'none',
                                 borderRadius: '6px',
@@ -5114,10 +5115,10 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                                 transition: 'all 0.2s ease'
                               }}
                               onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = '#5a6b3a';
+                                e.currentTarget.style.backgroundColor = '#545142';
                               }}
                               onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = '#6b7d47';
+                                e.currentTarget.style.backgroundColor = '#545142';
                               }}
                             >
                               View
@@ -5353,7 +5354,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                     textAlign: 'left', 
                     fontSize: '12px',
                     fontWeight: '600',
-                    color: brandCharcoal,
+                    color: '#000000',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}>
@@ -5364,7 +5365,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                     textAlign: 'left', 
                     fontSize: '12px',
                     fontWeight: '600',
-                    color: brandCharcoal,
+                    color: '#000000',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}>
@@ -5375,7 +5376,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                     textAlign: 'right', 
                     fontSize: '12px',
                     fontWeight: '600',
-                    color: brandCharcoal,
+                    color: '#000000',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}>
@@ -5386,7 +5387,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                     textAlign: 'right', 
                     fontSize: '12px',
                     fontWeight: '600',
-                    color: brandCharcoal,
+                    color: '#000000',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}>
@@ -5397,7 +5398,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                     textAlign: 'left', 
                     fontSize: '12px',
                     fontWeight: '600',
-                    color: brandCharcoal,
+                    color: '#000000',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}>
@@ -5408,7 +5409,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                     textAlign: 'center', 
                     fontSize: '12px',
                     fontWeight: '600',
-                    color: brandCharcoal,
+                    color: '#000000',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}>
@@ -5432,14 +5433,14 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                       <td style={{ 
                         padding: '14px 16px', 
                         fontSize: '14px',
-                        color: brandCharcoal
+                        color: '#000000'
                       }}>
                         {dateRange || 'N/A'}
                       </td>
                       <td style={{ 
                         padding: '14px 16px', 
                         fontSize: '14px',
-                        color: brandCharcoal,
+                        color: '#000000',
                         fontWeight: '500'
                       }}>
                         {proposal.venueName || 'N/A'}
@@ -5447,7 +5448,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                       <td style={{ 
                         padding: '14px 16px', 
                         fontSize: '14px',
-                        color: brandCharcoal,
+                        color: '#000000',
                         textAlign: 'right',
                         fontFamily: "'NeueHaasUnica', sans-serif"
                       }}>
@@ -5456,7 +5457,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                       <td style={{ 
                         padding: '14px 16px', 
                         fontSize: '14px',
-                        color: brandCharcoal,
+                        color: '#000000',
                         textAlign: 'right',
                         fontFamily: "'NeueHaasUnica', sans-serif"
                       }}>
@@ -5495,7 +5496,7 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                             }}
                             style={{
                               padding: '6px 16px',
-                              backgroundColor: '#6b7d47',
+                              backgroundColor: '#545142',
                               color: 'white',
                               border: 'none',
                               borderRadius: '6px',
@@ -5506,10 +5507,10 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                               transition: 'all 0.2s ease'
                             }}
                             onMouseEnter={(e) => {
-                              e.currentTarget.style.backgroundColor = '#5a6b3a';
+                              e.currentTarget.style.backgroundColor = '#545142';
                             }}
                             onMouseLeave={(e) => {
-                              e.currentTarget.style.backgroundColor = '#6b7d47';
+                              e.currentTarget.style.backgroundColor = '#545142';
                             }}
                           >
                             View
@@ -5683,7 +5684,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
         <h3 style={{ 
           fontSize: '13px', 
           fontWeight: '500', 
-          color: brandCharcoal,
+          color: '#000000',
           fontFamily: "'NeueHaasUnica', sans-serif",
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
@@ -5703,7 +5704,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
               <div
                 key={index}
                 style={{
-                  backgroundColor: '#fafaf8',
+                  backgroundColor: 'white',
                   borderRadius: '16px',
                   padding: '40px 32px',
                   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)',
@@ -5787,7 +5788,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
                 <div style={{
                   fontSize: '22px',
                   fontWeight: '300',
-                  color: brandCharcoal,
+                  color: '#000000',
                   fontFamily: "'Domaine Text', serif",
                   marginBottom: '10px',
                   letterSpacing: '-0.01em'
@@ -5820,7 +5821,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
                     style={{
                       padding: '12px 20px',
                       backgroundColor: '#f5f4f0',
-                      color: brandCharcoal,
+                      color: '#000000',
                       border: '1px solid #e8e8e3',
                       borderRadius: '10px',
                       fontSize: '12px',
@@ -5854,7 +5855,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
                     style={{
                       padding: '12px 20px',
                       backgroundColor: 'transparent',
-                      color: brandCharcoal,
+                      color: '#000000',
                       border: '1px solid #e8e8e3',
                       borderRadius: '10px',
                       fontSize: '12px',
@@ -5886,7 +5887,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
 
       {/* Contact Information */}
       <div style={{
-        backgroundColor: '#fafaf8',
+        backgroundColor: 'white',
         borderRadius: '16px',
         padding: '40px',
         border: '1px solid #e8e8e3',
@@ -5895,7 +5896,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
         <h3 style={{ 
           fontSize: '13px', 
           fontWeight: '500', 
-          color: brandCharcoal,
+          color: '#000000',
           fontFamily: "'NeueHaasUnica', sans-serif",
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
@@ -5906,7 +5907,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
         <div style={{
           fontSize: '16px',
           fontWeight: '400',
-          color: brandCharcoal,
+          color: '#000000',
           fontFamily: "'NeueHaasUnica', sans-serif",
           lineHeight: '1.8'
         }}>
@@ -5915,7 +5916,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
             <a
               href="mailto:events@mayker.com"
               style={{
-                color: brandCharcoal,
+                color: '#000000',
                 textDecoration: 'none',
                 borderBottom: '1px solid transparent',
                 transition: 'border-color 0.2s'
@@ -5935,7 +5936,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
             <a
               href="tel:+16159701244"
               style={{
-                color: brandCharcoal,
+                color: '#000000',
                 textDecoration: 'none',
                 borderBottom: '1px solid transparent',
                 transition: 'border-color 0.2s'
@@ -5956,7 +5957,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: brandCharcoal,
+                color: '#000000',
                 textDecoration: 'none',
                 borderBottom: '1px solid transparent',
                 transition: 'border-color 0.2s'
@@ -6062,7 +6063,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
         <h3 style={{ 
           fontSize: '18px', 
           fontWeight: '300', 
-          color: brandCharcoal, 
+          color: '#000000', 
           marginBottom: '16px',
           fontFamily: "'Domaine Text', serif"
         }}>
@@ -6094,12 +6095,12 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
               border: '1px solid #e5e7eb',
               borderRadius: '8px',
               backgroundColor: '#fff',
-              color: brandCharcoal,
+              color: '#000000',
               outline: 'none',
               transition: 'border-color 0.2s'
             }}
             onFocus={(e) => {
-              e.target.style.borderColor = '#6b7d47';
+              e.target.style.borderColor = '#545142';
             }}
             onBlur={(e) => {
               e.target.style.borderColor = '#e5e7eb';
@@ -6212,7 +6213,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
                 <div style={{
                   fontSize: '13px',
                   fontWeight: '400',
-                  color: brandCharcoal,
+                  color: '#000000',
                   fontFamily: "'NeueHaasUnica', sans-serif",
                   textAlign: 'center',
                   lineHeight: '1.4'
@@ -6231,7 +6232,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
 function FAQSection({ brandCharcoal = '#2C2C2C' }) {
   const [openItems, setOpenItems] = useState({});
   const [activeSectionId, setActiveSectionId] = useState(null);
-  const maykerOlive = '#6b7d47';
+  const maykerOlive = '#545142';
   const warmIvory = '#FAF8F3';
   const warmCharcoal = '#2A2925';
   const warmGrey = '#8D8A81';
@@ -6899,7 +6900,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
   
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ fontSize: '16px', color: brandCharcoal }}>Loading...</p>
       </div>
     );
@@ -6907,7 +6908,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
   
   if (error) {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <div style={{ minHeight: '100vh', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
         <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', maxWidth: '500px', textAlign: 'center' }}>
           <p style={{ fontSize: '16px', color: '#dc2626', marginBottom: '16px' }}>Error: {error}</p>
           <button onClick={fetchData} style={{ padding: '10px 20px', backgroundColor: brandCharcoal, color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
@@ -6961,7 +6962,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#fafaf8', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'white', display: 'flex', flexDirection: 'column' }}>
       {/* Fonts are loaded via index.css */}
       
       {/* Global Mobile Styles */}
@@ -7181,12 +7182,12 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
           /* Tier Benefits - Mobile-specific styling for selected tier */
           .tier-benefits-grid .tier-card-selected {
             background-color: rgba(107, 125, 71, 0.05) !important;
-            border-color: #6b7d47 !important;
+            border-color: #545142 !important;
           }
           
           /* Override top accent bar to olive on mobile for all selected tiers */
           .tier-benefits-grid .tier-card-selected > div[style*="position: 'absolute'"] {
-            background-color: #6b7d47 !important;
+            background-color: #545142 !important;
           }
           
           /* Ensure all images respect container width */
@@ -7295,7 +7296,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
               <div style={{ 
                 fontSize: '16px', 
                 fontWeight: '400', 
-                color: brandCharcoal,
+                color: '#000000',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 letterSpacing: '-0.01em'
               }}>
@@ -7340,7 +7341,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
           <div style={{ 
             fontSize: '14px', 
             fontWeight: '500', 
-            color: brandCharcoal,
+            color: '#000000',
             fontFamily: "'NeueHaasUnica', sans-serif",
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
@@ -7518,7 +7519,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
           gap: '2px',
           marginTop: '64px',
           padding: '8px',
-          backgroundColor: '#fafaf8',
+          backgroundColor: 'white',
           borderRadius: '12px',
           maxWidth: '900px',
           marginLeft: 'auto',
@@ -7813,7 +7814,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
       justifyContent: 'space-between',
       alignItems: 'center',
       fontSize: '10px',
-      color: isDark ? 'rgba(255,255,255,0.8)' : '#666',
+          color: '#000000',
       fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
       pageBreakInside: 'avoid',
       breakInside: 'avoid',
