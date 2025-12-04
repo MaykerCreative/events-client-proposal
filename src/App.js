@@ -3462,11 +3462,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                         setSelectedProposal(proposal);
                       }}
                       style={{
-                        padding: '6px 16px',
+                        padding: '6px 12px',
                         backgroundColor: '#F7F6F0',
-                        color: 'white',
+                        color: '#000000',
                         border: 'none',
-                        borderRadius: '6px',
+                        borderRadius: '4px',
                         fontSize: '12px',
                         fontWeight: '500',
                         fontFamily: "'NeueHaasUnica', sans-serif",
@@ -3475,9 +3475,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = '#F7F6F0';
+                        e.currentTarget.style.opacity = '0.8';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = '#F7F6F0';
+                        e.currentTarget.style.opacity = '1';
                       }}
                     >
                       View
@@ -4695,7 +4697,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             Year-to-Date Points ({new Date().getFullYear()})
           </div>
           <div style={{ 
-            fontSize: '56px', 
+            fontSize: '42px', 
             fontWeight: '300', 
             color: '#000000', 
             marginBottom: '12px',
@@ -4721,7 +4723,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             Year-to-Date Projects ({new Date().getFullYear()})
           </div>
           <div style={{ 
-            fontSize: '56px', 
+            fontSize: '42px', 
             fontWeight: '300', 
             color: '#000000', 
             marginBottom: '12px',
@@ -4747,7 +4749,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             Money Saved This Year ({new Date().getFullYear()})
           </div>
           <div style={{ 
-            fontSize: '56px', 
+            fontSize: '42px', 
             fontWeight: '300', 
             color: '#000000', 
             marginBottom: '12px',
@@ -4808,7 +4810,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
               House Member
             </div>
             <div style={{ 
-              fontSize: '36px', 
+              fontSize: '24px', 
               fontWeight: '300', 
               color: '#000000',
               fontFamily: "'Domaine Text', serif",
@@ -4864,7 +4866,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
               Inner Circle
             </div>
             <div style={{ 
-              fontSize: '36px', 
+              fontSize: '24px', 
               fontWeight: '300', 
               color: '#000000',
               fontFamily: "'Domaine Text', serif",
@@ -4920,7 +4922,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
               Founders Estate
             </div>
             <div style={{ 
-              fontSize: '36px', 
+              fontSize: '24px', 
               fontWeight: '300', 
               color: '#000000',
               fontFamily: "'Domaine Text', serif",
@@ -5105,11 +5107,11 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                                 setSelectedProposal(proposal);
                               }}
                               style={{
-                                padding: '6px 16px',
+                                padding: '6px 12px',
                                 backgroundColor: '#F7F6F0',
-                                color: 'white',
+                                color: '#000000',
                                 border: 'none',
-                                borderRadius: '6px',
+                                borderRadius: '4px',
                                 fontSize: '12px',
                                 fontWeight: '500',
                                 fontFamily: "'NeueHaasUnica', sans-serif",
@@ -5118,9 +5120,11 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
                               }}
                               onMouseEnter={(e) => {
                                 e.currentTarget.style.backgroundColor = '#F7F6F0';
+                                e.currentTarget.style.opacity = '0.8';
                               }}
                               onMouseLeave={(e) => {
                                 e.currentTarget.style.backgroundColor = '#F7F6F0';
+                                e.currentTarget.style.opacity = '1';
                               }}
                             >
                               View
@@ -5498,11 +5502,11 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                               setSelectedProposal(proposal);
                             }}
                             style={{
-                              padding: '6px 16px',
+                              padding: '6px 12px',
                               backgroundColor: '#F7F6F0',
-                              color: 'white',
+                              color: '#000000',
                               border: 'none',
-                              borderRadius: '6px',
+                              borderRadius: '4px',
                               fontSize: '12px',
                               fontWeight: '500',
                               fontFamily: "'NeueHaasUnica', sans-serif",
@@ -5511,9 +5515,11 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.backgroundColor = '#F7F6F0';
+                              e.currentTarget.style.opacity = '0.8';
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.backgroundColor = '#F7F6F0';
+                              e.currentTarget.style.opacity = '1';
                             }}
                           >
                             View
