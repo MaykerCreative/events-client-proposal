@@ -7982,6 +7982,7 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
   const [productSuggestions, setProductSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [productInputValue, setProductInputValue] = useState('');
+  const [customSections, setCustomSections] = useState([]); // Track custom sections added
   
   const brandCharcoal = '#2C2C2C';
   const brandTaupe = '#545142';
