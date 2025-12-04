@@ -7579,7 +7579,7 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
   
   const handleAddNewProduct = () => {
     if (!newProduct.name.trim() || !newProduct.section) {
-      alert('Please select a section and enter a product name');
+      window.alert('Please select a section and enter a product name');
       return;
     }
     
@@ -7609,11 +7609,11 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
     const hasNewProducts = changeRequest.newProducts.length > 0;
     
     if (!hasQuantityChanges && !hasDateTimeChanges && !hasNewProducts) {
-      alert('Please make at least one change before submitting');
+      window.alert('Please make at least one change before submitting');
       return;
     }
     
-    if (!confirm('Are you sure you want to submit this change request? The team will review and respond to your request.')) {
+    if (!window.confirm('Are you sure you want to submit this change request? The team will review and respond to your request.')) {
       return;
     }
     
@@ -7637,10 +7637,10 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog }) {
       };
       
       await apiService.submitChangeRequest(changeRequestData);
-      alert('Change request submitted successfully! The team will review your request and get back to you.');
+      window.alert('Change request submitted successfully! The team will review your request and get back to you.');
       onCancel();
     } catch (err) {
-      alert('Error submitting change request: ' + err.message);
+      window.alert('Error submitting change request: ' + err.message);
     } finally {
       setSubmitting(false);
     }
