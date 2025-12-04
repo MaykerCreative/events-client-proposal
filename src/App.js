@@ -4422,6 +4422,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
         marginLeft: 'calc(-50vw + 50%)',
         height: '320px',
         marginBottom: '56px',
+        marginTop: '0',
         borderRadius: '0',
         overflow: 'hidden',
         position: 'relative',
@@ -5605,6 +5606,7 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
         marginLeft: 'calc(-50vw + 50%)',
         height: '320px',
         marginBottom: '56px',
+        marginTop: '0',
         borderRadius: '0',
         overflow: 'hidden',
         position: 'relative',
@@ -6608,13 +6610,13 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
                           maxHeight: isOpen ? '1000px' : '0',
                           overflow: 'hidden',
                           transition: 'max-height 0.25s ease',
-                          padding: isOpen ? '0 30px 20px' : '0 30px',
+                          padding: isOpen ? '0 30px 16px' : '0 30px',
                           opacity: isOpen ? 1 : 0,
                           transitionProperty: 'max-height, padding, opacity'
                         }}
                       >
                         <div style={{
-                          paddingTop: '4px',
+                          paddingTop: '0px',
                           fontSize: '13px',
                           fontWeight: '400',
                           fontFamily: "'NeueHaasUnica', sans-serif",
@@ -7387,7 +7389,10 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
         backgroundColor: 'white',
         borderBottom: '1px solid #e5e7eb',
         padding: '0 32px',
-        display: 'none'
+        display: 'none',
+        position: 'sticky',
+        top: '80px',
+        zIndex: 999
       }} className="desktop-nav">
         <div style={{ 
           maxWidth: '1400px', 
