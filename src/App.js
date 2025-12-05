@@ -6098,7 +6098,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
   // Initialize from URL hash
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
-    if (hash === 'rental-calculator' || hash === 'product-library') {
+    if (hash === 'rental-calculator' || hash === 'product-library' || hash === 'workflow-wishlist') {
       setActiveResourceSection(hash);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -6471,6 +6471,40 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
           flexWrap: 'wrap'
         }}>
           <a
+            href="#product-library"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToResourceSection('product-library');
+            }}
+            style={{
+              fontSize: '12px',
+              fontWeight: '400',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              color: activeResourceSection === 'product-library' ? maykerOlive : mediumGrey,
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              paddingBottom: '8px',
+              borderBottom: activeResourceSection === 'product-library' ? `2px solid ${maykerOlive}` : '2px solid transparent',
+              transition: 'all 0.3s ease',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              if (activeResourceSection !== 'product-library') {
+                e.currentTarget.style.color = maykerOlive;
+                e.currentTarget.style.borderBottomColor = maykerOlive;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (activeResourceSection !== 'product-library') {
+                e.currentTarget.style.color = mediumGrey;
+                e.currentTarget.style.borderBottomColor = 'transparent';
+              }
+            }}
+          >
+            Product Library
+          </a>
+          <a
             href="#rental-calculator"
             onClick={(e) => {
               e.preventDefault();
@@ -6505,38 +6539,38 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
             Rental Min. Calculator
           </a>
           <a
-            href="#product-library"
+            href="#workflow-wishlist"
             onClick={(e) => {
               e.preventDefault();
-              scrollToResourceSection('product-library');
+              scrollToResourceSection('workflow-wishlist');
             }}
             style={{
               fontSize: '12px',
               fontWeight: '400',
               fontFamily: "'NeueHaasUnica', sans-serif",
-              color: activeResourceSection === 'product-library' ? maykerOlive : mediumGrey,
+              color: activeResourceSection === 'workflow-wishlist' ? maykerOlive : mediumGrey,
               textDecoration: 'none',
               textTransform: 'uppercase',
               letterSpacing: '0.08em',
               paddingBottom: '8px',
-              borderBottom: activeResourceSection === 'product-library' ? `2px solid ${maykerOlive}` : '2px solid transparent',
+              borderBottom: activeResourceSection === 'workflow-wishlist' ? `2px solid ${maykerOlive}` : '2px solid transparent',
               transition: 'all 0.3s ease',
               cursor: 'pointer'
             }}
             onMouseEnter={(e) => {
-              if (activeResourceSection !== 'product-library') {
+              if (activeResourceSection !== 'workflow-wishlist') {
                 e.currentTarget.style.color = maykerOlive;
                 e.currentTarget.style.borderBottomColor = maykerOlive;
               }
             }}
             onMouseLeave={(e) => {
-              if (activeResourceSection !== 'product-library') {
+              if (activeResourceSection !== 'workflow-wishlist') {
                 e.currentTarget.style.color = mediumGrey;
                 e.currentTarget.style.borderBottomColor = 'transparent';
               }
             }}
           >
-            Product Library
+            Workflow Wishlist
           </a>
         </div>
       </nav>
@@ -6917,84 +6951,86 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
       </section>
       
       {/* Workflow Wishlist Prompt */}
-      <div style={{
-        marginTop: '80px',
-        padding: '48px',
-        backgroundColor: '#FAF8F3',
-        borderRadius: '8px',
-        border: '1px solid #e8e8e3',
-        textAlign: 'center'
-      }}>
-        <h3 style={{
-          fontSize: '17px',
-          fontWeight: '300',
-          color: '#000000',
-          marginBottom: '16px',
-          fontFamily: "'Domaine Text', serif"
+      <section
+        id="workflow-wishlist"
+        style={{
+          marginTop: '80px',
+          marginBottom: '80px',
+          scrollMarginTop: '80px',
+          paddingTop: '32px'
+        }}
+      >
+        <div style={{ 
+          width: '100%',
+          padding: '32px',
+          backgroundColor: '#FAF8F3',
+          borderRadius: '8px',
+          border: '1px solid #e8e8e3'
         }}>
-          Workflow Wishlist
-        </h3>
-        <p style={{
-          fontSize: '14px',
-          color: '#666',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          lineHeight: '1.6',
-          maxWidth: '600px',
-          margin: '0 auto 32px'
-        }}>
-          Have a resource you'd love to have at your fingertips? Tell us what would elevate your workflow, and our team will explore adding it to the collection.
-        </p>
-        
-        {wishlistSubmitted ? (
-          <div style={{
-            padding: '24px',
-            backgroundColor: '#fff',
-            borderRadius: '8px',
-            border: '1px solid #e8e8e3',
-            maxWidth: '600px',
-            margin: '0 auto'
+          <h3 style={{
+            fontSize: '17px',
+            fontWeight: '300',
+            color: '#000000',
+            marginBottom: '16px',
+            fontFamily: "'Domaine Text', serif"
           }}>
+            Workflow Wishlist
+          </h3>
+          <p style={{
+            fontSize: '14px',
+            color: '#666',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            lineHeight: '1.6',
+            marginBottom: '24px'
+          }}>
+            Have a resource you'd love to have at your fingertips? Tell us what would elevate your workflow, and our team will explore adding it to the collection.
+          </p>
+          
+          {wishlistSubmitted ? (
             <div style={{
-              fontSize: '14px',
-              color: '#000000',
-              fontFamily: "'NeueHaasUnica', sans-serif",
-              lineHeight: '1.6'
+              padding: '24px',
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              border: '1px solid #e8e8e3'
             }}>
-              Thank you for your suggestion! We've received your workflow wishlist request and will review it.
-            </div>
-          </div>
-        ) : (
-          <div style={{
-            maxWidth: '600px',
-            margin: '0 auto',
-            textAlign: 'left'
-          }}>
-            <textarea
-              value={wishlistText}
-              onChange={(e) => setWishlistText(e.target.value)}
-              placeholder="Tell us what resource would help elevate your workflow..."
-              style={{
-                width: '100%',
-                minHeight: '120px',
-                padding: '12px 16px',
+              <div style={{
                 fontSize: '14px',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
                 color: '#000000',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-                resize: 'vertical',
-                boxSizing: 'border-box'
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = '#545142';
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e5e7eb';
-              }}
-            />
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                lineHeight: '1.6'
+              }}>
+                Thank you for your suggestion! We've received your workflow wishlist request and will review it.
+              </div>
+            </div>
+          ) : (
+            <div style={{
+              textAlign: 'left'
+            }}>
+              <textarea
+                value={wishlistText}
+                onChange={(e) => setWishlistText(e.target.value)}
+                style={{
+                  width: '100%',
+                  minHeight: '120px',
+                  padding: '12px 16px',
+                  fontSize: '14px',
+                  fontFamily: "'NeueHaasUnica', sans-serif",
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '8px',
+                  backgroundColor: '#fff',
+                  color: '#000000',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  resize: 'vertical',
+                  boxSizing: 'border-box'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#545142';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e5e7eb';
+                }}
+              />
             <div style={{
               marginTop: '16px',
               textAlign: 'center'
@@ -7066,7 +7102,8 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
             </div>
           </div>
         )}
-      </div>
+        </div>
+      </section>
     </div>
   );
 }
