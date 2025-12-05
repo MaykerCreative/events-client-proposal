@@ -3020,6 +3020,14 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             font-size: 16px;
           }
         }
+        
+        /* Responsive Badge Styles */
+        @media (max-width: 768px) {
+          .overview-badges-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+        }
       ` }} />
       <div className="overview-hero">
         {/* Logo Mark */}
@@ -3265,28 +3273,126 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 fontWeight: '400',
                 lineHeight: '1.6',
-                marginBottom: '16px'
+                marginBottom: '24px'
               }}>
                 As a Founders Estate member, you receive 25% off all rental orders.
               </div>
+              
+              {/* Enhanced Badges */}
               <div style={{
-                fontSize: '13px',
-                color: '#8b8b8b',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                fontWeight: '400',
-                lineHeight: '1.6'
-              }}>
-                Points YTD: {Math.round(currentYearSpend).toLocaleString()}
-              </div>
-              <div style={{
-                fontSize: '13px',
-                color: '#8b8b8b',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                fontWeight: '400',
-                lineHeight: '1.6',
-                marginTop: '4px'
-              }}>
-                Projects YTD: {yearProposals.length}
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '16px'
+              }} className="overview-badges-grid">
+                {/* Points YTD Badge */}
+                <div style={{
+                  position: 'relative',
+                  backgroundColor: '#F7F6F0',
+                  padding: '20px',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(44, 44, 44, 0.08)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                  transition: 'all 0.3s ease',
+                  overflow: 'hidden'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                }}>
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    width: '50px',
+                    height: '50px',
+                    background: 'linear-gradient(135deg, rgba(44, 44, 44, 0.05) 0%, transparent 50%)',
+                    borderRadius: '0 12px 0 50px'
+                  }} />
+                  <div style={{
+                    fontSize: '9px',
+                    fontWeight: '600',
+                    color: '#6b6b6b',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.15em',
+                    marginBottom: '8px',
+                    fontFamily: "'NeueHaasUnica', sans-serif",
+                    position: 'relative',
+                    zIndex: 1
+                  }}>
+                    Points YTD
+                  </div>
+                  <div style={{
+                    fontSize: '28px',
+                    fontWeight: '300',
+                    color: '#2C2C2C',
+                    fontFamily: "'Domaine Text', serif",
+                    letterSpacing: '-0.02em',
+                    lineHeight: '1.1',
+                    position: 'relative',
+                    zIndex: 1
+                  }}>
+                    {Math.round(currentYearSpend).toLocaleString()}
+                  </div>
+                </div>
+                
+                {/* Projects YTD Badge */}
+                <div style={{
+                  position: 'relative',
+                  backgroundColor: '#F7F6F0',
+                  padding: '20px',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(44, 44, 44, 0.08)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                  transition: 'all 0.3s ease',
+                  overflow: 'hidden'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                }}>
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    width: '50px',
+                    height: '50px',
+                    background: 'linear-gradient(135deg, rgba(84, 81, 66, 0.08) 0%, transparent 50%)',
+                    borderRadius: '0 12px 0 50px'
+                  }} />
+                  <div style={{
+                    fontSize: '9px',
+                    fontWeight: '600',
+                    color: '#6b6b6b',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.15em',
+                    marginBottom: '8px',
+                    fontFamily: "'NeueHaasUnica', sans-serif",
+                    position: 'relative',
+                    zIndex: 1
+                  }}>
+                    Projects YTD
+                  </div>
+                  <div style={{
+                    fontSize: '28px',
+                    fontWeight: '300',
+                    color: '#2C2C2C',
+                    fontFamily: "'Domaine Text', serif",
+                    letterSpacing: '-0.02em',
+                    lineHeight: '1.1',
+                    position: 'relative',
+                    zIndex: 1
+                  }}>
+                    {yearProposals.length}
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -4430,6 +4536,24 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
 
   return (
     <div>
+      {/* Responsive Styles for Badges */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media (max-width: 768px) {
+          .ytd-stats-card {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+        }
+        @media (max-width: 1024px) and (min-width: 769px) {
+          .ytd-stats-card {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          .ytd-stats-card > div:last-child {
+            grid-column: 1 / -1;
+          }
+        }
+      ` }} />
+      
       {/* Image Banner */}
       <div style={{
         width: '100vw',
@@ -4684,93 +4808,211 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
         })()}
       </div>
 
-      {/* YTD Stats Card */}
+      {/* YTD Stats Card - Enhanced Badges */}
       <div style={{ 
-        backgroundColor: 'white', 
-        padding: '32px', 
-        borderRadius: '16px', 
-        marginBottom: '40px',
-        border: 'none',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-        display: 'flex',
-        gap: '48px',
-        alignItems: 'flex-start'
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '24px',
+        marginBottom: '40px'
       }} className="ytd-stats-card">
-        {/* YTD Points */}
-        <div style={{ flex: '1' }}>
+        {/* YTD Points Badge */}
+        <div style={{ 
+          position: 'relative',
+          backgroundColor: '#F7F6F0',
+          padding: '32px 28px', 
+          borderRadius: '16px',
+          border: '1px solid rgba(44, 44, 44, 0.08)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
+          transition: 'all 0.3s ease',
+          overflow: 'hidden'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06)';
+        }}>
+          {/* Decorative corner accent */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '80px',
+            height: '80px',
+            background: 'linear-gradient(135deg, rgba(44, 44, 44, 0.05) 0%, transparent 50%)',
+            borderRadius: '0 16px 0 80px'
+          }} />
           <div style={{ 
-            fontSize: '11px', 
-            fontWeight: '500', 
-            color: '#8b8b8b', 
+            fontSize: '10px', 
+            fontWeight: '600', 
+            color: '#6b6b6b', 
             textTransform: 'uppercase', 
-            letterSpacing: '0.15em', 
-            marginBottom: '16px',
-            fontFamily: "'NeueHaasUnica', sans-serif"
+            letterSpacing: '0.2em', 
+            marginBottom: '12px',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            position: 'relative',
+            zIndex: 1
           }}>
-            Year-to-Date Points ({new Date().getFullYear()})
+            Year-to-Date Points
           </div>
           <div style={{ 
-            fontSize: '42px', 
+            fontSize: '48px', 
             fontWeight: '300', 
-            color: '#000000', 
-            marginBottom: '12px',
+            color: '#2C2C2C', 
+            marginBottom: '8px',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.03em',
-            lineHeight: '1.1'
+            lineHeight: '1.1',
+            position: 'relative',
+            zIndex: 1
           }}>
             {Math.round(currentYearSpend).toLocaleString()}
           </div>
+          <div style={{
+            fontSize: '11px',
+            color: '#8b8b8b',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            fontWeight: '400',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            {new Date().getFullYear()}
+          </div>
         </div>
         
-        {/* YTD Projects */}
-        <div style={{ flex: '1' }}>
+        {/* YTD Projects Badge */}
+        <div style={{ 
+          position: 'relative',
+          backgroundColor: '#F7F6F0',
+          padding: '32px 28px', 
+          borderRadius: '16px',
+          border: '1px solid rgba(44, 44, 44, 0.08)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
+          transition: 'all 0.3s ease',
+          overflow: 'hidden'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06)';
+        }}>
+          {/* Decorative corner accent */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '80px',
+            height: '80px',
+            background: 'linear-gradient(135deg, rgba(84, 81, 66, 0.08) 0%, transparent 50%)',
+            borderRadius: '0 16px 0 80px'
+          }} />
           <div style={{ 
-            fontSize: '11px', 
-            fontWeight: '500', 
-            color: '#8b8b8b', 
+            fontSize: '10px', 
+            fontWeight: '600', 
+            color: '#6b6b6b', 
             textTransform: 'uppercase', 
-            letterSpacing: '0.15em', 
-            marginBottom: '16px',
-            fontFamily: "'NeueHaasUnica', sans-serif"
+            letterSpacing: '0.2em', 
+            marginBottom: '12px',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            position: 'relative',
+            zIndex: 1
           }}>
-            Year-to-Date Projects ({new Date().getFullYear()})
+            Year-to-Date Projects
           </div>
           <div style={{ 
-            fontSize: '42px', 
+            fontSize: '48px', 
             fontWeight: '300', 
-            color: '#000000', 
-            marginBottom: '12px',
+            color: '#2C2C2C', 
+            marginBottom: '8px',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.03em',
-            lineHeight: '1.1'
+            lineHeight: '1.1',
+            position: 'relative',
+            zIndex: 1
           }}>
             {yearProposals.length}
           </div>
+          <div style={{
+            fontSize: '11px',
+            color: '#8b8b8b',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            fontWeight: '400',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            {new Date().getFullYear()}
+          </div>
         </div>
         
-        {/* Money Saved This Year */}
-        <div style={{ flex: '1' }}>
+        {/* Money Saved Badge */}
+        <div style={{ 
+          position: 'relative',
+          backgroundColor: '#F7F6F0',
+          padding: '32px 28px', 
+          borderRadius: '16px',
+          border: '1px solid rgba(44, 44, 44, 0.08)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
+          transition: 'all 0.3s ease',
+          overflow: 'hidden'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06)';
+        }}>
+          {/* Decorative corner accent */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '80px',
+            height: '80px',
+            background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, transparent 50%)',
+            borderRadius: '0 16px 0 80px'
+          }} />
           <div style={{ 
-            fontSize: '11px', 
-            fontWeight: '500', 
-            color: '#8b8b8b', 
+            fontSize: '10px', 
+            fontWeight: '600', 
+            color: '#6b6b6b', 
             textTransform: 'uppercase', 
-            letterSpacing: '0.15em', 
-            marginBottom: '16px',
-            fontFamily: "'NeueHaasUnica', sans-serif"
+            letterSpacing: '0.2em', 
+            marginBottom: '12px',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            position: 'relative',
+            zIndex: 1
           }}>
-            Money Saved This Year ({new Date().getFullYear()})
+            Money Saved This Year
           </div>
           <div style={{ 
-            fontSize: '42px', 
+            fontSize: '48px', 
             fontWeight: '300', 
-            color: '#000000', 
-            marginBottom: '12px',
+            color: '#2C2C2C', 
+            marginBottom: '8px',
             fontFamily: "'Domaine Text', serif",
             letterSpacing: '-0.03em',
-            lineHeight: '1.1'
+            lineHeight: '1.1',
+            position: 'relative',
+            zIndex: 1
           }}>
             ${Math.round(currentYearMoneySaved).toLocaleString('en-US')}
+          </div>
+          <div style={{
+            fontSize: '11px',
+            color: '#8b8b8b',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            fontWeight: '400',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            {new Date().getFullYear()}
           </div>
         </div>
       </div>
