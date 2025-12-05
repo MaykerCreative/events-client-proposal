@@ -6685,7 +6685,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
           <div style={{ 
             maxWidth: '1400px',
             margin: '0 auto',
-            padding: '0 48px',
+            padding: '0 20%',
             display: 'flex',
             gap: '32px',
             alignItems: 'flex-start'
@@ -7061,7 +7061,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
           <div style={{
             maxWidth: '1400px',
             margin: '0 auto',
-            padding: '0 48px'
+            padding: '0 20%'
           }}>
           <h3 style={{
             fontSize: '17px',
@@ -7836,16 +7836,36 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                 onClick={handleAddProduct}
                 disabled={!newProductName.trim()}
                 style={{
-                  padding: '12px 24px',
-                  backgroundColor: newProductName.trim() ? '#000000' : '#9ca3af',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: '14px',
+                  padding: '8px 16px',
+                  backgroundColor: newProductName.trim() ? 'white' : '#f3f4f6',
+                  color: newProductName.trim() ? '#000000' : '#9ca3af',
+                  border: newProductName.trim() ? '1px solid #e8e8e3' : '1px solid #e5e7eb',
+                  borderRadius: '12px',
+                  fontSize: '12px',
                   fontWeight: '500',
                   fontFamily: "'NeueHaasUnica', sans-serif",
                   cursor: newProductName.trim() ? 'pointer' : 'not-allowed',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  letterSpacing: '0.02em',
+                  textTransform: 'uppercase',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
+                }}
+                onMouseEnter={(e) => {
+                  if (newProductName.trim()) {
+                    e.currentTarget.style.backgroundColor = '#f5f5f2';
+                    e.currentTarget.style.borderColor = '#d1d5db';
+                    e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.04)';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (newProductName.trim()) {
+                    e.currentTarget.style.backgroundColor = 'white';
+                    e.currentTarget.style.borderColor = '#e8e8e3';
+                    e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }
                 }}
               >
                 Add Product
