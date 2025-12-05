@@ -7531,19 +7531,29 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
     try {
       const CLIENT_API_URL = 'https://script.google.com/macros/s/AKfycbzB7gHa5o-gBep98SJgQsG-z2EsEspSWC6NXvLFwurYBGpxpkI-weD-HVcfY2LDA4Yz/exec';
       
+      // Get client name from session at submission time
+      let clientName = '';
+      try {
+        const session = authService.getSession();
+        if (session && session.clientInfo && session.clientInfo.clientCompanyName) {
+          clientName = session.clientInfo.clientCompanyName;
+        } else {
+          // Fallback to localStorage directly
+          const clientInfo = JSON.parse(localStorage.getItem('clientInfo') || '{}');
+          clientName = clientInfo.clientCompanyName || '';
+        }
+      } catch (error) {
+        console.error('Error getting client name:', error);
+      }
+      
+      console.log('Submitting with client name:', clientName);
+      
       const response = await fetch(CLIENT_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
           type: 'submitNewProject',
-          clientName: (() => {
-            try {
-              const clientInfo = JSON.parse(localStorage.getItem('clientInfo') || '{}');
-              return clientInfo.clientCompanyName || '';
-            } catch {
-              return '';
-            }
-          })(),
+          clientName: clientName,
           venueName: formData.venueName,
           venueAddress: formData.venueAddress,
           loadInDate: formData.loadInDate,
