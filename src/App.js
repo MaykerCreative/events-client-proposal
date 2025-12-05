@@ -7994,6 +7994,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
       <div style={{ 
         backgroundColor: 'white', 
         padding: '16px 20px 0 20px',
+        borderBottom: '1px solid #e5e7eb',
         position: 'sticky',
         top: 0,
         zIndex: 1000
@@ -8153,7 +8154,6 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
       {/* Desktop Navigation - Hidden on Mobile */}
       <div style={{
         backgroundColor: 'white',
-        borderTop: '1px solid #e5e7eb',
         borderBottom: '1px solid #e5e7eb',
         padding: '0 32px',
         display: 'none',
@@ -8673,30 +8673,56 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
               const confirmed = await showConfirm('Are you sure you want to approve this proposal?');
               if (confirmed) {
                 try {
+                  // Ensure we have the required fields
+                  if (!proposal.projectNumber) {
+                    await showAlert('Error: Proposal project number is missing. Cannot approve.');
+                    return;
+                  }
+                  
+                  // Extract version - handle both number and string formats
+                  let versionValue = proposal.version;
+                  if (versionValue === undefined || versionValue === null) {
+                    versionValue = 1; // Default to version 1 if not specified
+                  }
+                  // Convert to string for backend comparison
+                  const versionStr = String(versionValue).trim();
+                  
+                  const approvalData = {
+                    type: 'approveProposal',
+                    projectNumber: String(proposal.projectNumber).trim(),
+                    version: versionStr,
+                    clientName: proposal.clientName,
+                    venueName: proposal.venueName,
+                    eventDate: proposal.eventDate || proposal.startDate,
+                    startDate: proposal.startDate,
+                    total: proposal.total,
+                    isClientInitiated: true // Flag to send Slack notification
+                  };
+                  
+                  console.log('Proposal object:', proposal);
+                  console.log('Sending approval request:', approvalData);
+                  
                   const response = await fetch(PROPOSALS_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({
-                      type: 'approveProposal',
-                      projectNumber: proposal.projectNumber,
-                      version: proposal.version,
-                      clientName: proposal.clientName,
-                      venueName: proposal.venueName,
-                      eventDate: proposal.eventDate || proposal.startDate,
-                      startDate: proposal.startDate,
-                      total: proposal.total
-                    }),
+                    body: JSON.stringify(approvalData),
                     mode: 'cors'
                   });
                   
                   const result = await response.json();
+                  console.log('Approval response:', result);
                   
                   if (result.success !== false) {
                     await showAlert('Proposal approved successfully! The team has been notified.');
+                    // Refresh proposals to show updated status
+                    if (onRefresh) {
+                      onRefresh();
+                    }
                   } else {
                     await showAlert('Error approving proposal: ' + (result.error || 'Unknown error'));
                   }
                 } catch (err) {
+                  console.error('Approval error:', err);
                   await showAlert('Error approving proposal: ' + err.message);
                 }
               }
