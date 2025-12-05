@@ -5835,26 +5835,40 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
         </div>
       </div>
 
-      {/* Team Section */}
-      <div style={{ marginBottom: '64px' }}>
-        <h3 style={{ 
-          fontSize: '13px', 
-          fontWeight: '500', 
-          color: '#000000',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          marginBottom: '32px'
-        }}>
-          Our Team
-        </h3>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+        {/* Client Orders Section */}
+        <div style={{ marginBottom: '64px' }}>
+          <h3 style={{ 
+            fontSize: '13px', 
+            fontWeight: '500', 
+            color: '#000000',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            marginBottom: '12px'
+          }}>
+            Client Orders
+          </h3>
+          <p style={{
+            fontSize: '14px',
+            color: '#666',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            lineHeight: '1.6',
+            marginBottom: '32px'
+          }}>
+            If you have questions
+          </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '32px'
-        }}>
-          {teamMembers.map((member, index) => {
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '32px'
+          }}>
+            {teamMembers.filter(member => 
+              member.name === 'Noelle Powell' || 
+              member.name === 'Lindsey Soklin' || 
+              member.name === 'Mara Meisberger'
+            ).map((member, index) => {
             const initials = getInitials(member.name);
             return (
               <div
@@ -6011,6 +6025,230 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
             );
           })}
         </div>
+      </div>
+
+      {/* Strategic Relationships Section */}
+      <div style={{ marginBottom: '64px' }}>
+        <h3 style={{ 
+          fontSize: '13px', 
+          fontWeight: '500', 
+          color: '#000000',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          marginBottom: '12px'
+        }}>
+          Strategic relationships, Partner Projects & Sponsorships
+        </h3>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '32px'
+        }}>
+          {teamMembers.filter(member => 
+            member.name === 'Constance Farro'
+          ).map((member, index) => {
+            const initials = getInitials(member.name);
+            return (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: 'white',
+                  borderRadius: '16px',
+                  padding: '40px 32px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)',
+                  border: '1px solid #e8e8e3',
+                  transition: 'all 0.4s ease',
+                  textAlign: 'center',
+                  position: 'relative'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                {/* Photo Container with Low-Opacity Initials Background */}
+                <div style={{
+                  width: '180px',
+                  height: '180px',
+                  borderRadius: '50%',
+                  margin: '0 auto 28px',
+                  overflow: 'hidden',
+                  backgroundColor: '#f5f4f0',
+                  border: '2px solid #e8e8e3',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+                }}>
+                  {/* Low-opacity initials background (Soho vibe) */}
+                  <div 
+                    className="bg-initials"
+                    style={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '120px',
+                      fontWeight: '300',
+                      color: 'rgba(139, 139, 139, 0.15)',
+                      fontFamily: "'Domaine Text', serif",
+                      zIndex: 0,
+                      pointerEvents: 'none'
+                    }}
+                  >
+                    {initials}
+                  </div>
+                  
+                  {/* Photo */}
+                  <img
+                    src={member.photo}
+                    alt={member.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      position: 'relative',
+                      zIndex: 1,
+                      borderRadius: '50%'
+                    }}
+                    onError={(e) => {
+                      // Hide image and show initials prominently if it fails
+                      e.target.style.display = 'none';
+                      const parent = e.target.parentElement;
+                      const bgInitials = parent.querySelector('.bg-initials');
+                      if (bgInitials) {
+                        bgInitials.style.color = 'rgba(139, 139, 139, 0.4)';
+                        bgInitials.style.fontSize = '80px';
+                        bgInitials.style.zIndex = '2';
+                      }
+                    }}
+                  />
+                </div>
+
+                {/* Name */}
+                <div style={{
+                  fontSize: '15px',
+                  fontWeight: '300',
+                  color: '#000000',
+                  fontFamily: "'Domaine Text', serif",
+                  marginBottom: '10px',
+                  letterSpacing: '-0.01em'
+                }}>
+                  {member.name}
+                </div>
+
+                {/* Title */}
+                <div style={{
+                  fontSize: '12px',
+                  fontWeight: '400',
+                  color: '#8b8b8b',
+                  fontFamily: "'NeueHaasUnica', sans-serif",
+                  marginBottom: '24px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em'
+                }}>
+                  {member.title}
+                </div>
+
+                {/* Contact Buttons */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  marginTop: '24px'
+                }}>
+                  <a
+                    href={`mailto:${member.email}`}
+                    style={{
+                      padding: '12px 20px',
+                      backgroundColor: '#f5f4f0',
+                      color: '#000000',
+                      border: '1px solid #e8e8e3',
+                      borderRadius: '10px',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                      fontFamily: "'NeueHaasUnica', sans-serif",
+                      textDecoration: 'none',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      transition: 'all 0.3s ease',
+                      display: 'block',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F7F6F0';
+                      e.currentTarget.style.color = '#fafaf8';
+                      e.currentTarget.style.borderColor = brandCharcoal;
+                      e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#f5f4f0';
+                      e.currentTarget.style.color = brandCharcoal;
+                      e.currentTarget.style.borderColor = '#e8e8e3';
+                      e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04)';
+                    }}
+                  >
+                    Email {member.firstName}
+                  </a>
+                  
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Deliveries Section */}
+      <div style={{ marginBottom: '64px' }}>
+        <h3 style={{ 
+          fontSize: '13px', 
+          fontWeight: '500', 
+          color: '#000000',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          marginBottom: '24px'
+        }}>
+          Deliveries
+        </h3>
+        <div style={{
+          fontSize: '16px',
+          fontWeight: '400',
+          color: '#000000',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          lineHeight: '1.8'
+        }}>
+          <div>
+            <strong>Delivery Supervisors:</strong>{' '}
+            <a
+              href="tel:+16292134475"
+              style={{
+                color: '#000000',
+                textDecoration: 'none',
+                borderBottom: '1px solid transparent',
+                transition: 'border-color 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderBottomColor = brandCharcoal;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderBottomColor = 'transparent';
+              }}
+            >
+              (629) 213-4475
+            </a>
+          </div>
+        </div>
+      </div>
       </div>
 
       {/* Contact Information */}
