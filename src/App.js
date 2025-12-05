@@ -7329,8 +7329,11 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
     loadInTime: '',
     loadOutDate: '',
     loadOutTime: '',
-    notes: ''
+    notes: '',
+    resourceLinks: '',
+    scheduleCall: ''
   });
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   
   const [products, setProducts] = useState([]);
   const [submitting, setSubmitting] = useState(false);
@@ -7466,6 +7469,39 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
     setProducts(prev => prev.filter(p => p.id !== id));
   };
   
+  const handleFileUpload = (e) => {
+    const files = Array.from(e.target.files);
+    const validFiles = files.filter(file => {
+      const extension = file.name.split('.').pop().toLowerCase();
+      return ['pdf', 'jpg', 'jpeg', 'png'].includes(extension);
+    });
+    
+    if (validFiles.length !== files.length) {
+      alert('Only PDF, JPG, and PNG files are allowed.');
+    }
+    
+    validFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedFiles(prev => [...prev, {
+          id: Date.now() + Math.random(),
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          data: reader.result // Base64 encoded file
+        }]);
+      };
+      reader.readAsDataURL(file);
+    });
+    
+    // Reset input
+    e.target.value = '';
+  };
+  
+  const handleRemoveFile = (id) => {
+    setUploadedFiles(prev => prev.filter(f => f.id !== id));
+  };
+  
   const handleUpdateProductQuantity = (id, quantity) => {
     setProducts(prev => prev.map(p => 
       p.id === id ? { ...p, quantity: parseInt(quantity) || 1 } : p
@@ -7507,7 +7543,10 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
           loadOutDate: formData.loadOutDate,
           loadOutTime: formData.loadOutTime,
           products: products,
-          notes: formData.notes
+          notes: formData.notes,
+          resourceLinks: formData.resourceLinks,
+          uploadedFiles: uploadedFiles,
+          scheduleCall: formData.scheduleCall
         })
       });
       
@@ -7523,9 +7562,12 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
           loadInTime: '',
           loadOutDate: '',
           loadOutTime: '',
-          notes: ''
+          notes: '',
+          resourceLinks: '',
+          scheduleCall: ''
         });
         setProducts([]);
+        setUploadedFiles([]);
       } else {
         alert('Error submitting project inquiry. Please try again.');
       }
@@ -7540,9 +7582,12 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
         loadInTime: '',
         loadOutDate: '',
         loadOutTime: '',
-        notes: ''
+        notes: '',
+        resourceLinks: '',
+        scheduleCall: ''
       });
       setProducts([]);
+      setUploadedFiles([]);
     } finally {
       setSubmitting(false);
     }
@@ -7975,6 +8020,152 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
               }}
               placeholder="Any additional details about your project..."
             />
+          </div>
+          
+          {/* Schedule Call Dropdown */}
+          <div style={{ marginBottom: '32px' }}>
+            <label style={labelStyle}>Would you like to schedule a call to discuss your project?</label>
+            <select
+              value={formData.scheduleCall}
+              onChange={(e) => handleInputChange('scheduleCall', e.target.value)}
+              style={inputStyle}
+            >
+              <option value="">Select an option...</option>
+              <option value="Yes">Yes</option>
+              <option value="Not necessary">Not necessary</option>
+              <option value="If helpful">If helpful</option>
+            </select>
+          </div>
+          
+          {/* Resources Section */}
+          <div style={{ marginBottom: '32px' }}>
+            <label style={labelStyle}>Resources</label>
+            <p style={{
+              fontSize: '13px',
+              color: '#666',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              marginBottom: '16px',
+              lineHeight: '1.6'
+            }}>
+              Have design decks, inspiration images, or web-based resources you'd like us to keep in mind? Please upload or share here.
+            </p>
+            
+            {/* File Upload */}
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '12px',
+                fontWeight: '500',
+                marginBottom: '8px',
+                color: '#000000',
+                fontFamily: "'NeueHaasUnica', sans-serif"
+              }}>
+                Upload Files (PDF, JPG, PNG)
+              </label>
+              <input
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                multiple
+                onChange={handleFileUpload}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  fontSize: '14px',
+                  fontFamily: "'NeueHaasUnica', sans-serif",
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '8px',
+                  backgroundColor: '#fff',
+                  cursor: 'pointer'
+                }}
+              />
+              {uploadedFiles.length > 0 && (
+                <div style={{ marginTop: '12px' }}>
+                  {uploadedFiles.map((file) => (
+                    <div key={file.id} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '8px 12px',
+                      backgroundColor: '#fafaf8',
+                      borderRadius: '6px',
+                      marginBottom: '8px',
+                      border: '1px solid #e5e7eb'
+                    }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#000000',
+                          fontFamily: "'NeueHaasUnica', sans-serif",
+                          fontWeight: '500',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}>
+                          {file.name}
+                        </div>
+                        <div style={{
+                          fontSize: '11px',
+                          color: '#666',
+                          fontFamily: "'NeueHaasUnica', sans-serif",
+                          marginTop: '2px'
+                        }}>
+                          {(file.size / 1024).toFixed(1)} KB
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveFile(file.id)}
+                        style={{
+                          padding: '6px 12px',
+                          fontSize: '11px',
+                          fontWeight: '500',
+                          color: '#dc2626',
+                          backgroundColor: 'transparent',
+                          border: '1px solid #dc2626',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontFamily: "'NeueHaasUnica', sans-serif",
+                          transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#fee2e2';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            {/* Links Field */}
+            <div>
+              <label style={{
+                display: 'block',
+                fontSize: '12px',
+                fontWeight: '500',
+                marginBottom: '8px',
+                color: '#000000',
+                fontFamily: "'NeueHaasUnica', sans-serif"
+              }}>
+                Share Links
+              </label>
+              <textarea
+                value={formData.resourceLinks}
+                onChange={(e) => handleInputChange('resourceLinks', e.target.value)}
+                rows={3}
+                style={{
+                  ...inputStyle,
+                  resize: 'vertical',
+                  minHeight: '80px'
+                }}
+                placeholder="Paste links here (one per line or separated by commas)"
+              />
+            </div>
           </div>
           
           {/* Submit Button */}
