@@ -19,6 +19,124 @@ const CLIENT_PROPOSAL_VIEW_URL = 'https://clients.maykerevents.com';
 const PROPOSALS_API_URL = 'https://script.google.com/macros/s/AKfycbzB7gHa5o-gBep98SJgQsG-z2EsEspSWC6NXvLFwurYBGpxpkI-weD-HVcfY2LDA4Yz/exec';
 
 // ============================================
+// STANDARDIZED BUTTON STYLES
+// ============================================
+
+// Primary Button - White/Off-white background with border (like "EMAIL CONSTANCE")
+const primaryButtonStyle = {
+  padding: '12px 24px',
+  backgroundColor: '#FAF8F3',
+  color: '#000000',
+  border: '1px solid #e8e8e3',
+  borderRadius: '8px',
+  fontSize: '13px',
+  fontWeight: '600',
+  fontFamily: "'NeueHaasUnica', sans-serif",
+  letterSpacing: '0.02em',
+  textTransform: 'uppercase',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+  outline: 'none'
+};
+
+const primaryButtonHover = (e) => {
+  e.currentTarget.style.backgroundColor = '#f5f5f2';
+  e.currentTarget.style.borderColor = '#d1d5db';
+  e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.12)';
+  e.currentTarget.style.transform = 'translateY(-1px)';
+};
+
+const primaryButtonLeave = (e) => {
+  e.currentTarget.style.backgroundColor = '#FAF8F3';
+  e.currentTarget.style.borderColor = '#e8e8e3';
+  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.08)';
+  e.currentTarget.style.transform = 'translateY(0)';
+};
+
+// Secondary Button - Outlined style (like "View" button)
+const secondaryButtonStyle = {
+  padding: '12px 24px',
+  backgroundColor: 'transparent',
+  color: '#545142',
+  border: '1px solid #545142',
+  borderRadius: '8px',
+  fontSize: '13px',
+  fontWeight: '500',
+  fontFamily: "'NeueHaasUnica', sans-serif",
+  cursor: 'pointer',
+  transition: 'all 0.2s ease',
+  outline: 'none'
+};
+
+const secondaryButtonHover = (e) => {
+  e.currentTarget.style.backgroundColor = '#545142';
+  e.currentTarget.style.color = '#FFFFFF';
+};
+
+const secondaryButtonLeave = (e) => {
+  e.currentTarget.style.backgroundColor = 'transparent';
+  e.currentTarget.style.color = '#545142';
+};
+
+// Small Button - Compact version of primary
+const smallButtonStyle = {
+  padding: '8px 16px',
+  backgroundColor: '#FAF8F3',
+  color: '#000000',
+  border: '1px solid #e8e8e3',
+  borderRadius: '8px',
+  fontSize: '12px',
+  fontWeight: '600',
+  fontFamily: "'NeueHaasUnica', sans-serif",
+  letterSpacing: '0.02em',
+  textTransform: 'uppercase',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+  outline: 'none'
+};
+
+const smallButtonHover = (e) => {
+  e.currentTarget.style.backgroundColor = '#f5f5f2';
+  e.currentTarget.style.borderColor = '#d1d5db';
+  e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.12)';
+  e.currentTarget.style.transform = 'translateY(-1px)';
+};
+
+const smallButtonLeave = (e) => {
+  e.currentTarget.style.backgroundColor = '#FAF8F3';
+  e.currentTarget.style.borderColor = '#e8e8e3';
+  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.08)';
+  e.currentTarget.style.transform = 'translateY(0)';
+};
+
+// Destructive Button - For remove/delete actions
+const destructiveButtonStyle = {
+  padding: '8px 16px',
+  backgroundColor: '#fee2e2',
+  color: '#dc2626',
+  border: 'none',
+  borderRadius: '8px',
+  fontSize: '12px',
+  fontWeight: '500',
+  fontFamily: "'NeueHaasUnica', sans-serif",
+  cursor: 'pointer',
+  transition: 'all 0.2s ease',
+  outline: 'none'
+};
+
+const destructiveButtonHover = (e) => {
+  e.currentTarget.style.backgroundColor = '#fecaca';
+  e.currentTarget.style.color = '#b91c1c';
+};
+
+const destructiveButtonLeave = (e) => {
+  e.currentTarget.style.backgroundColor = '#fee2e2';
+  e.currentTarget.style.color = '#dc2626';
+};
+
+// ============================================
 // CUSTOM MODAL COMPONENTS
 // ============================================
 
@@ -82,24 +200,11 @@ function AlertModal({ message, onClose, isOpen }) {
         <button
           onClick={onClose}
           style={{
-            padding: '12px 24px',
-            backgroundColor: brandCharcoal,
-            color: '#F7F6F0',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: '500',
-            fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
-            width: '100%',
-            transition: 'all 0.2s ease'
+            ...primaryButtonStyle,
+            width: '100%'
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#1a1a1a';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = brandCharcoal;
-          }}
+          onMouseEnter={primaryButtonHover}
+          onMouseLeave={primaryButtonLeave}
         >
           OK
         </button>
@@ -174,48 +279,22 @@ function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
           <button
             onClick={onCancel}
             style={{
-              flex: 1,
-              padding: '12px 24px',
-              backgroundColor: '#F7F6F0',
-              color: brandCharcoal,
-              border: `1px solid ${brandCharcoal}`,
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500',
-              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
-              transition: 'all 0.2s ease'
+              ...primaryButtonStyle,
+              flex: 1
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#e8e8e3';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#F7F6F0';
-            }}
+            onMouseEnter={primaryButtonHover}
+            onMouseLeave={primaryButtonLeave}
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
             style={{
-              flex: 1,
-              padding: '12px 24px',
-              backgroundColor: brandCharcoal,
-              color: '#F7F6F0',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500',
-              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
-              transition: 'all 0.2s ease'
+              ...primaryButtonStyle,
+              flex: 1
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#1a1a1a';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = brandCharcoal;
-            }}
+            onMouseEnter={primaryButtonHover}
+            onMouseLeave={primaryButtonLeave}
           >
             Confirm
           </button>
@@ -329,20 +408,9 @@ function PromptModal({ message, placeholder, onConfirm, onCancel, isOpen, defaul
         }}>
           <button
             onClick={onCancel}
-            style={{
-              padding: '10px 24px',
-              backgroundColor: '#f3f4f6',
-              color: '#000000',
-              border: `1px solid ${brandSage}30`,
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500',
-              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
-              transition: 'opacity 0.2s'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            style={primaryButtonStyle}
+            onMouseEnter={primaryButtonHover}
+            onMouseLeave={primaryButtonLeave}
           >
             Cancel
           </button>
@@ -350,19 +418,22 @@ function PromptModal({ message, placeholder, onConfirm, onCancel, isOpen, defaul
             onClick={handleConfirm}
             disabled={!inputValue.trim()}
             style={{
-              padding: '10px 24px',
-              backgroundColor: inputValue.trim() ? '#F7F6F0' : '#9ca3af',
-              color: inputValue.trim() ? '#000000' : 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: inputValue.trim() ? 'pointer' : 'not-allowed',
-              fontSize: '14px',
-              fontWeight: '500',
-              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
-              transition: 'opacity 0.2s'
+              ...primaryButtonStyle,
+              backgroundColor: inputValue.trim() ? '#FAF8F3' : '#9ca3af',
+              color: inputValue.trim() ? '#000000' : '#FFFFFF',
+              opacity: inputValue.trim() ? 1 : 0.6,
+              cursor: inputValue.trim() ? 'pointer' : 'not-allowed'
             }}
-            onMouseEnter={(e) => inputValue.trim() && (e.currentTarget.style.opacity = '0.8')}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            onMouseEnter={(e) => {
+              if (inputValue.trim()) {
+                primaryButtonHover(e);
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (inputValue.trim()) {
+                primaryButtonLeave(e);
+              }
+            }}
           >
             OK
           </button>
@@ -2504,33 +2575,9 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
             {/* Edit Button */}
             <button
               onClick={() => setEditingProfile(true)}
-              style={{
-                padding: '14px 28px',
-                backgroundColor: 'white',
-                color: '#000000',
-                border: '1px solid #e8e8e3',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                fontSize: '13px',
-                fontWeight: '500',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                letterSpacing: '0.02em',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#f5f5f2';
-                e.currentTarget.style.borderColor = '#d1d5db';
-                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.04)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'white';
-                e.currentTarget.style.borderColor = '#e8e8e3';
-                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              style={primaryButtonStyle}
+              onMouseEnter={primaryButtonHover}
+              onMouseLeave={primaryButtonLeave}
             >
               Edit
             </button>
@@ -2546,33 +2593,9 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                   await showAlert('Password must be at least 8 characters long.');
                 }
               }}
-              style={{
-                padding: '14px 28px',
-                backgroundColor: 'white',
-                color: '#000000',
-                border: '1px solid #e8e8e3',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                fontSize: '13px',
-                fontWeight: '500',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                letterSpacing: '0.02em',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#f5f5f2';
-                e.currentTarget.style.borderColor = '#d1d5db';
-                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.04)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'white';
-                e.currentTarget.style.borderColor = '#e8e8e3';
-                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              style={primaryButtonStyle}
+              onMouseEnter={primaryButtonHover}
+              onMouseLeave={primaryButtonLeave}
             >
               Reset Password
             </button>
@@ -2586,31 +2609,9 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                   }
                 });
               }}
-              style={{
-                padding: '14px 28px',
-                backgroundColor: '#F7F6F0',
-                color: '#fafaf8',
-                border: 'none',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                fontSize: '13px',
-                fontWeight: '500',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                letterSpacing: '0.02em',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.08)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#1a1a1a';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#F7F6F0';
-                e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              style={primaryButtonStyle}
+              onMouseEnter={primaryButtonHover}
+              onMouseLeave={primaryButtonLeave}
             >
               Logout
             </button>
@@ -2634,60 +2635,28 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                   photo: formData.photo
                 });
               }}
-              style={{
-                padding: '14px 28px',
-                backgroundColor: 'white',
-                color: '#000000',
-                border: '1px solid #e8e8e3',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                fontSize: '13px',
-                fontWeight: '500',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                letterSpacing: '0.02em',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#f5f5f2';
-                e.currentTarget.style.borderColor = '#d1d5db';
-                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.04)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'white';
-                e.currentTarget.style.borderColor = '#e8e8e3';
-                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              style={primaryButtonStyle}
+              onMouseEnter={primaryButtonHover}
+              onMouseLeave={primaryButtonLeave}
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
               style={{
-                padding: '14px 28px',
+                ...primaryButtonStyle,
                 backgroundColor: '#F7F6F0',
-                color: '#fafaf8',
-                border: 'none',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                fontSize: '13px',
-                fontWeight: '500',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                letterSpacing: '0.02em',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease',
                 boxShadow: '0 2px 6px rgba(0, 0, 0, 0.08)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#1a1a1a';
+                e.currentTarget.style.color = '#FFFFFF';
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#F7F6F0';
+                e.currentTarget.style.color = '#000000';
                 e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
@@ -3728,26 +3697,12 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
+                    ...secondaryButtonStyle,
                     display: 'inline-block',
-                    padding: '12px 24px',
-                    backgroundColor: 'transparent',
-                    color: '#545142',
-                    border: '1px solid #545142',
-                    textDecoration: 'none',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    fontFamily: "'NeueHaasUnica', sans-serif",
-                    fontWeight: '500',
-                    transition: 'all 0.2s ease'
+                    textDecoration: 'none'
                   }}
-                  onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#545142';
-                    e.target.style.color = '#FFFFFF';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = 'transparent';
-                    e.target.style.color = '#545142';
-                  }}
+                  onMouseEnter={secondaryButtonHover}
+                  onMouseLeave={secondaryButtonLeave}
                 >
                   View Product
                 </a>
@@ -3804,28 +3759,16 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
+                      ...secondaryButtonStyle,
                       display: 'inline-block',
                       padding: '10px 20px',
-                      backgroundColor: 'transparent',
-                      color: '#545142',
-                      border: '1px solid #545142',
-                      textDecoration: 'none',
-                      borderRadius: '6px',
                       fontSize: '12px',
-                      fontFamily: "'NeueHaasUnica', sans-serif",
-                      fontWeight: '500',
                       textAlign: 'center',
-                      transition: 'all 0.2s ease',
+                      textDecoration: 'none',
                       marginTop: 'auto'
                     }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = '#545142';
-                      e.target.style.color = '#FFFFFF';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = 'transparent';
-                      e.target.style.color = '#545142';
-                    }}
+                    onMouseEnter={secondaryButtonHover}
+                    onMouseLeave={secondaryButtonLeave}
                   >
                     View Product
                   </a>
@@ -6757,26 +6700,18 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
                 onClick={calculateDistance}
                 disabled={isCalculating}
                 style={{
-                  padding: '12px 24px',
-                  fontSize: '14px',
-                  fontFamily: "'NeueHaasUnica', sans-serif",
-                  fontWeight: '500',
-                  backgroundColor: '#000000',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: isCalculating ? 'not-allowed' : 'pointer',
+                  ...primaryButtonStyle,
                   opacity: isCalculating ? 0.6 : 1,
-                  transition: 'opacity 0.2s'
+                  cursor: isCalculating ? 'not-allowed' : 'pointer'
                 }}
                 onMouseEnter={(e) => {
                   if (!isCalculating) {
-                    e.currentTarget.style.opacity = '0.9';
+                    primaryButtonHover(e);
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isCalculating) {
-                    e.currentTarget.style.opacity = '1';
+                    primaryButtonLeave(e);
                   }
                 }}
               >
@@ -7170,26 +7105,18 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
                 }}
                 disabled={!wishlistText.trim() || isSubmittingWishlist}
                 style={{
-                  padding: '12px 24px',
-                  fontSize: '14px',
-                  fontFamily: "'NeueHaasUnica', sans-serif",
-                  fontWeight: '500',
-                  backgroundColor: wishlistText.trim() && !isSubmittingWishlist ? '#000000' : '#9ca3af',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: wishlistText.trim() && !isSubmittingWishlist ? 'pointer' : 'not-allowed',
+                  ...primaryButtonStyle,
                   opacity: wishlistText.trim() && !isSubmittingWishlist ? 1 : 0.6,
-                  transition: 'opacity 0.2s'
+                  cursor: wishlistText.trim() && !isSubmittingWishlist ? 'pointer' : 'not-allowed'
                 }}
                 onMouseEnter={(e) => {
                   if (wishlistText.trim() && !isSubmittingWishlist) {
-                    e.currentTarget.style.opacity = '0.9';
+                    primaryButtonHover(e);
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (wishlistText.trim() && !isSubmittingWishlist) {
-                    e.currentTarget.style.opacity = '1';
+                    primaryButtonLeave(e);
                   }
                 }}
               >
@@ -7575,17 +7502,11 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
           <button
             onClick={() => setSubmitted(false)}
             style={{
-              marginTop: '24px',
-              padding: '12px 24px',
-              backgroundColor: '#000000',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '500',
-              fontFamily: "'NeueHaasUnica', sans-serif",
-              cursor: 'pointer'
+              ...primaryButtonStyle,
+              marginTop: '24px'
             }}
+            onMouseEnter={primaryButtonHover}
+            onMouseLeave={primaryButtonLeave}
           >
             Submit Another Request
           </button>
@@ -7716,17 +7637,9 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                     <button
                       type="button"
                       onClick={() => handleRemoveProduct(product.id)}
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: '#fee2e2',
-                        color: '#dc2626',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontSize: '12px',
-                        fontWeight: '500',
-                        fontFamily: "'NeueHaasUnica', sans-serif",
-                        cursor: 'pointer'
-                      }}
+                      style={destructiveButtonStyle}
+                      onMouseEnter={destructiveButtonHover}
+                      onMouseLeave={destructiveButtonLeave}
                     >
                       Remove
                     </button>
@@ -7836,35 +7749,21 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                 onClick={handleAddProduct}
                 disabled={!newProductName.trim()}
                 style={{
-                  padding: '8px 16px',
-                  backgroundColor: newProductName.trim() ? 'white' : '#f3f4f6',
+                  ...smallButtonStyle,
+                  backgroundColor: newProductName.trim() ? '#FAF8F3' : '#f3f4f6',
                   color: newProductName.trim() ? '#000000' : '#9ca3af',
-                  border: newProductName.trim() ? '1px solid #e8e8e3' : '1px solid #e5e7eb',
-                  borderRadius: '12px',
-                  fontSize: '12px',
-                  fontWeight: '500',
-                  fontFamily: "'NeueHaasUnica', sans-serif",
+                  borderColor: newProductName.trim() ? '#e8e8e3' : '#e5e7eb',
                   cursor: newProductName.trim() ? 'pointer' : 'not-allowed',
-                  whiteSpace: 'nowrap',
-                  letterSpacing: '0.02em',
-                  textTransform: 'uppercase',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
+                  whiteSpace: 'nowrap'
                 }}
                 onMouseEnter={(e) => {
                   if (newProductName.trim()) {
-                    e.currentTarget.style.backgroundColor = '#f5f5f2';
-                    e.currentTarget.style.borderColor = '#d1d5db';
-                    e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.04)';
-                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    smallButtonHover(e);
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (newProductName.trim()) {
-                    e.currentTarget.style.backgroundColor = 'white';
-                    e.currentTarget.style.borderColor = '#e8e8e3';
-                    e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    smallButtonLeave(e);
                   }
                 }}
               >
@@ -7895,26 +7794,20 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
               type="submit"
               disabled={submitting}
               style={{
+                ...primaryButtonStyle,
                 padding: '12px 32px',
-                backgroundColor: submitting ? '#9ca3af' : '#000000',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '500',
-                fontFamily: "'NeueHaasUnica', sans-serif",
-                cursor: submitting ? 'not-allowed' : 'pointer',
-                transition: 'opacity 0.2s',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em'
+                opacity: submitting ? 0.6 : 1,
+                cursor: submitting ? 'not-allowed' : 'pointer'
               }}
               onMouseEnter={(e) => {
                 if (!submitting) {
-                  e.currentTarget.style.opacity = '0.9';
+                  primaryButtonHover(e);
                 }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
+                if (!submitting) {
+                  primaryButtonLeave(e);
+                }
               }}
             >
               {submitting ? 'SUBMITTING...' : 'SUBMIT INQUIRY'}
@@ -8622,7 +8515,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
       <div style={{ minHeight: '100vh', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
         <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', maxWidth: '500px', textAlign: 'center' }}>
           <p style={{ fontSize: '16px', color: '#dc2626', marginBottom: '16px' }}>Error: {error}</p>
-          <button onClick={fetchData} style={{ padding: '10px 20px', backgroundColor: '#F7F6F0', color: '#000000', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+          <button onClick={fetchData} style={primaryButtonStyle} onMouseEnter={primaryButtonHover} onMouseLeave={primaryButtonLeave}>
             Retry
           </button>
         </div>
@@ -9625,7 +9518,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
             ← Back to Dashboard
           </button>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={() => setIsChangeRequestMode(true)} style={{ padding: '8px 20px', backgroundColor: '#F7F6F0', color: '#000000', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+            <button onClick={() => setIsChangeRequestMode(true)} style={smallButtonStyle} onMouseEnter={smallButtonHover} onMouseLeave={smallButtonLeave}>
               Request Changes
             </button>
             <button onClick={async () => {
@@ -9685,13 +9578,13 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
                   await showAlert('Error approving proposal: ' + err.message);
                 }
               }
-            }} style={{ padding: '8px 20px', backgroundColor: '#F7F6F0', color: '#000000', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+            }} style={smallButtonStyle} onMouseEnter={smallButtonHover} onMouseLeave={smallButtonLeave}>
               Approve Proposal
             </button>
-            <button onClick={handlePrintDownload} style={{ padding: '8px 20px', backgroundColor: '#F7F6F0', color: '#000000', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+            <button onClick={handlePrintDownload} style={smallButtonStyle} onMouseEnter={smallButtonHover} onMouseLeave={smallButtonLeave}>
               Print / Export as PDF
             </button>
-            <button onClick={onLogout} style={{ padding: '8px 20px', backgroundColor: '#f3f4f6', color: brandCharcoal, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+            <button onClick={onLogout} style={smallButtonStyle} onMouseEnter={smallButtonHover} onMouseLeave={smallButtonLeave}>
             Sign Out
           </button>
           </div>
@@ -10833,18 +10726,44 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog, showAlert, s
             <button
               onClick={onCancel}
               disabled={submitting}
-              style={{ padding: '12px 24px', backgroundColor: '#f3f4f6', color: '#000000', border: `1px solid ${brandTaupe}30`, borderRadius: '4px', cursor: submitting ? 'not-allowed' : 'pointer', fontSize: '14px', fontWeight: '500', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", transition: 'opacity 0.2s' }}
-              onMouseEnter={(e) => !submitting && (e.currentTarget.style.opacity = '0.8')}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              style={{
+                ...primaryButtonStyle,
+                opacity: submitting ? 0.6 : 1,
+                cursor: submitting ? 'not-allowed' : 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                if (!submitting) {
+                  primaryButtonHover(e);
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!submitting) {
+                  primaryButtonLeave(e);
+                }
+              }}
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={submitting || !hasChanges}
-              style={{ padding: '12px 24px', backgroundColor: hasChanges && !submitting ? '#F7F6F0' : '#9ca3af', color: hasChanges && !submitting ? '#000000' : 'white', border: 'none', borderRadius: '4px', cursor: (submitting || !hasChanges) ? 'not-allowed' : 'pointer', fontSize: '14px', fontWeight: '500', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", transition: 'opacity 0.2s' }}
-              onMouseEnter={(e) => !submitting && hasChanges && (e.currentTarget.style.opacity = '0.8')}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              style={{
+                ...primaryButtonStyle,
+                backgroundColor: hasChanges && !submitting ? '#F7F6F0' : '#9ca3af',
+                color: hasChanges && !submitting ? '#000000' : '#FFFFFF',
+                opacity: (submitting || !hasChanges) ? 0.6 : 1,
+                cursor: (submitting || !hasChanges) ? 'not-allowed' : 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                if (!submitting && hasChanges) {
+                  primaryButtonHover(e);
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!submitting && hasChanges) {
+                  primaryButtonLeave(e);
+                }
+              }}
             >
               {submitting ? 'Submitting...' : 'Submit Change Request'}
             </button>
