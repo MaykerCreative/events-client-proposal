@@ -2944,8 +2944,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
       {/* 1. Welcome Hero Section with Background Image */}
       <style dangerouslySetInnerHTML={{ __html: `
         .overview-hero {
-          width: 100vw;
-          margin-left: calc(-50vw + 50%);
+          max-width: 1400px;
+          margin: 0 auto 64px;
           min-height: 500px;
           position: relative;
           display: flex;
@@ -2955,7 +2955,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
-          margin-bottom: 64px;
+          border-radius: 8px;
+          overflow: hidden;
         }
         .overview-hero__overlay {
           position: absolute;
@@ -2963,26 +2964,24 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
         }
         .overview-hero__content {
           position: relative;
           z-index: 1;
           text-align: center;
-          padding: 80px 32px;
-          max-width: 1200px;
+          padding: 80px 48px;
           width: 100%;
         }
         .overview-hero__logo {
-          width: 200px;
-          height: 200px;
-          margin: 0 auto 48px;
+          width: 80px;
+          height: 80px;
+          margin: 0 auto 40px;
           display: block;
           filter: brightness(0) invert(1);
         }
         .overview-hero__welcome {
-          margin-top: 48px;
-          padding: 0 32px;
+          margin-top: 0;
         }
         .overview-hero__title {
           font-family: 'Domaine Text', serif;
@@ -3004,13 +3003,15 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         @media (max-width: 768px) {
           .overview-hero {
             min-height: 400px;
+            margin-left: 24px;
+            margin-right: 24px;
           }
           .overview-hero__content {
-            padding: 64px 24px;
+            padding: 64px 32px;
           }
           .overview-hero__logo {
-            width: 150px;
-            height: 150px;
+            width: 60px;
+            height: 60px;
             margin-bottom: 32px;
           }
           .overview-hero__title {
@@ -3023,13 +3024,15 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         @media (max-width: 480px) {
           .overview-hero {
             min-height: 350px;
+            margin-left: 16px;
+            margin-right: 16px;
           }
           .overview-hero__content {
-            padding: 48px 20px;
+            padding: 48px 24px;
           }
           .overview-hero__logo {
-            width: 120px;
-            height: 120px;
+            width: 50px;
+            height: 50px;
             margin-bottom: 24px;
           }
           .overview-hero__title {
@@ -3051,7 +3054,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
       <div 
         className="overview-hero"
         style={{
-          backgroundImage: 'url(/overview-feature-image.png)'
+          backgroundImage: 'url(/overview-feature-image.jpg)'
         }}
       >
         <div className="overview-hero__overlay"></div>
