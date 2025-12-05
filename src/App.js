@@ -3099,7 +3099,8 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: '48px'
+          gap: '48px',
+          alignItems: 'stretch'
         }} className="grid-2-col">
         {/* Membership Status (Medallion Panel) */}
         <div style={{
@@ -3377,7 +3378,7 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
           marginBottom: 0,
           position: 'relative',
           padding: '48px',
-          aspectRatio: '1 / 1',
+          minHeight: '100%',
           overflow: 'hidden',
           borderRadius: '20px',
           backgroundColor: '#545142',
@@ -3391,10 +3392,12 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
             src="/Perk.png" 
             alt="Perk Icon"
             style={{
-              width: '60px',
-              height: '60px',
-              marginBottom: '24px',
-              display: 'block'
+              width: '100px',
+              height: '100px',
+              marginBottom: '32px',
+              display: 'block',
+              filter: 'brightness(0) invert(1)',
+              opacity: 0.9
             }}
             onError={(e) => {
               e.target.style.display = 'none';
