@@ -19,124 +19,6 @@ const CLIENT_PROPOSAL_VIEW_URL = 'https://clients.maykerevents.com';
 const PROPOSALS_API_URL = 'https://script.google.com/macros/s/AKfycbzB7gHa5o-gBep98SJgQsG-z2EsEspSWC6NXvLFwurYBGpxpkI-weD-HVcfY2LDA4Yz/exec';
 
 // ============================================
-// STANDARDIZED BUTTON STYLES
-// ============================================
-
-// Primary Button - White/Off-white background with border (like "EMAIL CONSTANCE")
-const primaryButtonStyle = {
-  padding: '12px 24px',
-  backgroundColor: '#FAF8F3',
-  color: '#000000',
-  border: '1px solid #e8e8e3',
-  borderRadius: '8px',
-  fontSize: '13px',
-  fontWeight: '600',
-  fontFamily: "'NeueHaasUnica', sans-serif",
-  letterSpacing: '0.02em',
-  textTransform: 'uppercase',
-  cursor: 'pointer',
-  transition: 'all 0.3s ease',
-  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
-  outline: 'none'
-};
-
-const primaryButtonHover = (e) => {
-  e.currentTarget.style.backgroundColor = '#f5f5f2';
-  e.currentTarget.style.borderColor = '#d1d5db';
-  e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.12)';
-  e.currentTarget.style.transform = 'translateY(-1px)';
-};
-
-const primaryButtonLeave = (e) => {
-  e.currentTarget.style.backgroundColor = '#FAF8F3';
-  e.currentTarget.style.borderColor = '#e8e8e3';
-  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.08)';
-  e.currentTarget.style.transform = 'translateY(0)';
-};
-
-// Secondary Button - Outlined style (like "View" button)
-const secondaryButtonStyle = {
-  padding: '12px 24px',
-  backgroundColor: 'transparent',
-  color: '#545142',
-  border: '1px solid #545142',
-  borderRadius: '8px',
-  fontSize: '13px',
-  fontWeight: '500',
-  fontFamily: "'NeueHaasUnica', sans-serif",
-  cursor: 'pointer',
-  transition: 'all 0.2s ease',
-  outline: 'none'
-};
-
-const secondaryButtonHover = (e) => {
-  e.currentTarget.style.backgroundColor = '#545142';
-  e.currentTarget.style.color = '#FFFFFF';
-};
-
-const secondaryButtonLeave = (e) => {
-  e.currentTarget.style.backgroundColor = 'transparent';
-  e.currentTarget.style.color = '#545142';
-};
-
-// Small Button - Compact version of primary
-const smallButtonStyle = {
-  padding: '8px 16px',
-  backgroundColor: '#FAF8F3',
-  color: '#000000',
-  border: '1px solid #e8e8e3',
-  borderRadius: '8px',
-  fontSize: '12px',
-  fontWeight: '600',
-  fontFamily: "'NeueHaasUnica', sans-serif",
-  letterSpacing: '0.02em',
-  textTransform: 'uppercase',
-  cursor: 'pointer',
-  transition: 'all 0.3s ease',
-  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
-  outline: 'none'
-};
-
-const smallButtonHover = (e) => {
-  e.currentTarget.style.backgroundColor = '#f5f5f2';
-  e.currentTarget.style.borderColor = '#d1d5db';
-  e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.12)';
-  e.currentTarget.style.transform = 'translateY(-1px)';
-};
-
-const smallButtonLeave = (e) => {
-  e.currentTarget.style.backgroundColor = '#FAF8F3';
-  e.currentTarget.style.borderColor = '#e8e8e3';
-  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.08)';
-  e.currentTarget.style.transform = 'translateY(0)';
-};
-
-// Destructive Button - For remove/delete actions
-const destructiveButtonStyle = {
-  padding: '8px 16px',
-  backgroundColor: '#fee2e2',
-  color: '#dc2626',
-  border: 'none',
-  borderRadius: '8px',
-  fontSize: '12px',
-  fontWeight: '500',
-  fontFamily: "'NeueHaasUnica', sans-serif",
-  cursor: 'pointer',
-  transition: 'all 0.2s ease',
-  outline: 'none'
-};
-
-const destructiveButtonHover = (e) => {
-  e.currentTarget.style.backgroundColor = '#fecaca';
-  e.currentTarget.style.color = '#b91c1c';
-};
-
-const destructiveButtonLeave = (e) => {
-  e.currentTarget.style.backgroundColor = '#fee2e2';
-  e.currentTarget.style.color = '#dc2626';
-};
-
-// ============================================
 // CUSTOM MODAL COMPONENTS
 // ============================================
 
@@ -200,11 +82,24 @@ function AlertModal({ message, onClose, isOpen }) {
         <button
           onClick={onClose}
           style={{
-            ...primaryButtonStyle,
-            width: '100%'
+            padding: '12px 24px',
+            backgroundColor: brandCharcoal,
+            color: '#F7F6F0',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '500',
+            fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
+            width: '100%',
+            transition: 'all 0.2s ease'
           }}
-          onMouseEnter={primaryButtonHover}
-          onMouseLeave={primaryButtonLeave}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#1a1a1a';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = brandCharcoal;
+          }}
         >
           OK
         </button>
@@ -279,22 +174,48 @@ function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
           <button
             onClick={onCancel}
             style={{
-              ...primaryButtonStyle,
-              flex: 1
+              flex: 1,
+              padding: '12px 24px',
+              backgroundColor: '#F7F6F0',
+              color: brandCharcoal,
+              border: `1px solid ${brandCharcoal}`,
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '500',
+              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
+              transition: 'all 0.2s ease'
             }}
-            onMouseEnter={primaryButtonHover}
-            onMouseLeave={primaryButtonLeave}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#e8e8e3';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F7F6F0';
+            }}
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
             style={{
-              ...primaryButtonStyle,
-              flex: 1
+              flex: 1,
+              padding: '12px 24px',
+              backgroundColor: brandCharcoal,
+              color: '#F7F6F0',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '500',
+              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
+              transition: 'all 0.2s ease'
             }}
-            onMouseEnter={primaryButtonHover}
-            onMouseLeave={primaryButtonLeave}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#1a1a1a';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = brandCharcoal;
+            }}
           >
             Confirm
           </button>
@@ -408,9 +329,20 @@ function PromptModal({ message, placeholder, onConfirm, onCancel, isOpen, defaul
         }}>
           <button
             onClick={onCancel}
-            style={primaryButtonStyle}
-            onMouseEnter={primaryButtonHover}
-            onMouseLeave={primaryButtonLeave}
+            style={{
+              padding: '10px 24px',
+              backgroundColor: '#f3f4f6',
+              color: '#000000',
+              border: `1px solid ${brandSage}30`,
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '500',
+              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
+              transition: 'opacity 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
           >
             Cancel
           </button>
@@ -418,22 +350,19 @@ function PromptModal({ message, placeholder, onConfirm, onCancel, isOpen, defaul
             onClick={handleConfirm}
             disabled={!inputValue.trim()}
             style={{
-              ...primaryButtonStyle,
-              backgroundColor: inputValue.trim() ? '#FAF8F3' : '#9ca3af',
-              color: inputValue.trim() ? '#000000' : '#FFFFFF',
-              opacity: inputValue.trim() ? 1 : 0.6,
-              cursor: inputValue.trim() ? 'pointer' : 'not-allowed'
+              padding: '10px 24px',
+              backgroundColor: inputValue.trim() ? '#F7F6F0' : '#9ca3af',
+              color: inputValue.trim() ? '#000000' : 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: inputValue.trim() ? 'pointer' : 'not-allowed',
+              fontSize: '14px',
+              fontWeight: '500',
+              fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
+              transition: 'opacity 0.2s'
             }}
-            onMouseEnter={(e) => {
-              if (inputValue.trim()) {
-                primaryButtonHover(e);
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (inputValue.trim()) {
-                primaryButtonLeave(e);
-              }
-            }}
+            onMouseEnter={(e) => inputValue.trim() && (e.currentTarget.style.opacity = '0.8')}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
           >
             OK
           </button>
@@ -2575,9 +2504,33 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
             {/* Edit Button */}
             <button
               onClick={() => setEditingProfile(true)}
-              style={primaryButtonStyle}
-              onMouseEnter={primaryButtonHover}
-              onMouseLeave={primaryButtonLeave}
+              style={{
+                padding: '14px 28px',
+                backgroundColor: 'white',
+                color: '#000000',
+                border: '1px solid #e8e8e3',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '0.02em',
+                textTransform: 'uppercase',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#f5f5f2';
+                e.currentTarget.style.borderColor = '#d1d5db';
+                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.04)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.borderColor = '#e8e8e3';
+                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               Edit
             </button>
@@ -2593,9 +2546,33 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                   await showAlert('Password must be at least 8 characters long.');
                 }
               }}
-              style={primaryButtonStyle}
-              onMouseEnter={primaryButtonHover}
-              onMouseLeave={primaryButtonLeave}
+              style={{
+                padding: '14px 28px',
+                backgroundColor: 'white',
+                color: '#000000',
+                border: '1px solid #e8e8e3',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '0.02em',
+                textTransform: 'uppercase',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#f5f5f2';
+                e.currentTarget.style.borderColor = '#d1d5db';
+                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.04)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.borderColor = '#e8e8e3';
+                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               Reset Password
             </button>
@@ -2609,9 +2586,31 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                   }
                 });
               }}
-              style={primaryButtonStyle}
-              onMouseEnter={primaryButtonHover}
-              onMouseLeave={primaryButtonLeave}
+              style={{
+                padding: '14px 28px',
+                backgroundColor: '#F7F6F0',
+                color: '#fafaf8',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '0.02em',
+                textTransform: 'uppercase',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.08)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#1a1a1a';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#F7F6F0';
+                e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               Logout
             </button>
@@ -2635,28 +2634,60 @@ function ProfileSection({ clientInfo, profileData, editingProfile, setEditingPro
                   photo: formData.photo
                 });
               }}
-              style={primaryButtonStyle}
-              onMouseEnter={primaryButtonHover}
-              onMouseLeave={primaryButtonLeave}
+              style={{
+                padding: '14px 28px',
+                backgroundColor: 'white',
+                color: '#000000',
+                border: '1px solid #e8e8e3',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '0.02em',
+                textTransform: 'uppercase',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#f5f5f2';
+                e.currentTarget.style.borderColor = '#d1d5db';
+                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.04)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.borderColor = '#e8e8e3';
+                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
               style={{
-                ...primaryButtonStyle,
+                padding: '14px 28px',
                 backgroundColor: '#F7F6F0',
+                color: '#fafaf8',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                letterSpacing: '0.02em',
+                textTransform: 'uppercase',
+                transition: 'all 0.3s ease',
                 boxShadow: '0 2px 6px rgba(0, 0, 0, 0.08)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#1a1a1a';
-                e.currentTarget.style.color = '#FFFFFF';
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#F7F6F0';
-                e.currentTarget.style.color = '#000000';
                 e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
@@ -3697,12 +3728,26 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    ...secondaryButtonStyle,
                     display: 'inline-block',
-                    textDecoration: 'none'
+                    padding: '12px 24px',
+                    backgroundColor: 'transparent',
+                    color: '#545142',
+                    border: '1px solid #545142',
+                    textDecoration: 'none',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontFamily: "'NeueHaasUnica', sans-serif",
+                    fontWeight: '500',
+                    transition: 'all 0.2s ease'
                   }}
-                  onMouseEnter={secondaryButtonHover}
-                  onMouseLeave={secondaryButtonLeave}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#545142';
+                    e.target.style.color = '#FFFFFF';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = 'transparent';
+                    e.target.style.color = '#545142';
+                  }}
                 >
                   View Product
                 </a>
@@ -3759,16 +3804,28 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      ...secondaryButtonStyle,
                       display: 'inline-block',
                       padding: '10px 20px',
-                      fontSize: '12px',
-                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      color: '#545142',
+                      border: '1px solid #545142',
                       textDecoration: 'none',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontFamily: "'NeueHaasUnica', sans-serif",
+                      fontWeight: '500',
+                      textAlign: 'center',
+                      transition: 'all 0.2s ease',
                       marginTop: 'auto'
                     }}
-                    onMouseEnter={secondaryButtonHover}
-                    onMouseLeave={secondaryButtonLeave}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = '#545142';
+                      e.target.style.color = '#FFFFFF';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = 'transparent';
+                      e.target.style.color = '#545142';
+                    }}
                   >
                     View Product
                   </a>
@@ -5692,7 +5749,8 @@ function ProposalsSection({ proposals, proposalTab, setProposalTab, setSelectedP
 }
 
 function ContactSection({ brandCharcoal = '#2C2C2C' }) {
-  const teamMembers = [
+  // Client Team members
+  const clientTeamMembers = [
     {
       name: 'Megan Proby',
       title: 'Founder & CEO',
@@ -5706,13 +5764,6 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
       email: 'Noelle@Mayker.com',
       photo: '/noelle-powell.jpg',
       firstName: 'Noelle'
-    },
-    {
-      name: 'Constance Farro',
-      title: 'Partnerships Manager',
-      email: 'Constance@Mayker.com',
-      photo: '/constance-farro.jpg',
-      firstName: 'Constance'
     },
     {
       name: 'Lindsey Soklin',
@@ -5744,9 +5795,244 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
     }
   ];
 
+  // Partnerships Manager
+  const partnershipsManager = [
+    {
+      name: 'Constance Farro',
+      title: 'Partnerships Manager',
+      email: 'Constance@Mayker.com',
+      photo: '/constance-farro.jpg',
+      firstName: 'Constance'
+    }
+  ];
+
+  // Delivery Supervisors
+  const deliverySupervisors = [
+    {
+      name: 'Delivery Supervisors',
+      title: 'Delivery Supervisor',
+      email: '',
+      photo: '',
+      firstName: 'DS',
+      initials: 'DS',
+      phone: '(615) 970-1244'
+    }
+  ];
+
   // Helper to get initials
-  const getInitials = (name) => {
+  const getInitials = (name, customInitials) => {
+    if (customInitials) return customInitials;
     return name.split(' ').map(n => n[0]).join('');
+  };
+
+  // Contact Card Component
+  const ContactCard = ({ member, brandCharcoal }) => {
+    const initials = getInitials(member.name, member.initials);
+    return (
+      <div
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '16px',
+          padding: '40px 32px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)',
+          border: '1px solid #e8e8e3',
+          transition: 'all 0.4s ease',
+          textAlign: 'center',
+          position: 'relative',
+          width: '100%',
+          maxWidth: '320px',
+          margin: '0 auto'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06)';
+          e.currentTarget.style.transform = 'translateY(-4px)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)';
+          e.currentTarget.style.transform = 'translateY(0)';
+        }}
+      >
+        {/* Photo Container with Low-Opacity Initials Background */}
+        <div style={{
+          width: '180px',
+          height: '180px',
+          borderRadius: '50%',
+          margin: '0 auto 28px',
+          overflow: 'hidden',
+          backgroundColor: '#f5f4f0',
+          border: '2px solid #e8e8e3',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+        }}>
+          {/* Low-opacity initials background (Soho vibe) */}
+          <div 
+            className="bg-initials"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '120px',
+              fontWeight: '300',
+              color: 'rgba(139, 139, 139, 0.15)',
+              fontFamily: "'Domaine Text', serif",
+              zIndex: 0,
+              pointerEvents: 'none'
+            }}
+          >
+            {initials}
+          </div>
+          
+          {/* Photo */}
+          {member.photo && (
+            <img
+              src={member.photo}
+              alt={member.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                position: 'relative',
+                zIndex: 1,
+                borderRadius: '50%'
+              }}
+              onError={(e) => {
+                // Hide image and show initials prominently if it fails
+                e.target.style.display = 'none';
+                const parent = e.target.parentElement;
+                const bgInitials = parent.querySelector('.bg-initials');
+                if (bgInitials) {
+                  bgInitials.style.color = 'rgba(139, 139, 139, 0.4)';
+                  bgInitials.style.fontSize = '80px';
+                  bgInitials.style.zIndex = '2';
+                }
+              }}
+            />
+          )}
+          {!member.photo && (
+            <div style={{
+              position: 'relative',
+              zIndex: 2,
+              fontSize: '80px',
+              fontWeight: '300',
+              color: 'rgba(139, 139, 139, 0.4)',
+              fontFamily: "'Domaine Text', serif"
+            }}>
+              {initials}
+            </div>
+          )}
+        </div>
+
+        {/* Name */}
+        <div style={{
+          fontSize: '15px',
+          fontWeight: '300',
+          color: '#000000',
+          fontFamily: "'Domaine Text', serif",
+          marginBottom: '10px',
+          letterSpacing: '-0.01em'
+        }}>
+          {member.name}
+        </div>
+
+        {/* Title */}
+        <div style={{
+          fontSize: '12px',
+          fontWeight: '400',
+          color: '#8b8b8b',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          marginBottom: '24px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em'
+        }}>
+          {member.title}
+        </div>
+
+        {/* Contact Buttons */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          marginTop: '24px'
+        }}>
+          {member.email && (
+            <a
+              href={`mailto:${member.email}`}
+              style={{
+                padding: '12px 20px',
+                backgroundColor: '#f5f4f0',
+                color: '#000000',
+                border: '1px solid #e8e8e3',
+                borderRadius: '10px',
+                fontSize: '12px',
+                fontWeight: '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                textDecoration: 'none',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                transition: 'all 0.3s ease',
+                display: 'block',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F7F6F0';
+                e.currentTarget.style.color = '#fafaf8';
+                e.currentTarget.style.borderColor = brandCharcoal;
+                e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#f5f4f0';
+                e.currentTarget.style.color = brandCharcoal;
+                e.currentTarget.style.borderColor = '#e8e8e3';
+                e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04)';
+              }}
+            >
+              Email {member.firstName}
+            </a>
+          )}
+          {member.phone && (
+            <a
+              href={`tel:${member.phone.replace(/\D/g, '')}`}
+              style={{
+                padding: '12px 20px',
+                backgroundColor: '#f5f4f0',
+                color: '#000000',
+                border: '1px solid #e8e8e3',
+                borderRadius: '10px',
+                fontSize: '12px',
+                fontWeight: '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                textDecoration: 'none',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                transition: 'all 0.3s ease',
+                display: 'block',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F7F6F0';
+                e.currentTarget.style.color = '#fafaf8';
+                e.currentTarget.style.borderColor = brandCharcoal;
+                e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#f5f4f0';
+                e.currentTarget.style.color = brandCharcoal;
+                e.currentTarget.style.borderColor = '#e8e8e3';
+                e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04)';
+              }}
+            >
+              Call or Text
+            </a>
+          )}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -5835,199 +6121,91 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
         </div>
       </div>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        {/* Client Orders Section */}
-        <div style={{ marginBottom: '64px' }}>
-          <h3 style={{ 
-            fontSize: '13px', 
-            fontWeight: '500', 
-            color: '#000000',
-            fontFamily: "'NeueHaasUnica', sans-serif",
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            marginBottom: '12px'
-          }}>
-            Client Orders
-          </h3>
-          <p style={{
-            fontSize: '14px',
-            color: '#666',
-            fontFamily: "'NeueHaasUnica', sans-serif",
-            lineHeight: '1.6',
-            marginBottom: '32px'
-          }}>
-            If you have questions
-          </p>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '32px'
-          }}>
-            {teamMembers.filter(member => 
-              member.name === 'Noelle Powell' || 
-              member.name === 'Lindsey Soklin' || 
-              member.name === 'Mara Meisberger'
-            ).map((member, index) => {
-            const initials = getInitials(member.name);
-            return (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: 'white',
-                  borderRadius: '16px',
-                  padding: '40px 32px',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)',
-                  border: '1px solid #e8e8e3',
-                  transition: 'all 0.4s ease',
-                  textAlign: 'center',
-                  position: 'relative'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06)';
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                {/* Photo Container with Low-Opacity Initials Background */}
-                <div style={{
-                  width: '180px',
-                  height: '180px',
-                  borderRadius: '50%',
-                  margin: '0 auto 28px',
-                  overflow: 'hidden',
-                  backgroundColor: '#f5f4f0',
-                  border: '2px solid #e8e8e3',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
-                }}>
-                  {/* Low-opacity initials background (Soho vibe) */}
-                  <div 
-                    className="bg-initials"
-                    style={{
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '120px',
-                      fontWeight: '300',
-                      color: 'rgba(139, 139, 139, 0.15)',
-                      fontFamily: "'Domaine Text', serif",
-                      zIndex: 0,
-                      pointerEvents: 'none'
-                    }}
-                  >
-                    {initials}
-                  </div>
-                  
-                  {/* Photo */}
-                  <img
-                    src={member.photo}
-                    alt={member.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      position: 'relative',
-                      zIndex: 1,
-                      borderRadius: '50%'
-                    }}
-                    onError={(e) => {
-                      // Hide image and show initials prominently if it fails
-                      e.target.style.display = 'none';
-                      const parent = e.target.parentElement;
-                      const bgInitials = parent.querySelector('.bg-initials');
-                      if (bgInitials) {
-                        bgInitials.style.color = 'rgba(139, 139, 139, 0.4)';
-                        bgInitials.style.fontSize = '80px';
-                        bgInitials.style.zIndex = '2';
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Name */}
-                <div style={{
-                  fontSize: '15px',
-                  fontWeight: '300',
-                  color: '#000000',
-                  fontFamily: "'Domaine Text', serif",
-                  marginBottom: '10px',
-                  letterSpacing: '-0.01em'
-                }}>
-                  {member.name}
-                </div>
-
-                {/* Title */}
-                <div style={{
-                  fontSize: '12px',
-                  fontWeight: '400',
-                  color: '#8b8b8b',
-                  fontFamily: "'NeueHaasUnica', sans-serif",
-                  marginBottom: '24px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em'
-                }}>
-                  {member.title}
-                </div>
-
-                {/* Contact Buttons */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  marginTop: '24px'
-                }}>
-                  <a
-                    href={`mailto:${member.email}`}
-                    style={{
-                      padding: '12px 20px',
-                      backgroundColor: '#f5f4f0',
-                      color: '#000000',
-                      border: '1px solid #e8e8e3',
-                      borderRadius: '10px',
-                      fontSize: '12px',
-                      fontWeight: '500',
-                      fontFamily: "'NeueHaasUnica', sans-serif",
-                      textDecoration: 'none',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                      transition: 'all 0.3s ease',
-                      display: 'block',
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#F7F6F0';
-                      e.currentTarget.style.color = '#fafaf8';
-                      e.currentTarget.style.borderColor = brandCharcoal;
-                      e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#f5f4f0';
-                      e.currentTarget.style.color = brandCharcoal;
-                      e.currentTarget.style.borderColor = '#e8e8e3';
-                      e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04)';
-                    }}
-                  >
-                    Email {member.firstName}
-                  </a>
-                  
-                </div>
-              </div>
-            );
-          })}
+      {/* Client Orders Section */}
+      <div style={{ marginBottom: '80px' }}>
+        <h3 style={{ 
+          fontSize: '13px', 
+          fontWeight: '500', 
+          color: '#000000',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          marginBottom: '16px'
+        }}>
+          Client Orders
+        </h3>
+        <p style={{
+          fontSize: '15px',
+          fontWeight: '400',
+          color: '#6B6B6B',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          lineHeight: '1.7',
+          marginBottom: '32px',
+          maxWidth: '800px'
+        }}>
+          If you have questions about an existing or upcoming project, please contact your dedicated coordinator or reach out to a member of our Client Team. We're here to help with anything you need.
+        </p>
+        <div style={{
+          width: '60px',
+          height: '1px',
+          background: '#e8e8e3',
+          marginBottom: '40px'
+        }} />
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '32px',
+          justifyContent: 'flex-start'
+        }}>
+          {clientTeamMembers.map((member, index) => (
+            <ContactCard key={index} member={member} brandCharcoal={brandCharcoal} />
+          ))}
         </div>
       </div>
 
       {/* Strategic Relationships Section */}
+      <div style={{ marginBottom: '80px' }}>
+        <h3 style={{ 
+          fontSize: '13px', 
+          fontWeight: '500', 
+          color: '#000000',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          marginBottom: '16px'
+        }}>
+          Strategic Relationships, Partner Projects & Sponsorships
+        </h3>
+        <p style={{
+          fontSize: '15px',
+          fontWeight: '400',
+          color: '#6B6B6B',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          lineHeight: '1.7',
+          marginBottom: '32px',
+          maxWidth: '800px'
+        }}>
+          For inquiries related to strategic collaborations, partner projects, or sponsorship opportunities, please connect with our Partnerships Manager. We'd love to explore how we can work together.
+        </p>
+        <div style={{
+          width: '60px',
+          height: '1px',
+          background: '#e8e8e3',
+          marginBottom: '40px'
+        }} />
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '32px',
+          justifyContent: 'flex-start'
+        }}>
+          {partnershipsManager.map((member, index) => (
+            <ContactCard key={index} member={member} brandCharcoal={brandCharcoal} />
+          ))}
+        </div>
+      </div>
+
+      {/* Delivery Supervisors Section */}
       <div style={{ marginBottom: '64px' }}>
         <h3 style={{ 
           fontSize: '13px', 
@@ -6036,308 +6214,36 @@ function ContactSection({ brandCharcoal = '#2C2C2C' }) {
           fontFamily: "'NeueHaasUnica', sans-serif",
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
-          marginBottom: '12px'
+          marginBottom: '16px'
         }}>
-          Strategic relationships, Partner Projects & Sponsorships
+          Delivery Supervisors
         </h3>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '32px'
-        }}>
-          {teamMembers.filter(member => 
-            member.name === 'Constance Farro'
-          ).map((member, index) => {
-            const initials = getInitials(member.name);
-            return (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: 'white',
-                  borderRadius: '16px',
-                  padding: '40px 32px',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)',
-                  border: '1px solid #e8e8e3',
-                  transition: 'all 0.4s ease',
-                  textAlign: 'center',
-                  position: 'relative'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06)';
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                {/* Photo Container with Low-Opacity Initials Background */}
-                <div style={{
-                  width: '180px',
-                  height: '180px',
-                  borderRadius: '50%',
-                  margin: '0 auto 28px',
-                  overflow: 'hidden',
-                  backgroundColor: '#f5f4f0',
-                  border: '2px solid #e8e8e3',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
-                }}>
-                  {/* Low-opacity initials background (Soho vibe) */}
-                  <div 
-                    className="bg-initials"
-                    style={{
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '120px',
-                      fontWeight: '300',
-                      color: 'rgba(139, 139, 139, 0.15)',
-                      fontFamily: "'Domaine Text', serif",
-                      zIndex: 0,
-                      pointerEvents: 'none'
-                    }}
-                  >
-                    {initials}
-                  </div>
-                  
-                  {/* Photo */}
-                  <img
-                    src={member.photo}
-                    alt={member.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      position: 'relative',
-                      zIndex: 1,
-                      borderRadius: '50%'
-                    }}
-                    onError={(e) => {
-                      // Hide image and show initials prominently if it fails
-                      e.target.style.display = 'none';
-                      const parent = e.target.parentElement;
-                      const bgInitials = parent.querySelector('.bg-initials');
-                      if (bgInitials) {
-                        bgInitials.style.color = 'rgba(139, 139, 139, 0.4)';
-                        bgInitials.style.fontSize = '80px';
-                        bgInitials.style.zIndex = '2';
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Name */}
-                <div style={{
-                  fontSize: '15px',
-                  fontWeight: '300',
-                  color: '#000000',
-                  fontFamily: "'Domaine Text', serif",
-                  marginBottom: '10px',
-                  letterSpacing: '-0.01em'
-                }}>
-                  {member.name}
-                </div>
-
-                {/* Title */}
-                <div style={{
-                  fontSize: '12px',
-                  fontWeight: '400',
-                  color: '#8b8b8b',
-                  fontFamily: "'NeueHaasUnica', sans-serif",
-                  marginBottom: '24px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em'
-                }}>
-                  {member.title}
-                </div>
-
-                {/* Contact Buttons */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  marginTop: '24px'
-                }}>
-                  <a
-                    href={`mailto:${member.email}`}
-                    style={{
-                      padding: '12px 20px',
-                      backgroundColor: '#f5f4f0',
-                      color: '#000000',
-                      border: '1px solid #e8e8e3',
-                      borderRadius: '10px',
-                      fontSize: '12px',
-                      fontWeight: '500',
-                      fontFamily: "'NeueHaasUnica', sans-serif",
-                      textDecoration: 'none',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                      transition: 'all 0.3s ease',
-                      display: 'block',
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#F7F6F0';
-                      e.currentTarget.style.color = '#fafaf8';
-                      e.currentTarget.style.borderColor = brandCharcoal;
-                      e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#f5f4f0';
-                      e.currentTarget.style.color = brandCharcoal;
-                      e.currentTarget.style.borderColor = '#e8e8e3';
-                      e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04)';
-                    }}
-                  >
-                    Email {member.firstName}
-                  </a>
-                  
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Deliveries Section */}
-      <div style={{ marginBottom: '64px' }}>
-        <h3 style={{ 
-          fontSize: '13px', 
-          fontWeight: '500', 
-          color: '#000000',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          marginBottom: '24px'
-        }}>
-          Deliveries
-        </h3>
-        <div style={{
-          fontSize: '16px',
+        <p style={{
+          fontSize: '15px',
           fontWeight: '400',
-          color: '#000000',
+          color: '#6B6B6B',
           fontFamily: "'NeueHaasUnica', sans-serif",
-          lineHeight: '1.8'
+          lineHeight: '1.7',
+          marginBottom: '32px',
+          maxWidth: '800px'
         }}>
-          <div>
-            <strong>Delivery Supervisors:</strong>{' '}
-            <a
-              href="tel:+16292134475"
-              style={{
-                color: '#000000',
-                textDecoration: 'none',
-                borderBottom: '1px solid transparent',
-                transition: 'border-color 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderBottomColor = brandCharcoal;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderBottomColor = 'transparent';
-              }}
-            >
-              (629) 213-4475
-            </a>
-          </div>
-        </div>
-      </div>
-      </div>
-
-      {/* Contact Information */}
-      <div style={{
-        backgroundColor: 'white',
-        borderRadius: '16px',
-        padding: '40px',
-        border: '1px solid #e8e8e3',
-        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
-      }}>
-        <h3 style={{ 
-          fontSize: '13px', 
-          fontWeight: '500', 
-          color: '#000000',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          marginBottom: '24px'
-        }}>
-          General Inquiries
-        </h3>
+          All Mayker Delivery Supervisors have access to our team phone line, which is actively monitored during every event. If you have a time-sensitive need during your project, please feel free to call or text—we'll respond as quickly as possible.
+        </p>
         <div style={{
-          fontSize: '16px',
-          fontWeight: '400',
-          color: '#000000',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          lineHeight: '1.8'
+          width: '60px',
+          height: '1px',
+          background: '#e8e8e3',
+          marginBottom: '40px'
+        }} />
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '32px',
+          justifyContent: 'flex-start'
         }}>
-          <div style={{ marginBottom: '12px' }}>
-            <strong>Email:</strong>{' '}
-            <a
-              href="mailto:events@mayker.com"
-              style={{
-                color: '#000000',
-                textDecoration: 'none',
-                borderBottom: '1px solid transparent',
-                transition: 'border-color 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderBottomColor = brandCharcoal;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderBottomColor = 'transparent';
-              }}
-            >
-              events@mayker.com
-            </a>
-          </div>
-          <div>
-            <strong>Phone:</strong>{' '}
-            <a
-              href="tel:+16159701244"
-              style={{
-                color: '#000000',
-                textDecoration: 'none',
-                borderBottom: '1px solid transparent',
-                transition: 'border-color 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderBottomColor = brandCharcoal;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderBottomColor = 'transparent';
-              }}
-            >
-              (615) 970-1244
-            </a>
-          </div>
-          <div>
-            <a
-              href="https://maykerevents.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: '#000000',
-                textDecoration: 'none',
-                borderBottom: '1px solid transparent',
-                transition: 'border-color 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderBottomColor = brandCharcoal;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderBottomColor = 'transparent';
-              }}
-            >
-              maykerevents.com
-            </a>
-          </div>
+          {deliverySupervisors.map((member, index) => (
+            <ContactCard key={index} member={member} brandCharcoal={brandCharcoal} />
+          ))}
         </div>
       </div>
     </div>
@@ -6866,7 +6772,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
           <div style={{ 
             maxWidth: '1400px',
             margin: '0 auto',
-            padding: '0 20%',
+            padding: '0 48px',
             display: 'flex',
             gap: '32px',
             alignItems: 'flex-start'
@@ -6938,18 +6844,26 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
                 onClick={calculateDistance}
                 disabled={isCalculating}
                 style={{
-                  ...primaryButtonStyle,
+                  padding: '12px 24px',
+                  fontSize: '14px',
+                  fontFamily: "'NeueHaasUnica', sans-serif",
+                  fontWeight: '500',
+                  backgroundColor: '#000000',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: isCalculating ? 'not-allowed' : 'pointer',
                   opacity: isCalculating ? 0.6 : 1,
-                  cursor: isCalculating ? 'not-allowed' : 'pointer'
+                  transition: 'opacity 0.2s'
                 }}
                 onMouseEnter={(e) => {
                   if (!isCalculating) {
-                    primaryButtonHover(e);
+                    e.currentTarget.style.opacity = '0.9';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isCalculating) {
-                    primaryButtonLeave(e);
+                    e.currentTarget.style.opacity = '1';
                   }
                 }}
               >
@@ -7234,7 +7148,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
           <div style={{
             maxWidth: '1400px',
             margin: '0 auto',
-            padding: '0 20%'
+            padding: '0 48px'
           }}>
           <h3 style={{
             fontSize: '17px',
@@ -7343,18 +7257,26 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
                 }}
                 disabled={!wishlistText.trim() || isSubmittingWishlist}
                 style={{
-                  ...primaryButtonStyle,
+                  padding: '12px 24px',
+                  fontSize: '14px',
+                  fontFamily: "'NeueHaasUnica', sans-serif",
+                  fontWeight: '500',
+                  backgroundColor: wishlistText.trim() && !isSubmittingWishlist ? '#000000' : '#9ca3af',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: wishlistText.trim() && !isSubmittingWishlist ? 'pointer' : 'not-allowed',
                   opacity: wishlistText.trim() && !isSubmittingWishlist ? 1 : 0.6,
-                  cursor: wishlistText.trim() && !isSubmittingWishlist ? 'pointer' : 'not-allowed'
+                  transition: 'opacity 0.2s'
                 }}
                 onMouseEnter={(e) => {
                   if (wishlistText.trim() && !isSubmittingWishlist) {
-                    primaryButtonHover(e);
+                    e.currentTarget.style.opacity = '0.9';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (wishlistText.trim() && !isSubmittingWishlist) {
-                    primaryButtonLeave(e);
+                    e.currentTarget.style.opacity = '1';
                   }
                 }}
               >
@@ -7386,49 +7308,8 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
   const [submitted, setSubmitted] = useState(false);
   const [newProductName, setNewProductName] = useState('');
   const [newProductQuantity, setNewProductQuantity] = useState('1');
-  const [catalog, setCatalog] = useState([]);
-  const [productSuggestions, setProductSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   
   const GOOGLE_MAPS_API_KEY = 'AIzaSyBDtqFBAoBLcNTX4N7hqE9SPP7RXuUpXV0';
-  const PROPOSALS_API_URL = 'https://script.google.com/macros/s/AKfycbzB7gHa5o-gBep98SJgQsG-z2EsEspSWC6NXvLFwurYBGpxpkI-weD-HVcfY2LDA4Yz/exec';
-  
-  // Fetch catalog on mount
-  useEffect(() => {
-    fetch(PROPOSALS_API_URL + '?action=getCatalog', {
-      method: 'GET',
-      mode: 'cors'
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.catalog) {
-          setCatalog(data.catalog);
-        }
-      })
-      .catch(err => console.error('Error fetching catalog:', err));
-  }, []);
-  
-  // Handle product name input with autocomplete
-  const handleProductNameChange = (value) => {
-    setNewProductName(value);
-    if (value.trim().length > 0) {
-      const filtered = catalog
-        .filter(product => 
-          product.name.toLowerCase().includes(value.toLowerCase())
-        )
-        .slice(0, 10);
-      setProductSuggestions(filtered);
-      setShowSuggestions(filtered.length > 0);
-    } else {
-      setProductSuggestions([]);
-      setShowSuggestions(false);
-    }
-  };
-  
-  const handleSelectProduct = (productName) => {
-    setNewProductName(productName);
-    setShowSuggestions(false);
-  };
   
   // Initialize Google Places Autocomplete for venue address
   useEffect(() => {
@@ -7506,8 +7387,6 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
       }]);
       setNewProductName('');
       setNewProductQuantity('1');
-      setProductSuggestions([]);
-      setShowSuggestions(false);
     }
   };
   
@@ -7623,29 +7502,17 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
   };
   
   return (
-    <div style={{ backgroundColor: 'white', minHeight: '100vh', padding: '0' }}>
-      {/* Hero Image Banner */}
-      <div style={{
-        width: '100vw',
-        marginLeft: 'calc(-50vw + 50%)',
-        height: '320px',
-        marginBottom: '56px',
-        marginTop: '0',
-        borderRadius: '0',
-        overflow: 'hidden',
-        position: 'relative',
-        backgroundColor: '#1a1a1a',
-        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)'
-      }}>
+    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      {/* Banner Image */}
+      <div style={{ marginBottom: '48px' }}>
         <img 
           src="/start-a-new-project-banner.jpg" 
           alt="Start a New Project"
           style={{
             width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            filter: 'brightness(0.7) contrast(1.1) saturate(1.2)',
-            opacity: '0.9'
+            height: 'auto',
+            borderRadius: '12px',
+            objectFit: 'cover'
           }}
           onError={(e) => {
             if (!e.target.src.includes('/assets/')) {
@@ -7655,63 +7522,29 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
             }
           }}
         />
-        {/* Dark overlay */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5))'
-        }} />
-        {/* Text Overlay */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '48px',
-          zIndex: 1
-        }}>
-          <div style={{
-            fontSize: '50px',
-            fontWeight: '300',
-            fontFamily: "'Domaine Text', serif",
-            color: 'white',
-            marginBottom: '20px',
-            textAlign: 'center',
-            letterSpacing: '-0.02em',
-            textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
-          }}>
-            Start a New Project
-          </div>
-          <div style={{
-            width: '60px',
-            height: '1px',
-            background: 'rgba(255, 255, 255, 0.6)',
-            margin: '0 auto 24px'
-          }} />
-          <div style={{
-            fontSize: '11px',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: 'rgba(255, 255, 255, 0.9)',
-            fontFamily: "'NeueHaasUnica', sans-serif",
-            textAlign: 'center',
-            lineHeight: '1.6',
-            fontWeight: '400'
-          }}>
-            Submit requests for any upcoming projects
-          </div>
-        </div>
       </div>
       
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 24px 48px' }}>
+      {/* Title and Sub-head */}
+      <div style={{ marginBottom: '40px' }}>
+        <h2 style={{
+          fontSize: '32px',
+          fontWeight: '300',
+          color: '#000000',
+          fontFamily: "'Domaine Text', serif",
+          marginBottom: '12px',
+          letterSpacing: '-0.01em'
+        }}>
+          Start a New Project
+        </h2>
+        <p style={{
+          fontSize: '16px',
+          color: '#666',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          lineHeight: '1.6'
+        }}>
+          Submit requests for any upcoming projects
+        </p>
+      </div>
       
       {submitted ? (
         <div style={{
@@ -7740,11 +7573,17 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
           <button
             onClick={() => setSubmitted(false)}
             style={{
-              ...primaryButtonStyle,
-              marginTop: '24px'
+              marginTop: '24px',
+              padding: '12px 24px',
+              backgroundColor: '#000000',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: '500',
+              fontFamily: "'NeueHaasUnica', sans-serif",
+              cursor: 'pointer'
             }}
-            onMouseEnter={primaryButtonHover}
-            onMouseLeave={primaryButtonLeave}
           >
             Submit Another Request
           </button>
@@ -7875,9 +7714,17 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                     <button
                       type="button"
                       onClick={() => handleRemoveProduct(product.id)}
-                      style={destructiveButtonStyle}
-                      onMouseEnter={destructiveButtonHover}
-                      onMouseLeave={destructiveButtonLeave}
+                      style={{
+                        padding: '8px 16px',
+                        backgroundColor: '#fee2e2',
+                        color: '#dc2626',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        fontFamily: "'NeueHaasUnica', sans-serif",
+                        cursor: 'pointer'
+                      }}
                     >
                       Remove
                     </button>
@@ -7891,24 +7738,14 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
               display: 'flex',
               gap: '12px',
               alignItems: 'flex-end',
-              marginBottom: '16px',
-              position: 'relative'
+              marginBottom: '16px'
             }}>
-              <div style={{ flex: 1, position: 'relative' }}>
+              <div style={{ flex: 1 }}>
                 <input
                   type="text"
                   value={newProductName}
-                  onChange={(e) => handleProductNameChange(e.target.value)}
-                  onFocus={() => {
-                    if (productSuggestions.length > 0) {
-                      setShowSuggestions(true);
-                    }
-                  }}
-                  onBlur={() => {
-                    // Delay hiding suggestions to allow click
-                    setTimeout(() => setShowSuggestions(false), 200);
-                  }}
-                  placeholder="Start typing product name..."
+                  onChange={(e) => setNewProductName(e.target.value)}
+                  placeholder="Product name"
                   style={{
                     ...inputStyle,
                     marginBottom: '8px'
@@ -7916,58 +7753,10 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       e.preventDefault();
-                      if (productSuggestions.length > 0) {
-                        handleSelectProduct(productSuggestions[0].name);
-                        handleAddProduct();
-                      } else {
-                        handleAddProduct();
-                      }
+                      handleAddProduct();
                     }
                   }}
                 />
-                {/* Autocomplete Suggestions */}
-                {showSuggestions && productSuggestions.length > 0 && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    right: 0,
-                    backgroundColor: 'white',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                    zIndex: 1000,
-                    maxHeight: '200px',
-                    overflowY: 'auto',
-                    marginTop: '4px'
-                  }}>
-                    {productSuggestions.map((product, idx) => (
-                      <div
-                        key={idx}
-                        onClick={() => {
-                          handleSelectProduct(product.name);
-                        }}
-                        style={{
-                          padding: '12px 16px',
-                          cursor: 'pointer',
-                          borderBottom: idx < productSuggestions.length - 1 ? '1px solid #f3f4f6' : 'none',
-                          fontSize: '14px',
-                          fontFamily: "'NeueHaasUnica', sans-serif",
-                          color: '#000000',
-                          transition: 'background-color 0.2s'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = '#fafaf8';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'white';
-                        }}
-                      >
-                        {product.name}
-                      </div>
-                    ))}
-                  </div>
-                )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span style={{ fontSize: '13px', color: '#666', fontFamily: "'NeueHaasUnica', sans-serif" }}>Quantity:</span>
                   <input
@@ -7987,22 +7776,16 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                 onClick={handleAddProduct}
                 disabled={!newProductName.trim()}
                 style={{
-                  ...smallButtonStyle,
-                  backgroundColor: newProductName.trim() ? '#FAF8F3' : '#f3f4f6',
-                  color: newProductName.trim() ? '#000000' : '#9ca3af',
-                  borderColor: newProductName.trim() ? '#e8e8e3' : '#e5e7eb',
+                  padding: '12px 24px',
+                  backgroundColor: newProductName.trim() ? '#000000' : '#9ca3af',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  fontFamily: "'NeueHaasUnica', sans-serif",
                   cursor: newProductName.trim() ? 'pointer' : 'not-allowed',
                   whiteSpace: 'nowrap'
-                }}
-                onMouseEnter={(e) => {
-                  if (newProductName.trim()) {
-                    smallButtonHover(e);
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (newProductName.trim()) {
-                    smallButtonLeave(e);
-                  }
                 }}
               >
                 Add Product
@@ -8027,33 +7810,36 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
           </div>
           
           {/* Submit Button */}
-          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <button
               type="submit"
               disabled={submitting}
               style={{
-                ...primaryButtonStyle,
                 padding: '12px 32px',
-                opacity: submitting ? 0.6 : 1,
-                cursor: submitting ? 'not-allowed' : 'pointer'
+                backgroundColor: submitting ? '#9ca3af' : '#000000',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '500',
+                fontFamily: "'NeueHaasUnica', sans-serif",
+                cursor: submitting ? 'not-allowed' : 'pointer',
+                transition: 'opacity 0.2s'
               }}
               onMouseEnter={(e) => {
                 if (!submitting) {
-                  primaryButtonHover(e);
+                  e.currentTarget.style.opacity = '0.9';
                 }
               }}
               onMouseLeave={(e) => {
-                if (!submitting) {
-                  primaryButtonLeave(e);
-                }
+                e.currentTarget.style.opacity = '1';
               }}
             >
-              {submitting ? 'SUBMITTING...' : 'SUBMIT INQUIRY'}
+              {submitting ? 'Submitting...' : 'Submit Inquiry'}
             </button>
           </div>
         </form>
       )}
-      </div>
     </div>
   );
 }
@@ -8099,6 +7885,10 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
         {
           question: 'When does my discount apply?',
           answer: 'Your discount is applied automatically to your invoice for all standard rental fees. It does not apply to extended rental terms, custom fabrication, or procurement projects.'
+        },
+        {
+          question: 'What\'s the welcome gift about?',
+          answer: 'You\'ll receive something good in your mailbox—an actual, physical surprise. Not just another welcome email.'
         }
       ]
     },
@@ -8111,10 +7901,6 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
           answer: 'We\'re a design resource company. Since 2013, we\'ve provided furniture rentals, custom fabrication, procurement services, and design guidance to brands and individuals. We started in our hometown of Nashville, expanded throughout the Southeast, and now regularly service clients nationwide. We really enjoy getting to know and partnering with the brands, planners, and designers who know that every detail matters.'
         },
         {
-          question: 'What types of projects does Mayker work on?',
-          answer: 'We work across corporate experiences and activations to social gatherings. Whether it\'s an intimate dinner for twenty or a conference for 2,000, we provide the furniture, fabrication, and flexibility to make it happen seamlessly.'
-        },
-        {
           question: 'What can I rent?',
           answer: 'We have six core collections: Bars, Furnishings, Lighting, Upholstery, Seating, and Textiles. We focus on the fundamentals, the statement changers, and lean into quality, design versatility, and lasting impressions.'
         },
@@ -8123,16 +7909,16 @@ function FAQSection({ brandCharcoal = '#2C2C2C' }) {
           answer: 'Absolutely. The most memorable details are always authentic. If you\'re looking for something personalized, our Custom Team concepts and delivers original solutions—custom bars, stage fronts, backdrops, display solutions, signage. We also source hand-selected products, whether you need more of something we carry or something entirely new.'
         },
         {
+          question: 'What types of projects does Mayker work on?',
+          answer: 'We work across corporate experiences and activations to social gatherings. Whether it\'s an intimate dinner for twenty or a conference for 2,000, we provide the furniture, fabrication, and flexibility to make it happen seamlessly.'
+        },
+        {
           question: 'What\'s the investment for custom services?',
           answer: 'Custom projects are approached on a case-by-case basis. We have a $2,500 project minimum and provide pricing based on project plan, materials, complexity, and timeline.'
         },
         {
           question: 'How do I get started with a custom project?',
           answer: 'Submit an inquiry online with as much detail as you have—concept, install date, target budget range. If you have dimensions or inspiration photos, send those as well. The more the merrier really rings true here.'
-        },
-        {
-          question: 'Do you have any rental minimums?',
-          answer: 'Our rental minimums are based on location. Visit our resources page and use the rental minimum calculator to see what the minimum is for your project.'
         }
       ]
     },
@@ -8753,7 +8539,7 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
       <div style={{ minHeight: '100vh', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
         <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', maxWidth: '500px', textAlign: 'center' }}>
           <p style={{ fontSize: '16px', color: '#dc2626', marginBottom: '16px' }}>Error: {error}</p>
-          <button onClick={fetchData} style={primaryButtonStyle} onMouseEnter={primaryButtonHover} onMouseLeave={primaryButtonLeave}>
+          <button onClick={fetchData} style={{ padding: '10px 20px', backgroundColor: '#F7F6F0', color: '#000000', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
             Retry
           </button>
         </div>
@@ -8780,11 +8566,11 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
     { key: 'overview', label: 'OVERVIEW', section: 'performance' },
     { key: 'activity', label: 'ACTIVITY', section: 'activity' },
     { key: 'projects', label: 'PROJECTS', section: 'proposals' },
+    { key: 'new-project', label: 'START PROJECT', section: 'new-project' },
     { key: 'account', label: 'ACCOUNT', section: 'profile' },
     { key: 'resources', label: 'RESOURCES', section: 'resources' },
     { key: 'faq', label: 'FAQ', section: 'faq' },
-    { key: 'contact', label: 'CONTACT', section: 'contact' },
-    { key: 'new-project', label: 'START PROJECT', section: 'new-project' }
+    { key: 'contact', label: 'CONTACT', section: 'contact' }
   ];
 
   const getCurrentNavKey = () => {
@@ -9638,7 +9424,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
           />
         </div>
         <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <div style={{ fontSize: '9px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.4', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+          <div style={{ fontSize: '9px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.4', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
             <div>{proposal.clientName}</div>
             <div>{formatDateRange(proposal)}</div>
             <div>{proposal.venueName}</div>
@@ -9663,7 +9449,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
       <div style={{ borderBottom: '1px solid #e5e7eb', marginBottom: showSectionName ? '15px' : '0' }}></div>
       {/* Section name below separator if provided */}
         {showSectionName && sectionName && (
-        <div style={{ fontSize: '14px', fontWeight: '300', color: brandCharcoal, marginTop: '15px', fontFamily: "'Domaine Text', serif", textTransform: 'uppercase', letterSpacing: '0.02em', textAlign: 'center' }}>{sectionName}</div>
+        <div style={{ fontSize: '14px', fontWeight: '300', color: '#000000', marginTop: '15px', fontFamily: "'Domaine Text', serif", textTransform: 'uppercase', letterSpacing: '0.02em', textAlign: 'center' }}>{sectionName}</div>
       )}
     </div>
   );
@@ -9756,7 +9542,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
             ← Back to Dashboard
           </button>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={() => setIsChangeRequestMode(true)} style={smallButtonStyle} onMouseEnter={smallButtonHover} onMouseLeave={smallButtonLeave}>
+            <button onClick={() => setIsChangeRequestMode(true)} style={{ padding: '8px 20px', backgroundColor: '#F7F6F0', color: '#000000', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
               Request Changes
             </button>
             <button onClick={async () => {
@@ -9816,13 +9602,13 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
                   await showAlert('Error approving proposal: ' + err.message);
                 }
               }
-            }} style={smallButtonStyle} onMouseEnter={smallButtonHover} onMouseLeave={smallButtonLeave}>
+            }} style={{ padding: '8px 20px', backgroundColor: '#F7F6F0', color: '#000000', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
               Approve Proposal
             </button>
-            <button onClick={handlePrintDownload} style={smallButtonStyle} onMouseEnter={smallButtonHover} onMouseLeave={smallButtonLeave}>
+            <button onClick={handlePrintDownload} style={{ padding: '8px 20px', backgroundColor: '#F7F6F0', color: '#000000', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
               Print / Export as PDF
             </button>
-            <button onClick={onLogout} style={smallButtonStyle} onMouseEnter={smallButtonHover} onMouseLeave={smallButtonLeave}>
+            <button onClick={onLogout} style={{ padding: '8px 20px', backgroundColor: '#f3f4f6', color: brandCharcoal, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '14px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
             Sign Out
           </button>
           </div>
@@ -9932,15 +9718,15 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
                           '[Product Image]'
                         )}
                       </div>
-                      <h3 style={{ fontSize: '10px', fontWeight: '500', color: brandCharcoal, textTransform: 'uppercase', marginBottom: '2px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.2' }}>
+                      <h3 style={{ fontSize: '10px', fontWeight: '500', color: '#000000', textTransform: 'uppercase', marginBottom: '2px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.2' }}>
                         {product.name}
                       </h3>
-                      <p style={{ fontSize: '9px', color: '#666', marginBottom: '2px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Quantity: {product.quantity}</p>
+                      <p style={{ fontSize: '9px', color: '#000000', marginBottom: '2px', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Quantity: {product.quantity}</p>
                       {product.dimensions && (
-                        <p style={{ fontSize: '9px', color: '#666', marginBottom: product.note && product.note.trim() ? '2px' : '0', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Size: {product.dimensions}</p>
+                        <p style={{ fontSize: '9px', color: '#000000', marginBottom: product.note && product.note.trim() ? '2px' : '0', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Size: {product.dimensions}</p>
                       )}
                       {product.note && product.note.trim() && (
-                        <p style={{ fontSize: '9px', color: '#666', marginBottom: '0', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Product Note: {product.note}</p>
+                        <p style={{ fontSize: '9px', color: '#000000', marginBottom: '0', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", lineHeight: '1.3' }}>Product Note: {product.note}</p>
                       )}
                     </div>
                   ))}
@@ -9975,7 +9761,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
           <div style={{ marginBottom: '30px', pageBreakInside: 'avoid', breakInside: 'avoid', display: 'block', visibility: 'visible' }}>
             <PageHeader />
             {/* INVOICE title */}
-            <h2 style={{ fontSize: '14px', fontWeight: '300', color: brandCharcoal, marginTop: '15px', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.02em', textAlign: 'center', fontFamily: "'Domaine Text', serif" }}>
+            <h2 style={{ fontSize: '14px', fontWeight: '300', color: '#000000', marginTop: '15px', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.02em', textAlign: 'center', fontFamily: "'Domaine Text', serif" }}>
               {isFirstPage ? 'Invoice' : 'Invoice (Cont.)'}
             </h2>
             {/* Column headers */}
@@ -9989,11 +9775,11 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
               </colgroup>
               <thead>
                 <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'left', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Section</th>
-                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'left', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Product</th>
-                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Qty</th>
-                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Unit Price</th>
-                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Total</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#000000', textAlign: 'left', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Section</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#000000', textAlign: 'left', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Product</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#000000', textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Qty</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Unit Price</th>
+                  <th style={{ padding: '8px 0', fontSize: '9px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>Total</th>
                 </tr>
               </thead>
             </table>
@@ -10053,19 +9839,19 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
                           
                           return (
                             <tr key={`${sectionIndex}-${productIndex}`} style={{ borderBottom: '1px solid #f8f8f8' }}>
-                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#888', fontStyle: 'italic', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', fontStyle: 'italic', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                                 {showSectionName ? section.name : ''}
                               </td>
-                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                                 {product.name}
                               </td>
-                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                                 {product.quantity}
                               </td>
-                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
                                 ${formatNumber(extendedPrice)}
                               </td>
-                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+                              <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
                                 ${formatNumber(lineTotal)}
                               </td>
                             </tr>
@@ -10102,19 +9888,19 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
                         
                         return (
                           <tr key={`${sectionIndex}-${productIndex}`} style={{ borderBottom: '1px solid #f8f8f8' }}>
-                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#888', fontStyle: 'italic', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', fontStyle: 'italic', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                               {showSectionName ? section.name : ''}
                             </td>
-                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                               {product.name}
                             </td>
-                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', textAlign: 'center', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                               {product.quantity}
                             </td>
-                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
                               ${formatNumber(extendedPrice)}
                             </td>
-                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+                            <td style={{ padding: pageItemIndex === 0 ? '5px 0 10px 0' : '10px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", whiteSpace: 'nowrap' }}>
                               ${formatNumber(lineTotal)}
                             </td>
                           </tr>
@@ -10179,7 +9965,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
               {/* Totals Section - Two Column Layout */}
               <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'flex-start' }}>
                 <div style={{ width: '140px', flexShrink: 0, paddingRight: '20px' }}>
-                  <h2 style={{ fontSize: '13px', fontWeight: '300', color: brandCharcoal, fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
+                  <h2 style={{ fontSize: '13px', fontWeight: '300', color: '#000000', fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
                     Total
                   </h2>
                 </div>
@@ -10187,50 +9973,50 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
                   <table className="no-page-break" style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <tbody>
                       <tr>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left', width: '50%' }}>Product Subtotal</td>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", width: '50%' }}>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left', width: '50%' }}>Product Subtotal</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", width: '50%' }}>
                           ${formatNumber(totals.productSubtotal)}
                         </td>
                       </tr>
                       {totals.standardRateDiscount > 0 && (
                         <tr>
-                          <td style={{ padding: '6px 0', fontSize: '11px', color: '#059669', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>
+                          <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>
                             Discount ({proposal.discount || proposal.discountValue || 0}% off)
                           </td>
-                          <td style={{ padding: '6px 0', fontSize: '11px', color: '#059669', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                          <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                             -${formatNumber(totals.standardRateDiscount)}
                           </td>
                         </tr>
                       )}
                       <tr style={{ borderTop: '1px solid #e5e7eb', borderBottom: '1px solid #e5e7eb' }}>
-                        <td style={{ padding: '8px 0', fontSize: '11px', fontWeight: '400', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Rental Total</td>
-                        <td style={{ padding: '8px 0', fontSize: '11px', fontWeight: '400', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.rentalTotal)}</td>
+                        <td style={{ padding: '8px 0', fontSize: '11px', fontWeight: '400', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Rental Total</td>
+                        <td style={{ padding: '8px 0', fontSize: '11px', fontWeight: '400', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.rentalTotal)}</td>
                       </tr>
                       <tr>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Product Care (10%)</td>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.productCare)}</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Product Care (10%)</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.productCare)}</td>
                       </tr>
                       <tr>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Service Fee (5%)</td>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.serviceFee)}</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Service Fee (5%)</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.serviceFee)}</td>
                       </tr>
                       <tr>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Delivery</td>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.delivery)}</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Delivery</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.delivery)}</td>
                       </tr>
                       <tr style={{ borderTop: '1px solid #e5e7eb' }}>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Subtotal</td>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.subtotal)}</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Subtotal</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.subtotal)}</td>
                       </tr>
                       <tr>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>
                           Tax ({proposal.taxRate || 9.75}%)
                         </td>
-                        <td style={{ padding: '6px 0', fontSize: '11px', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.tax)}</td>
+                        <td style={{ padding: '6px 0', fontSize: '11px', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.tax)}</td>
                       </tr>
                       <tr style={{ borderTop: '1px solid #2C2C2C' }}>
-                        <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '400', color: brandCharcoal, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Total</td>
-                        <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '400', color: brandCharcoal, textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.total)}</td>
+                        <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '400', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", textAlign: 'left' }}>Total</td>
+                        <td style={{ padding: '10px 0', fontSize: '11px', fontWeight: '400', color: '#000000', textAlign: 'right', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>${formatNumber(totals.total)}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -10240,15 +10026,15 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
               {/* Project Description Section - Two Column Layout */}
               <div style={{ paddingTop: '30px', borderTop: '1px solid #e5e7eb', marginBottom: '30px', display: 'flex', alignItems: 'flex-start' }}>
                 <div style={{ width: '140px', flexShrink: 0, paddingRight: '20px' }}>
-                  <h2 style={{ fontSize: '13px', fontWeight: '300', color: brandCharcoal, fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
+                  <h2 style={{ fontSize: '13px', fontWeight: '300', color: '#000000', fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
                     Project Description
                   </h2>
                 </div>
                 <div style={{ flex: '1', minWidth: 0 }}>
-                  <p style={{ marginBottom: '12px', fontSize: '12px', lineHeight: '1.5', color: '#444', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                  <p style={{ marginBottom: '12px', fontSize: '12px', lineHeight: '1.5', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                     The quoted delivery fee reflects the current rental scope and delivery details. If project needs change, we can adjust, but fees may be updated accordingly:
                   </p>
-                  <ul style={{ fontSize: '12px', lineHeight: '1.6', marginBottom: '0', color: '#222', listStyle: 'none', padding: 0, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                  <ul style={{ fontSize: '12px', lineHeight: '1.6', marginBottom: '0', color: '#000000', listStyle: 'none', padding: 0, fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                     <li style={{ marginBottom: '5px' }}><span style={{ fontWeight: '400' }}>Project Address:</span> {proposal.venueName}, {proposal.city}, {proposal.state}</li>
                     <li style={{ marginBottom: '5px' }}><span style={{ fontWeight: '400' }}>Delivery Date:</span> {parseDateSafely(proposal.startDate)?.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) || ''}</li>
                     <li style={{ marginBottom: '5px' }}><span style={{ fontWeight: '400' }}>Preferred Delivery Window:</span> {proposal.deliveryTime || 'TBD'}</li>
@@ -10261,12 +10047,12 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
               {/* Confirmation and Payment Section */}
               <div style={{ paddingTop: '30px', borderTop: '1px solid #e5e7eb', display: 'flex', alignItems: 'flex-start' }}>
                 <div style={{ width: '140px', flexShrink: 0, paddingRight: '20px' }}>
-                  <h2 style={{ fontSize: '13px', fontWeight: '300', color: brandCharcoal, fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
+                  <h2 style={{ fontSize: '13px', fontWeight: '300', color: '#000000', fontFamily: "'Domaine Text', serif", letterSpacing: '0.02em', margin: 0 }}>
                     Confirmation and Payment
                   </h2>
                 </div>
                 <div style={{ flex: '1', minWidth: 0 }}>
-                  <p style={{ marginBottom: '0', fontSize: '12px', lineHeight: '1.5', color: '#444', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+                  <p style={{ marginBottom: '0', fontSize: '12px', lineHeight: '1.5', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                     Projects are confirmed with a signed service agreement and deposit payment. We accept wire, ACH, credit card (3% processing fee), and check.
                   </p>
                 </div>
@@ -10275,7 +10061,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
             
             {/* Template-style footer - outside the bordered container */}
             <div style={{ marginTop: '30px', paddingTop: '0' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', color: '#666', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', color: '#000000', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif" }}>
                 <div className="no-print">
                   <img 
                     src="/mayker_wordmark-events-black.svg" 
@@ -10308,7 +10094,7 @@ function ProposalDetailView({ proposal, onBack, onLogout, showAlert, showConfirm
                   }}
                   style={{ height: '24px', width: 'auto', maxWidth: '250px', display: 'block' }} 
                 />
-                <div style={{ fontSize: '11px', color: brandCharcoal }}>events@mayker.com | (615) 970.1244</div>
+                <div style={{ fontSize: '11px', color: '#000000' }}>events@mayker.com | (615) 970.1244</div>
               </div>
             </div>
           </div>
@@ -10964,44 +10750,18 @@ function ChangeRequestView({ proposal, sections, onCancel, catalog, showAlert, s
             <button
               onClick={onCancel}
               disabled={submitting}
-              style={{
-                ...primaryButtonStyle,
-                opacity: submitting ? 0.6 : 1,
-                cursor: submitting ? 'not-allowed' : 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                if (!submitting) {
-                  primaryButtonHover(e);
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!submitting) {
-                  primaryButtonLeave(e);
-                }
-              }}
+              style={{ padding: '12px 24px', backgroundColor: '#f3f4f6', color: '#000000', border: `1px solid ${brandTaupe}30`, borderRadius: '4px', cursor: submitting ? 'not-allowed' : 'pointer', fontSize: '14px', fontWeight: '500', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", transition: 'opacity 0.2s' }}
+              onMouseEnter={(e) => !submitting && (e.currentTarget.style.opacity = '0.8')}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={submitting || !hasChanges}
-              style={{
-                ...primaryButtonStyle,
-                backgroundColor: hasChanges && !submitting ? '#F7F6F0' : '#9ca3af',
-                color: hasChanges && !submitting ? '#000000' : '#FFFFFF',
-                opacity: (submitting || !hasChanges) ? 0.6 : 1,
-                cursor: (submitting || !hasChanges) ? 'not-allowed' : 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                if (!submitting && hasChanges) {
-                  primaryButtonHover(e);
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!submitting && hasChanges) {
-                  primaryButtonLeave(e);
-                }
-              }}
+              style={{ padding: '12px 24px', backgroundColor: hasChanges && !submitting ? '#F7F6F0' : '#9ca3af', color: hasChanges && !submitting ? '#000000' : 'white', border: 'none', borderRadius: '4px', cursor: (submitting || !hasChanges) ? 'not-allowed' : 'pointer', fontSize: '14px', fontWeight: '500', fontFamily: "'Neue Haas Unica', 'Inter', sans-serif", transition: 'opacity 0.2s' }}
+              onMouseEnter={(e) => !submitting && hasChanges && (e.currentTarget.style.opacity = '0.8')}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               {submitting ? 'Submitting...' : 'Submit Change Request'}
             </button>
