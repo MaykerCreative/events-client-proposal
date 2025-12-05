@@ -7221,8 +7221,49 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
   const [submitted, setSubmitted] = useState(false);
   const [newProductName, setNewProductName] = useState('');
   const [newProductQuantity, setNewProductQuantity] = useState('1');
+  const [catalog, setCatalog] = useState([]);
+  const [productSuggestions, setProductSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   
   const GOOGLE_MAPS_API_KEY = 'AIzaSyBDtqFBAoBLcNTX4N7hqE9SPP7RXuUpXV0';
+  const PROPOSALS_API_URL = 'https://script.google.com/macros/s/AKfycbzB7gHa5o-gBep98SJgQsG-z2EsEspSWC6NXvLFwurYBGpxpkI-weD-HVcfY2LDA4Yz/exec';
+  
+  // Fetch catalog on mount
+  useEffect(() => {
+    fetch(PROPOSALS_API_URL + '?action=getCatalog', {
+      method: 'GET',
+      mode: 'cors'
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.catalog) {
+          setCatalog(data.catalog);
+        }
+      })
+      .catch(err => console.error('Error fetching catalog:', err));
+  }, []);
+  
+  // Handle product name input with autocomplete
+  const handleProductNameChange = (value) => {
+    setNewProductName(value);
+    if (value.trim().length > 0) {
+      const filtered = catalog
+        .filter(product => 
+          product.name.toLowerCase().includes(value.toLowerCase())
+        )
+        .slice(0, 10);
+      setProductSuggestions(filtered);
+      setShowSuggestions(filtered.length > 0);
+    } else {
+      setProductSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+  
+  const handleSelectProduct = (productName) => {
+    setNewProductName(productName);
+    setShowSuggestions(false);
+  };
   
   // Initialize Google Places Autocomplete for venue address
   useEffect(() => {
@@ -7300,6 +7341,8 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
       }]);
       setNewProductName('');
       setNewProductQuantity('1');
+      setProductSuggestions([]);
+      setShowSuggestions(false);
     }
   };
   
@@ -7415,17 +7458,29 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
   };
   
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-      {/* Banner Image */}
-      <div style={{ marginBottom: '48px' }}>
+    <div style={{ backgroundColor: 'white', minHeight: '100vh', padding: '0' }}>
+      {/* Hero Image Banner */}
+      <div style={{
+        width: '100vw',
+        marginLeft: 'calc(-50vw + 50%)',
+        height: '320px',
+        marginBottom: '56px',
+        marginTop: '0',
+        borderRadius: '0',
+        overflow: 'hidden',
+        position: 'relative',
+        backgroundColor: '#1a1a1a',
+        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)'
+      }}>
         <img 
           src="/start-a-new-project-banner.jpg" 
           alt="Start a New Project"
           style={{
             width: '100%',
-            height: 'auto',
-            borderRadius: '12px',
-            objectFit: 'cover'
+            height: '100%',
+            objectFit: 'cover',
+            filter: 'brightness(0.7) contrast(1.1) saturate(1.2)',
+            opacity: '0.9'
           }}
           onError={(e) => {
             if (!e.target.src.includes('/assets/')) {
@@ -7435,29 +7490,63 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
             }
           }}
         />
+        {/* Dark overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5))'
+        }} />
+        {/* Text Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '48px',
+          zIndex: 1
+        }}>
+          <div style={{
+            fontSize: '50px',
+            fontWeight: '300',
+            fontFamily: "'Domaine Text', serif",
+            color: 'white',
+            marginBottom: '20px',
+            textAlign: 'center',
+            letterSpacing: '-0.02em',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+          }}>
+            Start a New Project
+          </div>
+          <div style={{
+            width: '60px',
+            height: '1px',
+            background: 'rgba(255, 255, 255, 0.6)',
+            margin: '0 auto 24px'
+          }} />
+          <div style={{
+            fontSize: '11px',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'rgba(255, 255, 255, 0.9)',
+            fontFamily: "'NeueHaasUnica', sans-serif",
+            textAlign: 'center',
+            lineHeight: '1.6',
+            fontWeight: '400'
+          }}>
+            Submit requests for any upcoming projects
+          </div>
+        </div>
       </div>
       
-      {/* Title and Sub-head */}
-      <div style={{ marginBottom: '40px' }}>
-        <h2 style={{
-          fontSize: '32px',
-          fontWeight: '300',
-          color: '#000000',
-          fontFamily: "'Domaine Text', serif",
-          marginBottom: '12px',
-          letterSpacing: '-0.01em'
-        }}>
-          Start a New Project
-        </h2>
-        <p style={{
-          fontSize: '16px',
-          color: '#666',
-          fontFamily: "'NeueHaasUnica', sans-serif",
-          lineHeight: '1.6'
-        }}>
-          Submit requests for any upcoming projects
-        </p>
-      </div>
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 24px 48px' }}>
       
       {submitted ? (
         <div style={{
@@ -7651,14 +7740,24 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
               display: 'flex',
               gap: '12px',
               alignItems: 'flex-end',
-              marginBottom: '16px'
+              marginBottom: '16px',
+              position: 'relative'
             }}>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, position: 'relative' }}>
                 <input
                   type="text"
                   value={newProductName}
-                  onChange={(e) => setNewProductName(e.target.value)}
-                  placeholder="Product name"
+                  onChange={(e) => handleProductNameChange(e.target.value)}
+                  onFocus={() => {
+                    if (productSuggestions.length > 0) {
+                      setShowSuggestions(true);
+                    }
+                  }}
+                  onBlur={() => {
+                    // Delay hiding suggestions to allow click
+                    setTimeout(() => setShowSuggestions(false), 200);
+                  }}
+                  placeholder="Start typing product name..."
                   style={{
                     ...inputStyle,
                     marginBottom: '8px'
@@ -7666,10 +7765,58 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       e.preventDefault();
-                      handleAddProduct();
+                      if (productSuggestions.length > 0) {
+                        handleSelectProduct(productSuggestions[0].name);
+                        handleAddProduct();
+                      } else {
+                        handleAddProduct();
+                      }
                     }
                   }}
                 />
+                {/* Autocomplete Suggestions */}
+                {showSuggestions && productSuggestions.length > 0 && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    right: 0,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                    zIndex: 1000,
+                    maxHeight: '200px',
+                    overflowY: 'auto',
+                    marginTop: '4px'
+                  }}>
+                    {productSuggestions.map((product, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => {
+                          handleSelectProduct(product.name);
+                        }}
+                        style={{
+                          padding: '12px 16px',
+                          cursor: 'pointer',
+                          borderBottom: idx < productSuggestions.length - 1 ? '1px solid #f3f4f6' : 'none',
+                          fontSize: '14px',
+                          fontFamily: "'NeueHaasUnica', sans-serif",
+                          color: '#000000',
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#fafaf8';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'white';
+                        }}
+                      >
+                        {product.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span style={{ fontSize: '13px', color: '#666', fontFamily: "'NeueHaasUnica', sans-serif" }}>Quantity:</span>
                   <input
@@ -7723,7 +7870,7 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
           </div>
           
           {/* Submit Button */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
             <button
               type="submit"
               disabled={submitting}
@@ -7737,7 +7884,9 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                 fontWeight: '500',
                 fontFamily: "'NeueHaasUnica', sans-serif",
                 cursor: submitting ? 'not-allowed' : 'pointer',
-                transition: 'opacity 0.2s'
+                transition: 'opacity 0.2s',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
               }}
               onMouseEnter={(e) => {
                 if (!submitting) {
@@ -7748,11 +7897,12 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
                 e.currentTarget.style.opacity = '1';
               }}
             >
-              {submitting ? 'Submitting...' : 'Submit Inquiry'}
+              {submitting ? 'SUBMITTING...' : 'SUBMIT INQUIRY'}
             </button>
           </div>
         </form>
       )}
+      </div>
     </div>
   );
 }
@@ -8479,11 +8629,11 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
     { key: 'overview', label: 'OVERVIEW', section: 'performance' },
     { key: 'activity', label: 'ACTIVITY', section: 'activity' },
     { key: 'projects', label: 'PROJECTS', section: 'proposals' },
-    { key: 'new-project', label: 'START PROJECT', section: 'new-project' },
     { key: 'account', label: 'ACCOUNT', section: 'profile' },
     { key: 'resources', label: 'RESOURCES', section: 'resources' },
     { key: 'faq', label: 'FAQ', section: 'faq' },
-    { key: 'contact', label: 'CONTACT', section: 'contact' }
+    { key: 'contact', label: 'CONTACT', section: 'contact' },
+    { key: 'new-project', label: 'START PROJECT', section: 'new-project' }
   ];
 
   const getCurrentNavKey = () => {
