@@ -3286,54 +3286,27 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               }} className="overview-badges-grid">
                 {/* Points YTD Badge */}
                 <div style={{
-                  position: 'relative',
                   backgroundColor: '#F7F6F0',
                   padding: '20px',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(44, 44, 44, 0.08)',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-                  transition: 'all 0.3s ease',
-                  overflow: 'hidden'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                  borderRadius: '8px'
                 }}>
                   <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    width: '50px',
-                    height: '50px',
-                    background: 'linear-gradient(135deg, rgba(44, 44, 44, 0.05) 0%, transparent 50%)',
-                    borderRadius: '0 12px 0 50px'
-                  }} />
-                  <div style={{
                     fontSize: '9px',
-                    fontWeight: '600',
-                    color: '#6b6b6b',
+                    fontWeight: '500',
+                    color: '#8b8b8b',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
+                    letterSpacing: '0.1em',
                     marginBottom: '8px',
-                    fontFamily: "'NeueHaasUnica', sans-serif",
-                    position: 'relative',
-                    zIndex: 1
+                    fontFamily: "'NeueHaasUnica', sans-serif"
                   }}>
                     Points YTD
                   </div>
                   <div style={{
-                    fontSize: '28px',
+                    fontSize: '24px',
                     fontWeight: '300',
-                    color: '#2C2C2C',
+                    color: '#000000',
                     fontFamily: "'Domaine Text', serif",
-                    letterSpacing: '-0.02em',
-                    lineHeight: '1.1',
-                    position: 'relative',
-                    zIndex: 1
+                    lineHeight: '1.2'
                   }}>
                     {Math.round(currentYearSpend).toLocaleString()}
                   </div>
@@ -3341,54 +3314,27 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                 
                 {/* Projects YTD Badge */}
                 <div style={{
-                  position: 'relative',
                   backgroundColor: '#F7F6F0',
                   padding: '20px',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(44, 44, 44, 0.08)',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-                  transition: 'all 0.3s ease',
-                  overflow: 'hidden'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                  borderRadius: '8px'
                 }}>
                   <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    width: '50px',
-                    height: '50px',
-                    background: 'linear-gradient(135deg, rgba(84, 81, 66, 0.08) 0%, transparent 50%)',
-                    borderRadius: '0 12px 0 50px'
-                  }} />
-                  <div style={{
                     fontSize: '9px',
-                    fontWeight: '600',
-                    color: '#6b6b6b',
+                    fontWeight: '500',
+                    color: '#8b8b8b',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
+                    letterSpacing: '0.1em',
                     marginBottom: '8px',
-                    fontFamily: "'NeueHaasUnica', sans-serif",
-                    position: 'relative',
-                    zIndex: 1
+                    fontFamily: "'NeueHaasUnica', sans-serif"
                   }}>
                     Projects YTD
                   </div>
                   <div style={{
-                    fontSize: '28px',
+                    fontSize: '24px',
                     fontWeight: '300',
-                    color: '#2C2C2C',
+                    color: '#000000',
                     fontFamily: "'Domaine Text', serif",
-                    letterSpacing: '-0.02em',
-                    lineHeight: '1.1',
-                    position: 'relative',
-                    zIndex: 1
+                    lineHeight: '1.2'
                   }}>
                     {yearProposals.length}
                   </div>
@@ -4808,7 +4754,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
         })()}
       </div>
 
-      {/* YTD Stats Card - Enhanced Badges */}
+      {/* YTD Stats Card */}
       <div style={{ 
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
@@ -4817,56 +4763,28 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
       }} className="ytd-stats-card">
         {/* YTD Points Badge */}
         <div style={{ 
-          position: 'relative',
           backgroundColor: '#F7F6F0',
-          padding: '32px 28px', 
-          borderRadius: '16px',
-          border: '1px solid rgba(44, 44, 44, 0.08)',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
-          transition: 'all 0.3s ease',
-          overflow: 'hidden'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-4px)';
-          e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.1)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06)';
+          padding: '24px', 
+          borderRadius: '8px'
         }}>
-          {/* Decorative corner accent */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: '80px',
-            height: '80px',
-            background: 'linear-gradient(135deg, rgba(44, 44, 44, 0.05) 0%, transparent 50%)',
-            borderRadius: '0 16px 0 80px'
-          }} />
           <div style={{ 
             fontSize: '10px', 
-            fontWeight: '600', 
-            color: '#6b6b6b', 
+            fontWeight: '500', 
+            color: '#8b8b8b', 
             textTransform: 'uppercase', 
-            letterSpacing: '0.2em', 
+            letterSpacing: '0.1em', 
             marginBottom: '12px',
-            fontFamily: "'NeueHaasUnica', sans-serif",
-            position: 'relative',
-            zIndex: 1
+            fontFamily: "'NeueHaasUnica', sans-serif"
           }}>
             Year-to-Date Points
           </div>
           <div style={{ 
-            fontSize: '48px', 
+            fontSize: '36px', 
             fontWeight: '300', 
-            color: '#2C2C2C', 
+            color: '#000000', 
             marginBottom: '8px',
             fontFamily: "'Domaine Text', serif",
-            letterSpacing: '-0.03em',
-            lineHeight: '1.1',
-            position: 'relative',
-            zIndex: 1
+            lineHeight: '1.1'
           }}>
             {Math.round(currentYearSpend).toLocaleString()}
           </div>
@@ -4874,9 +4792,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             fontSize: '11px',
             color: '#8b8b8b',
             fontFamily: "'NeueHaasUnica', sans-serif",
-            fontWeight: '400',
-            position: 'relative',
-            zIndex: 1
+            fontWeight: '400'
           }}>
             {new Date().getFullYear()}
           </div>
@@ -4884,56 +4800,28 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
         
         {/* YTD Projects Badge */}
         <div style={{ 
-          position: 'relative',
           backgroundColor: '#F7F6F0',
-          padding: '32px 28px', 
-          borderRadius: '16px',
-          border: '1px solid rgba(44, 44, 44, 0.08)',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
-          transition: 'all 0.3s ease',
-          overflow: 'hidden'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-4px)';
-          e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.1)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06)';
+          padding: '24px', 
+          borderRadius: '8px'
         }}>
-          {/* Decorative corner accent */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: '80px',
-            height: '80px',
-            background: 'linear-gradient(135deg, rgba(84, 81, 66, 0.08) 0%, transparent 50%)',
-            borderRadius: '0 16px 0 80px'
-          }} />
           <div style={{ 
             fontSize: '10px', 
-            fontWeight: '600', 
-            color: '#6b6b6b', 
+            fontWeight: '500', 
+            color: '#8b8b8b', 
             textTransform: 'uppercase', 
-            letterSpacing: '0.2em', 
+            letterSpacing: '0.1em', 
             marginBottom: '12px',
-            fontFamily: "'NeueHaasUnica', sans-serif",
-            position: 'relative',
-            zIndex: 1
+            fontFamily: "'NeueHaasUnica', sans-serif"
           }}>
             Year-to-Date Projects
           </div>
           <div style={{ 
-            fontSize: '48px', 
+            fontSize: '36px', 
             fontWeight: '300', 
-            color: '#2C2C2C', 
+            color: '#000000', 
             marginBottom: '8px',
             fontFamily: "'Domaine Text', serif",
-            letterSpacing: '-0.03em',
-            lineHeight: '1.1',
-            position: 'relative',
-            zIndex: 1
+            lineHeight: '1.1'
           }}>
             {yearProposals.length}
           </div>
@@ -4941,9 +4829,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             fontSize: '11px',
             color: '#8b8b8b',
             fontFamily: "'NeueHaasUnica', sans-serif",
-            fontWeight: '400',
-            position: 'relative',
-            zIndex: 1
+            fontWeight: '400'
           }}>
             {new Date().getFullYear()}
           </div>
@@ -4951,56 +4837,28 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
         
         {/* Money Saved Badge */}
         <div style={{ 
-          position: 'relative',
           backgroundColor: '#F7F6F0',
-          padding: '32px 28px', 
-          borderRadius: '16px',
-          border: '1px solid rgba(44, 44, 44, 0.08)',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
-          transition: 'all 0.3s ease',
-          overflow: 'hidden'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-4px)';
-          e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.1)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.06)';
+          padding: '24px', 
+          borderRadius: '8px'
         }}>
-          {/* Decorative corner accent */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: '80px',
-            height: '80px',
-            background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, transparent 50%)',
-            borderRadius: '0 16px 0 80px'
-          }} />
           <div style={{ 
             fontSize: '10px', 
-            fontWeight: '600', 
-            color: '#6b6b6b', 
+            fontWeight: '500', 
+            color: '#8b8b8b', 
             textTransform: 'uppercase', 
-            letterSpacing: '0.2em', 
+            letterSpacing: '0.1em', 
             marginBottom: '12px',
-            fontFamily: "'NeueHaasUnica', sans-serif",
-            position: 'relative',
-            zIndex: 1
+            fontFamily: "'NeueHaasUnica', sans-serif"
           }}>
             Money Saved This Year
           </div>
           <div style={{ 
-            fontSize: '48px', 
+            fontSize: '36px', 
             fontWeight: '300', 
-            color: '#2C2C2C', 
+            color: '#000000', 
             marginBottom: '8px',
             fontFamily: "'Domaine Text', serif",
-            letterSpacing: '-0.03em',
-            lineHeight: '1.1',
-            position: 'relative',
-            zIndex: 1
+            lineHeight: '1.1'
           }}>
             ${Math.round(currentYearMoneySaved).toLocaleString('en-US')}
           </div>
@@ -5008,9 +4866,7 @@ function PerformanceSection({ spendData, proposals = [], setSelectedProposal, br
             fontSize: '11px',
             color: '#8b8b8b',
             fontFamily: "'NeueHaasUnica', sans-serif",
-            fontWeight: '400',
-            position: 'relative',
-            zIndex: 1
+            fontWeight: '400'
           }}>
             {new Date().getFullYear()}
           </div>
