@@ -24,9 +24,7 @@ const PROPOSALS_API_URL = 'https://script.google.com/macros/s/AKfycbzB7gHa5o-gBe
 
 // Custom Alert Modal Component
 function AlertModal({ message, onClose, isOpen }) {
-  const brandMahogany = '#3E0D12';
-  const brandSage = '#545142';
-  const brandWheat = '#DABE86';
+  const brandCharcoal = '#2C2C2C'; // Footer black color
   
   if (!isOpen) return null;
   
@@ -45,28 +43,28 @@ function AlertModal({ message, onClose, isOpen }) {
       fontFamily: "'Neue Haas Unica', 'Inter', sans-serif"
     }} onClick={onClose}>
       <div style={{
-        backgroundColor: brandWheat,
+        backgroundColor: '#F7F6F0',
         borderRadius: '8px',
         padding: '32px',
         maxWidth: '400px',
         width: '90%',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-        border: `1px solid ${brandSage}30`
+        textAlign: 'center'
       }} onClick={(e) => e.stopPropagation()}>
         <div style={{
           display: 'flex',
           justifyContent: 'center',
-          marginBottom: '16px'
+          marginBottom: '20px'
         }}>
           <img 
-            src="/mayker_icon-black.svg" 
+            src="/mayker_round-stamp-lines-black.png" 
             alt="Mayker Events" 
-            style={{ height: '40px', width: '40px' }}
+            style={{ height: '60px', width: 'auto' }}
             onError={(e) => {
               if (!e.target.src.includes('/assets/')) {
-                e.target.src = '/assets/mayker_icon-black.svg';
+                e.target.src = '/assets/mayker_round-stamp-lines-black.png';
               } else if (!e.target.src.includes('cdn')) {
-                e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_icon-black.svg';
+                e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_round-stamp-lines-black.png';
               } else {
                 e.target.style.display = 'none';
               }
@@ -75,7 +73,7 @@ function AlertModal({ message, onClose, isOpen }) {
         </div>
         <div style={{
           fontSize: '15px',
-          color: brandMahogany,
+          color: brandCharcoal,
           marginBottom: '24px',
           lineHeight: '1.5'
         }}>
@@ -84,20 +82,24 @@ function AlertModal({ message, onClose, isOpen }) {
         <button
           onClick={onClose}
           style={{
-            padding: '10px 24px',
-            backgroundColor: '#F7F6F0',
-            color: '#000000',
+            padding: '12px 24px',
+            backgroundColor: brandCharcoal,
+            color: '#F7F6F0',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '6px',
             cursor: 'pointer',
             fontSize: '14px',
             fontWeight: '500',
             fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
             width: '100%',
-            transition: 'opacity 0.2s'
+            transition: 'all 0.2s ease'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#1a1a1a';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = brandCharcoal;
+          }}
         >
           OK
         </button>
@@ -108,9 +110,7 @@ function AlertModal({ message, onClose, isOpen }) {
 
 // Custom Confirm Modal Component
 function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
-  const brandMahogany = '#3E0D12';
-  const brandSage = '#545142';
-  const brandWheat = '#DABE86';
+  const brandCharcoal = '#2C2C2C'; // Footer black color
   
   if (!isOpen) return null;
   
@@ -129,28 +129,29 @@ function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
       fontFamily: "'Neue Haas Unica', 'Inter', sans-serif"
     }} onClick={onCancel}>
       <div style={{
-        backgroundColor: brandWheat,
-        borderRadius: '8px',
-        padding: '32px',
-        maxWidth: '400px',
+        backgroundColor: '#F7F6F0',
+        borderRadius: '12px',
+        padding: '30px',
+        maxWidth: '450px',
         width: '90%',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-        border: `1px solid ${brandSage}30`
+        boxShadow: '0 8px 20px rgba(0, 0, 0, 0.2)',
+        textAlign: 'center',
+        position: 'relative'
       }} onClick={(e) => e.stopPropagation()}>
         <div style={{
           display: 'flex',
           justifyContent: 'center',
-          marginBottom: '16px'
+          marginBottom: '20px'
         }}>
           <img 
-            src="/mayker_icon-black.svg" 
+            src="/mayker_round-stamp-lines-black.png" 
             alt="Mayker Events" 
-            style={{ height: '40px', width: '40px' }}
+            style={{ height: '60px', width: 'auto', display: 'block', margin: '0 auto' }}
             onError={(e) => {
               if (!e.target.src.includes('/assets/')) {
-                e.target.src = '/assets/mayker_icon-black.svg';
+                e.target.src = '/assets/mayker_round-stamp-lines-black.png';
               } else if (!e.target.src.includes('cdn')) {
-                e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_icon-black.svg';
+                e.target.src = 'https://cdn.jsdelivr.net/gh/MaykerCreative/mayker-proposals@main/public/mayker_round-stamp-lines-black.png';
               } else {
                 e.target.style.display = 'none';
               }
@@ -159,52 +160,62 @@ function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
         </div>
         <div style={{
           fontSize: '15px',
-          color: brandMahogany,
-          marginBottom: '24px',
-          lineHeight: '1.5'
+          color: brandCharcoal,
+          marginBottom: '30px',
+          lineHeight: '1.6'
         }}>
           {message}
         </div>
         <div style={{
           display: 'flex',
-          gap: '12px',
+          gap: '15px',
           justifyContent: 'center'
         }}>
           <button
             onClick={onCancel}
             style={{
-              padding: '10px 24px',
-              backgroundColor: '#f3f4f6',
-              color: '#000000',
-              border: `1px solid ${brandSage}30`,
-              borderRadius: '4px',
+              flex: 1,
+              padding: '12px 24px',
+              backgroundColor: '#F7F6F0',
+              color: brandCharcoal,
+              border: `1px solid ${brandCharcoal}`,
+              borderRadius: '6px',
               cursor: 'pointer',
               fontSize: '14px',
               fontWeight: '500',
               fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
-              transition: 'opacity 0.2s'
+              transition: 'all 0.2s ease'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#e8e8e3';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F7F6F0';
+            }}
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
             style={{
-              padding: '10px 24px',
-              backgroundColor: '#f3f4f6',
-              color: '#000000',
-              border: `1px solid ${brandSage}30`,
-              borderRadius: '4px',
+              flex: 1,
+              padding: '12px 24px',
+              backgroundColor: brandCharcoal,
+              color: '#F7F6F0',
+              border: 'none',
+              borderRadius: '6px',
               cursor: 'pointer',
               fontSize: '14px',
               fontWeight: '500',
               fontFamily: "'Neue Haas Unica', 'Inter', sans-serif",
-              transition: 'opacity 0.2s'
+              transition: 'all 0.2s ease'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#1a1a1a';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = brandCharcoal;
+            }}
           >
             Confirm
           </button>
@@ -7982,7 +7993,6 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
       {/* Header */}
       <div style={{ 
         backgroundColor: 'white', 
-        borderBottom: '1px solid #e5e7eb', 
         padding: '16px 20px 0 20px',
         position: 'sticky',
         top: 0,
@@ -8143,12 +8153,14 @@ function DashboardView({ clientInfo, onLogout, showAlert, showConfirm, showPromp
       {/* Desktop Navigation - Hidden on Mobile */}
       <div style={{
         backgroundColor: 'white',
+        borderTop: '1px solid #e5e7eb',
         borderBottom: '1px solid #e5e7eb',
         padding: '0 32px',
         display: 'none',
         position: 'sticky',
         top: '80px',
-        zIndex: 999
+        zIndex: 999,
+        marginTop: '0'
       }} className="desktop-nav">
         <div style={{ 
           maxWidth: '1400px', 
