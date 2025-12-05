@@ -3575,41 +3575,21 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                 {/* Left: Project Info */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '8px',
-                    flexWrap: 'wrap'
+                    fontSize: '15px',
+                    fontWeight: '500',
+                    color: '#000000',
+                    fontFamily: "'NeueHaasUnica', sans-serif",
+                    lineHeight: '1.3',
+                    marginBottom: '8px'
                   }}>
-                    <div style={{
-                      fontSize: '17px',
-                      fontWeight: '500',
-                      color: '#000000',
-                      fontFamily: "'NeueHaasUnica', sans-serif",
-                      lineHeight: '1.3'
-                    }}>
-                      {proposal.venueName || 'Untitled Project'}
-                    </div>
-                    <span style={{
-                      display: 'inline-block',
-                      padding: '4px 12px',
-                      borderRadius: '12px',
-                      fontSize: '10px',
-                      fontWeight: '500',
-                      backgroundColor: proposal.status === 'Pending' ? '#f5f1e6' : proposal.status === 'Approved' ? '#e8f5e9' : proposal.status === 'Confirmed' ? '#e3f2fd' : '#f3f4f6',
-                      color: proposal.status === 'Pending' ? '#b8860b' : proposal.status === 'Approved' ? '#2e7d32' : proposal.status === 'Confirmed' ? '#1976d2' : '#666',
-                      fontFamily: "'NeueHaasUnica', sans-serif",
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em'
-                    }}>
-                      {proposal.status || 'Pending'}
-                    </span>
+                    {proposal.venueName || 'Untitled Project'}
                   </div>
                   <div style={{
                     fontSize: '13px',
                     color: '#8b8b8b',
                     fontFamily: "'NeueHaasUnica', sans-serif",
-                    lineHeight: '1.5'
+                    lineHeight: '1.5',
+                    marginBottom: '8px'
                   }}>
                     {proposal.eventDate || (proposal.startDate ? new Date(proposal.startDate).toLocaleDateString('en-US', {
                       year: 'numeric',
@@ -3623,6 +3603,20 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                       <span>{proposal.city}, {proposal.state}</span>
                     )}
                   </div>
+                  <span style={{
+                    display: 'inline-block',
+                    padding: '4px 12px',
+                    borderRadius: '12px',
+                    fontSize: '10px',
+                    fontWeight: '500',
+                    backgroundColor: proposal.status === 'Pending' ? '#f5f1e6' : proposal.status === 'Approved' ? '#e8f5e9' : proposal.status === 'Confirmed' ? '#e3f2fd' : '#f3f4f6',
+                    color: proposal.status === 'Pending' ? '#b8860b' : proposal.status === 'Approved' ? '#2e7d32' : proposal.status === 'Confirmed' ? '#1976d2' : '#666',
+                    fontFamily: "'NeueHaasUnica', sans-serif",
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}>
+                    {proposal.status || 'Pending'}
+                  </span>
                 </div>
                 
                 {/* Right: View Button */}
@@ -3718,13 +3712,14 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
               </div>
               <div>
                 <h3 style={{
-                  fontSize: '20px',
+                  fontSize: '18px',
                   fontWeight: '300',
                   color: '#000000',
                   fontFamily: "'Domaine Text', serif",
                   letterSpacing: '-0.01em',
                   marginBottom: '24px',
-                  lineHeight: '1.3'
+                  lineHeight: '1.3',
+                  textAlign: 'center'
                 }}>
                   {shopifyProducts[0].title}
                 </h3>
@@ -3794,12 +3789,13 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                     />
                   )}
                   <h3 style={{
-                    fontSize: '16px',
+                    fontSize: '14px',
                     fontWeight: '500',
                     color: '#000000',
                     fontFamily: "'NeueHaasUnica', sans-serif",
                     marginBottom: '16px',
-                    lineHeight: '1.3'
+                    lineHeight: '1.3',
+                    textAlign: 'center'
                   }}>
                     {product.title}
                   </h3>
