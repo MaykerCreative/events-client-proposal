@@ -6799,7 +6799,6 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
           </div>
         </div>
           </div>
-        </div>
       </section>
       
       {/* Product Visual Library */}
