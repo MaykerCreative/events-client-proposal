@@ -6585,19 +6585,19 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
         }}
       >
         <div style={{ 
-          marginBottom: '64px',
-          width: '100%'
+          width: '100vw',
+          marginLeft: 'calc(-50vw + 50%)',
+          padding: '64px 32px',
+          backgroundColor: '#FAF8F3',
+          marginBottom: '64px'
         }}>
           <div style={{ 
-          width: '100%',
-          padding: '32px',
-          backgroundColor: '#FAF8F3',
-          borderRadius: '8px',
-          border: '1px solid #e8e8e3',
-          display: 'flex',
-          gap: '32px',
-          alignItems: 'flex-start'
-        }}>
+            maxWidth: '1400px',
+            margin: '0 auto',
+            display: 'flex',
+            gap: '32px',
+            alignItems: 'flex-start'
+          }}>
           <div style={{
             flex: '1',
             display: 'flex',
@@ -6770,6 +6770,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
             />
           </div>
         </div>
+          </div>
         </div>
       </section>
       
@@ -6961,12 +6962,15 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
         }}
       >
         <div style={{ 
-          width: '100%',
-          padding: '32px',
-          backgroundColor: '#FAF8F3',
-          borderRadius: '8px',
-          border: '1px solid #e8e8e3'
+          width: '100vw',
+          marginLeft: 'calc(-50vw + 50%)',
+          padding: '64px 32px',
+          backgroundColor: '#FAF8F3'
         }}>
+          <div style={{
+            maxWidth: '1400px',
+            margin: '0 auto'
+          }}>
           <h3 style={{
             fontSize: '17px',
             fontWeight: '300',
@@ -7102,6 +7106,7 @@ function ResourcesSection({ brandCharcoal = '#2C2C2C' }) {
             </div>
           </div>
         )}
+          </div>
         </div>
       </section>
     </div>
