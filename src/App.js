@@ -3723,24 +3723,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                   color: '#000000',
                   fontFamily: "'Domaine Text', serif",
                   letterSpacing: '-0.01em',
-                  marginBottom: '16px',
+                  marginBottom: '24px',
                   lineHeight: '1.3'
                 }}>
                   {shopifyProducts[0].title}
                 </h3>
-                {shopifyProducts[0].description && (
-                  <p style={{
-                    fontSize: '14px',
-                    color: '#8b8b8b',
-                    fontFamily: "'NeueHaasUnica', sans-serif",
-                    lineHeight: '1.6',
-                    marginBottom: '24px'
-                  }}>
-                    {shopifyProducts[0].description.length > 150 
-                      ? shopifyProducts[0].description.substring(0, 150) + '...'
-                      : shopifyProducts[0].description}
-                  </p>
-                )}
                 <a
                   href={shopifyProducts[0].url}
                   target="_blank"
@@ -3811,27 +3798,11 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
                     fontWeight: '500',
                     color: '#000000',
                     fontFamily: "'NeueHaasUnica', sans-serif",
-                    marginBottom: '12px',
+                    marginBottom: '16px',
                     lineHeight: '1.3'
                   }}>
                     {product.title}
                   </h3>
-                  {product.description && (
-                    <p style={{
-                      fontSize: '13px',
-                      color: '#8b8b8b',
-                      fontFamily: "'NeueHaasUnica', sans-serif",
-                      lineHeight: '1.6',
-                      marginBottom: '16px',
-                      flex: 1,
-                      display: '-webkit-box',
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
-                    }}>
-                      {product.description}
-                    </p>
-                  )}
                   <a
                     href={product.url}
                     target="_blank"
@@ -4072,14 +4043,16 @@ function OverviewSection({ clientInfo, spendData, proposals = [], setSelectedPro
         borderRadius: '20px'
       }} className="concierge-section">
         <div style={{
-          fontSize: '17px',
-          fontWeight: '300',
-          color: '#000000',
-          fontFamily: "'Domaine Text', serif",
-          letterSpacing: '-0.01em',
-          marginBottom: '24px'
+          fontSize: '10px',
+          fontWeight: '500',
+          color: '#6b6b6b',
+          fontFamily: "'NeueHaasUnica', sans-serif",
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          marginBottom: '32px',
+          lineHeight: '1.4'
         }}>
-          Concierge
+          CONCIERGE
         </div>
         <div style={{
           display: 'grid',
