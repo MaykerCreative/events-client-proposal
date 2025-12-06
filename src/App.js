@@ -7540,8 +7540,13 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
     setSubmitting(true);
     
     try {
-      const CLIENT_API_URL = 'https://script.google.com/macros/s/AKfycbzB7gHa5o-gBep98SJgQsG-z2EsEspSWC6NXvLFwurYBGpxpkI-weD-HVcfY2LDA4Yz/exec';
+      // Get client company name from session
+      const session = authService.getSession();
+      const clientCompanyName = session?.clientInfo?.clientCompanyName || 
+                                session?.clientInfo?.companyName || 
+                                session?.clientInfo?.client_name || '';
       
+<<<<<<< Updated upstream
       // Get client name from session at submission time
       let clientName = '';
       try {
@@ -7615,9 +7620,36 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
           uploadedFiles: uploadedFiles,
           scheduleCall: formData.scheduleCall
         })
+=======
+      const payload = {
+        type: 'submitNewProject',
+        clientCompanyName: clientCompanyName,
+        venueName: formData.venueName,
+        venueAddress: formData.venueAddress,
+        loadInDate: formData.loadInDate,
+        loadInTime: formData.loadInTime,
+        loadOutDate: formData.loadOutDate,
+        loadOutTime: formData.loadOutTime,
+        products: products,
+        notes: formData.notes,
+        resourceLinks: formData.resourceLinks || '',
+        uploadedFiles: uploadedFiles || [],
+        scheduleCall: formData.scheduleCall || false
+      };
+      
+      console.log('Submitting new project request:', payload);
+      console.log('API URL:', PROPOSALS_API_URL);
+      
+      const response = await fetch(PROPOSALS_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+>>>>>>> Stashed changes
       });
       
+      console.log('Response status:', response.status);
       const result = await response.json();
+      console.log('Response result:', result);
       
       if (result.success) {
         setSubmitted(true);
@@ -7636,10 +7668,13 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
         setProducts([]);
         setUploadedFiles([]);
       } else {
-        alert('Error submitting project inquiry. Please try again.');
+        console.error('Submission failed:', result);
+        alert('Error submitting project inquiry: ' + (result.error || 'Please try again.'));
+        setSubmitting(false);
       }
     } catch (error) {
       console.error('Error submitting project inquiry:', error);
+<<<<<<< Updated upstream
       // Still show success message even if API call fails
       setSubmitted(true);
       setFormData({
@@ -7656,6 +7691,9 @@ function StartNewProjectSection({ brandCharcoal = '#2C2C2C' }) {
       setProducts([]);
       setUploadedFiles([]);
     } finally {
+=======
+      alert('Error submitting project inquiry: ' + (error.message || 'Please try again.'));
+>>>>>>> Stashed changes
       setSubmitting(false);
     }
   };
